@@ -1,5 +1,6 @@
 import { useRef, useEffect, useState } from 'react';
 import { select } from 'd3-selection';
+import 'd3-transition';
 import { scaleLinear, scaleBand } from 'd3-scale';
 import { axisBottom, axisLeft } from 'd3-axis';
 import { format } from 'd3-format';

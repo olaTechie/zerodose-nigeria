@@ -1,5 +1,6 @@
 import { useRef, useEffect } from 'react';
 import { select } from 'd3-selection';
+import 'd3-transition';
 
 /**
  * Simplified force-directed network of ~80 nodes representing
