@@ -2,6 +2,7 @@ import { useRef, useEffect, useState } from 'react';
 import { select } from 'd3-selection';
 import { scaleLinear } from 'd3-scale';
 import { axisBottom, axisLeft } from 'd3-axis';
+import { ZONE_COLOURS } from '../../data/constants';
 
 /**
  * Funnel plot: state-level scatter with national mean line and
@@ -97,11 +98,6 @@ export default function FunnelPlot({ states = [], nationalMean = 0.368 }) {
       .attr('stroke-dasharray', '4,3');
 
     // State dots
-    const ZONE_COLORS = {
-      NW: '#8b0000', NE: '#cc4400', NC: '#cc8400',
-      SE: '#006633', SS: '#1565c0', SW: '#4a148c',
-    };
-
     g.selectAll('.state-dot')
       .data(states)
       .enter()
@@ -109,7 +105,7 @@ export default function FunnelPlot({ states = [], nationalMean = 0.368 }) {
       .attr('cx', (d) => x(d.n_children || 1))
       .attr('cy', (d) => y(d.weighted_prevalence / 100))
       .attr('r', 5)
-      .attr('fill', (d) => ZONE_COLORS[d.zone] || '#888')
+      .attr('fill', (d) => ZONE_COLOURS[d.zone] || '#888')
       .attr('fill-opacity', 0.8)
       .attr('stroke', '#fff')
       .attr('stroke-width', 0.8)
@@ -150,7 +146,7 @@ export default function FunnelPlot({ states = [], nationalMean = 0.368 }) {
 
   return (
     <div ref={containerRef} style={{ width: '100%' }}>
-      <svg ref={svgRef} style={{ display: 'block' }} />
+      <svg ref={svgRef} style={{ display: 'block' }} role="img" aria-label="Funnel plot showing state-level zero-dose prevalence by sample size" />
     </div>
   );
 }

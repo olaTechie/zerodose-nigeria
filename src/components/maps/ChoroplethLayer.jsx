@@ -5,8 +5,8 @@
 import { scaleSequential } from 'd3-scale';
 import { interpolateReds, interpolateBlues, interpolateGreens } from 'd3-scale-chromatic';
 
-export function getPrevalenceColorScale(maxVal = 0.9) {
-  return scaleSequential(interpolateReds).domain([0, maxVal]);
+export function getPrevalenceColorScale(maxPercent = 90) {
+  return scaleSequential(interpolateReds).domain([0, maxPercent]);
 }
 
 export function getCoverageColorScale() {

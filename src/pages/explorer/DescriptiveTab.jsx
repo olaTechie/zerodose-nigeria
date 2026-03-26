@@ -1,13 +1,16 @@
 import GlassCard from '../../components/shared/GlassCard';
 import MetricCard from '../../components/shared/MetricCard';
+import LoadingSpinner from '../../components/shared/LoadingSpinner';
 import { useData } from '../../hooks/useData';
 import { explorerTabDescriptions } from '../../data/storyContent';
 import { PIPELINE_METRICS } from '../../data/constants';
+import { thStyle, tdStyle } from '../../styles/tableStyles';
 
 export default function DescriptiveTab() {
-  const { data: tableData, loading } = useData('table_one.json');
+  const { data: tableData, loading, error } = useData('table_one.json');
 
-  if (loading) return <p style={{ color: '#78909c' }}>Loading Table 1...</p>;
+  if (error) return <div className="glass-card" style={{ padding: '2rem', color: '#b33000', textAlign: 'center' }}>Failed to load data. Please refresh the page.</div>;
+  if (loading) return <LoadingSpinner />;
 
   const rows = tableData?.rows || [];
 
@@ -66,5 +69,3 @@ export default function DescriptiveTab() {
   );
 }
 
-const thStyle = { padding: '0.55rem 0.6rem', borderBottom: '2px solid #e0e0e0', fontWeight: 700, fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.3px', color: '#546e7a', textAlign: 'left' };
-const tdStyle = { padding: '0.45rem 0.6rem', borderBottom: '1px solid #f0f0f0' };

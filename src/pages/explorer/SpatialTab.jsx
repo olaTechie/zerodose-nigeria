@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import GlassCard from '../../components/shared/GlassCard';
 import MetricCard from '../../components/shared/MetricCard';
+import LoadingSpinner from '../../components/shared/LoadingSpinner';
 import NigeriaMap from '../../components/maps/NigeriaMap';
 import MoranScatter from '../../components/charts/MoranScatter';
 import FunnelPlot from '../../components/charts/FunnelPlot';
@@ -10,9 +11,12 @@ import { PIPELINE_METRICS } from '../../data/constants';
 import { getPrevalenceColorScale } from '../../components/maps/ChoroplethLayer';
 
 export default function SpatialTab() {
-  const { data: stateData } = useData('state_prevalence.json');
-  const { data: lisaData } = useData('lisa_clusters.json');
+  const { data: stateData, loading: l1, error: e1 } = useData('state_prevalence.json');
+  const { data: lisaData, loading: l2, error: e2 } = useData('lisa_clusters.json');
   const [showLisa, setShowLisa] = useState(false);
+
+  if (e1 || e2) return <div className="glass-card" style={{ padding: '2rem', color: '#b33000', textAlign: 'center' }}>Failed to load data. Please refresh the page.</div>;
+  if (l1 || l2) return <LoadingSpinner />;
 
   const colorScale = getPrevalenceColorScale(90);
   const stateProps = stateData?.features?.map((f) => f.properties) || [];

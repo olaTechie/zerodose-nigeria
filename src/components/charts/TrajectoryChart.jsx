@@ -165,7 +165,7 @@ export default function TrajectoryChart({
 
   return (
     <div ref={containerRef} style={{ width: '100%' }}>
-      <svg ref={svgRef} style={{ display: 'block' }} />
+      <svg ref={svgRef} style={{ display: 'block' }} role="img" aria-label="Coverage trajectory chart showing vaccination coverage over 60 months by scenario" />
     </div>
   );
 }

@@ -1,14 +1,14 @@
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Scrollama, Step } from 'react-scrollama';
 import StoryHero from '../components/story/StoryHero';
 import NetworkAnimation from '../components/story/NetworkAnimation';
 import NigeriaMap from '../components/maps/NigeriaMap';
 import ShapBarChart from '../components/charts/ShapBarChart';
-import TrajectoryChart from '../components/charts/TrajectoryChart';
 import CoverageHeatmap from '../components/charts/CoverageHeatmap';
-import CountUpNumber from '../components/shared/CountUpNumber';
+import LoadingSpinner from '../components/shared/LoadingSpinner';
 import GlassCard from '../components/shared/GlassCard';
+import SiteNav from '../components/shared/SiteNav';
 import { useData } from '../hooks/useData';
 import { storySections } from '../data/storyContent';
 import { getPrevalenceColorScale } from '../components/maps/ChoroplethLayer';
@@ -18,17 +18,19 @@ export default function Story() {
   const [currentSection, setCurrentSection] = useState(0);
   const [sectionStep, setSectionStep] = useState(0);
 
-  const { data: stateData } = useData('state_prevalence.json');
-  const { data: lisaData } = useData('lisa_clusters.json');
-  const { data: clusterData } = useData('cluster_map.geojson');
-  const { data: shapData } = useData('shap_importance.json');
-  const { data: abmData } = useData('abm_scenarios.json');
+  const { data: stateData, loading: l1, error: e1 } = useData('state_prevalence.json');
+  const { data: lisaData, loading: l2, error: e2 } = useData('lisa_clusters.json');
+  const { data: clusterData, loading: l3, error: e3 } = useData('cluster_map.geojson');
+  const { data: shapData, loading: l4, error: e4 } = useData('shap_importance.json');
+  const { data: abmData, loading: l5, error: e5 } = useData('abm_scenarios.json');
+
+  const anyLoading = l1 || l2 || l3 || l4 || l5;
+  const anyError = e1 || e2 || e3 || e4 || e5;
+
+  if (anyLoading) return <LoadingSpinner />;
+  if (anyError) return <div className="glass-card" style={{ padding: '2rem', color: '#b33000', textAlign: 'center' }}>Failed to load story data. Please refresh the page.</div>;
 
   const colorScale = getPrevalenceColorScale(90);
-
-  const onStepEnter = useCallback(({ data }) => {
-    setSectionStep(data);
-  }, []);
 
   // Render the sticky visual for each section
   function renderVisual(sectionIndex) {
@@ -111,21 +113,7 @@ export default function Story() {
   return (
     <div style={{ background: 'var(--bg)', minHeight: '100vh' }}>
       {/* Navigation bar */}
-      <nav style={{
-        position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
-        background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(12px)',
-        padding: '0.6rem 1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-        borderBottom: '1px solid rgba(0,102,51,0.1)',
-      }}>
-        <span style={{ fontWeight: 700, color: '#006633', cursor: 'pointer' }} onClick={() => navigate('/')}>
-          Zero-Dose Nigeria
-        </span>
-        <div style={{ display: 'flex', gap: '1.5rem', fontSize: '0.85rem' }}>
-          <span style={{ cursor: 'pointer', color: '#006633', fontWeight: 600 }} onClick={() => navigate('/story')}>Story</span>
-          <span style={{ cursor: 'pointer', color: '#546e7a' }} onClick={() => navigate('/policy')}>Policy</span>
-          <span style={{ cursor: 'pointer', color: '#546e7a' }} onClick={() => navigate('/explorer/descriptive')}>Explorer</span>
-        </div>
-      </nav>
+      <SiteNav activePage="story" />
 
       {/* Hero */}
       <div style={{ paddingTop: '3rem' }}>
@@ -142,18 +130,14 @@ export default function Story() {
             {section.title}
           </h2>
 
-          <div style={{ display: 'flex', gap: '2rem', maxWidth: '1200px', margin: '0 auto' }}>
+          <div className="scroll-section" style={{ maxWidth: '1200px', margin: '0 auto' }}>
             {/* Sticky visual */}
-            <div style={{
-              flex: '1 1 55%', position: 'sticky', top: '5rem',
-              height: '60vh', display: 'flex', alignItems: 'center',
-            }}>
-              {currentSection === sIdx && renderVisual(sIdx)}
-              {currentSection !== sIdx && renderVisual(sIdx)}
+            <div className="scroll-visual">
+              {Math.abs(currentSection - sIdx) <= 1 && renderVisual(sIdx)}
             </div>
 
             {/* Scrolling narrative */}
-            <div style={{ flex: '1 1 40%', paddingTop: '10vh', paddingBottom: '40vh' }}>
+            <div className="scroll-narrative">
               <Scrollama
                 onStepEnter={({ data }) => {
                   setCurrentSection(sIdx);
@@ -241,7 +225,7 @@ const btnStyle = {
 
 function DecisionTreeSVG() {
   return (
-    <svg width="400" height="350" viewBox="0 0 400 350" style={{ fontFamily: 'Inter, sans-serif' }}>
+    <svg viewBox="0 0 400 350" role="img" aria-label="Decision tree showing two community types and their recommended intervention strategies" style={{ width: '100%', height: 'auto', maxWidth: '400px', margin: '0 auto', display: 'block', fontFamily: 'Inter, sans-serif' }}>
       {/* Root node */}
       <rect x="130" y="10" width="140" height="40" rx="8" fill="#006633" />
       <text x="200" y="35" textAnchor="middle" fill="#fff" fontSize="12" fontWeight="600">Community type?</text>

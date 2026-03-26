@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import GlassCard from '../components/shared/GlassCard';
 import PageHeader from '../components/shared/PageHeader';
@@ -10,47 +9,29 @@ import TypologyBadge from '../components/shared/TypologyBadge';
 import ScenarioCard from '../components/shared/ScenarioCard';
 import RecipeCard from '../components/shared/RecipeCard';
 import PolicyBriefCard from '../components/shared/PolicyBriefCard';
+import LoadingSpinner from '../components/shared/LoadingSpinner';
 import NigeriaMap from '../components/maps/NigeriaMap';
 import CoverageHeatmap from '../components/charts/CoverageHeatmap';
 import TrajectoryChart from '../components/charts/TrajectoryChart';
 import NecessityBar from '../components/charts/NecessityBar';
+import SiteNav from '../components/shared/SiteNav';
 import { useData } from '../hooks/useData';
 import { useCounterfactual } from '../hooks/useCounterfactual';
 import { policyPanelTitles, typologyGuidance, recipePlainLanguage, policyBriefContent } from '../data/storyContent';
 import { SCENARIO_LABELS, PIPELINE_METRICS } from '../data/constants';
 import { getPrevalenceColorScale } from '../components/maps/ChoroplethLayer';
 import { formatPercent } from '../utils/formatters';
+import { thStyle, tdStyle } from '../styles/tableStyles';
 
 export default function Policy() {
-  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState(0);
-
-  const { data: stateData } = useData('state_prevalence.json');
-  const { data: lisaData } = useData('lisa_clusters.json');
-  const { data: clusterData } = useData('cluster_map.geojson');
-  const { data: abmData } = useData('abm_scenarios.json');
-  const { data: cnaData } = useData('cna_solutions.json');
 
   const tabs = policyPanelTitles;
 
   return (
     <div style={{ background: 'var(--bg)', minHeight: '100vh' }}>
       {/* Nav */}
-      <nav style={{
-        position: 'sticky', top: 0, zIndex: 100,
-        background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(12px)',
-        padding: '0.6rem 1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-        borderBottom: '1px solid rgba(0,102,51,0.1)',
-      }}>
-        <span style={{ fontWeight: 700, color: '#006633', cursor: 'pointer' }} onClick={() => navigate('/')}>
-          Zero-Dose Nigeria
-        </span>
-        <div style={{ display: 'flex', gap: '1.5rem', fontSize: '0.85rem' }}>
-          <span style={{ cursor: 'pointer', color: '#546e7a' }} onClick={() => navigate('/story')}>Story</span>
-          <span style={{ cursor: 'pointer', color: '#006633', fontWeight: 600 }} onClick={() => navigate('/policy')}>Policy</span>
-          <span style={{ cursor: 'pointer', color: '#546e7a' }} onClick={() => navigate('/explorer/descriptive')}>Explorer</span>
-        </div>
-      </nav>
+      <SiteNav activePage="policy" />
 
       <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '1.5rem' }}>
         <PageHeader title="Policy Dashboard" subtitle="Intervention targeting and resource allocation for zero-dose communities in Nigeria" />
@@ -86,10 +67,10 @@ export default function Policy() {
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.25 }}
           >
-            {activeTab === 0 && <GeographicPanel stateData={stateData} lisaData={lisaData} clusterData={clusterData} />}
-            {activeTab === 1 && <InterventionPanel abmData={abmData} />}
-            {activeTab === 2 && <CounterfactualPanel abmData={abmData} />}
-            {activeTab === 3 && <ActionPanel stateData={stateData} cnaData={cnaData} />}
+            {activeTab === 0 && <GeographicPanel />}
+            {activeTab === 1 && <InterventionPanel />}
+            {activeTab === 2 && <CounterfactualPanel />}
+            {activeTab === 3 && <ActionPanel />}
           </motion.div>
         </AnimatePresence>
       </div>
@@ -98,10 +79,17 @@ export default function Policy() {
 }
 
 // ---- Panel 1: Geographic Targeting ----
-function GeographicPanel({ stateData, lisaData, clusterData }) {
+function GeographicPanel() {
+  const { data: stateData, loading: l1, error: e1 } = useData('state_prevalence.json');
+  const { data: lisaData, loading: l2, error: e2 } = useData('lisa_clusters.json');
+  const { data: clusterData, loading: l3, error: e3 } = useData('cluster_map.geojson');
   const [showLisa, setShowLisa] = useState(false);
   const [selectedState, setSelectedState] = useState(null);
   const colorScale = getPrevalenceColorScale(90);
+
+  const anyError = e1 || e2 || e3;
+  if (l1 || l2 || l3) return <LoadingSpinner />;
+  if (anyError) return <div className="glass-card" style={{ padding: '2rem', color: '#b33000', textAlign: 'center' }}>Failed to load data. Please refresh the page.</div>;
 
   return (
     <div>
@@ -159,8 +147,12 @@ function GeographicPanel({ stateData, lisaData, clusterData }) {
 }
 
 // ---- Panel 2: Intervention Scenarios ----
-function InterventionPanel({ abmData }) {
+function InterventionPanel() {
+  const { data: abmData, loading, error } = useData('abm_scenarios.json');
   const [selectedCell, setSelectedCell] = useState(null);
+
+  if (error) return <div className="glass-card" style={{ padding: '2rem', color: '#b33000', textAlign: 'center' }}>Failed to load data. Please refresh the page.</div>;
+  if (loading) return <LoadingSpinner />;
 
   return (
     <div>
@@ -214,8 +206,9 @@ function InterventionPanel({ abmData }) {
 }
 
 // ---- Panel 3: What-If Explorer ----
-function CounterfactualPanel({ abmData }) {
-  const { result, compute, ready } = useCounterfactual();
+function CounterfactualPanel() {
+  const { data: abmData, loading, error: dataError } = useData('abm_scenarios.json');
+  const { result, compute, ready, error: workerError } = useCounterfactual();
   const [typology, setTypology] = useState('Reference');
   const [outreach, setOutreach] = useState(1);
   const [engagement, setEngagement] = useState(0);
@@ -234,8 +227,16 @@ function CounterfactualPanel({ abmData }) {
 
   const coverageValue = result?.median_m36 ?? 0;
 
+  if (dataError) return <div className="glass-card" style={{ padding: '2rem', color: '#b33000', textAlign: 'center' }}>Failed to load data. Please refresh the page.</div>;
+  if (loading) return <LoadingSpinner />;
+
   return (
     <div>
+      {workerError && (
+        <div className="glass-card" style={{ padding: '1rem', color: '#b33000', textAlign: 'center', marginBottom: '1rem' }}>
+          Counterfactual engine error: {workerError}
+        </div>
+      )}
       <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
         {/* Controls */}
         <div style={{ flex: '1 1 350px' }}>
@@ -265,7 +266,7 @@ function CounterfactualPanel({ abmData }) {
               label="Outreach intensity"
               value={outreach}
               min={0} max={4} step={1}
-              onChange={setOutreach}
+              onChange={(v) => setOutreach(parseInt(v, 10))}
               display={`${outreach}x`}
             />
             <SliderControl
@@ -301,7 +302,7 @@ function CounterfactualPanel({ abmData }) {
                 height={280}
               />
             )}
-            {!ready && (
+            {!ready && !workerError && (
               <p style={{ textAlign: 'center', fontSize: '0.85rem', color: '#78909c' }}>
                 Loading interpolation engine...
               </p>
@@ -328,13 +329,21 @@ function SliderControl({ label, value, min, max, step, onChange, display }) {
         value={value}
         onChange={(e) => onChange(e.target.value)}
         style={{ width: '100%', accentColor: '#006633' }}
+        aria-label={label}
       />
     </div>
   );
 }
 
 // ---- Panel 4: Action Plans ----
-function ActionPanel({ stateData, cnaData }) {
+function ActionPanel() {
+  const { data: stateData, loading: l1, error: e1 } = useData('state_prevalence.json');
+  const { data: cnaData, loading: l2, error: e2 } = useData('cna_solutions.json');
+
+  const anyError = e1 || e2;
+  if (l1 || l2) return <LoadingSpinner />;
+  if (anyError) return <div className="glass-card" style={{ padding: '2rem', color: '#b33000', textAlign: 'center' }}>Failed to load data. Please refresh the page.</div>;
+
   const priorityStates = stateData?.features
     ?.map((f) => f.properties)
     .filter((p) => p.weighted_prevalence > 30)
@@ -408,5 +417,3 @@ function ActionPanel({ stateData, cnaData }) {
 
 const labelStyle = { fontSize: '0.82rem', fontWeight: 600, color: '#546e7a' };
 const tabBtnStyle = { padding: '0.35rem 1rem', borderRadius: '50px', border: 'none', fontSize: '0.8rem', fontWeight: 600, cursor: 'pointer' };
-const thStyle = { padding: '0.55rem 0.7rem', borderBottom: '2px solid #e0e0e0', fontWeight: 700, fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.3px', color: '#546e7a', textAlign: 'center' };
-const tdStyle = { padding: '0.5rem 0.7rem', borderBottom: '1px solid #f0f0f0', fontSize: '0.82rem' };

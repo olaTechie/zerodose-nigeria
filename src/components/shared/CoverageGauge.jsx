@@ -20,7 +20,7 @@ export default function CoverageGauge({ value = 0, size = 200, animated = true }
 
   return (
     <div style={{ textAlign: 'center' }}>
-      <svg width={size} height={size / 2 + 40} viewBox={`0 0 ${size} ${size / 2 + 40}`}>
+      <svg width={size} height={size / 2 + 40} viewBox={`0 0 ${size} ${size / 2 + 40}`} role="img" aria-label={`Coverage gauge showing ${(value * 100).toFixed(1)}% — ${tier.label}`}>
         {/* Background arc */}
         <path
           d={`M ${cx - r} ${cy} A ${r} ${r} 0 0 1 ${cx + r} ${cy}`}

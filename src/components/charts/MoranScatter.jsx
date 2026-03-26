@@ -2,6 +2,7 @@ import { useRef, useEffect, useState } from 'react';
 import { select } from 'd3-selection';
 import { scaleLinear } from 'd3-scale';
 import { axisBottom, axisLeft } from 'd3-axis';
+import { LISA_COLOURS } from '../../data/constants';
 
 /**
  * Moran's I scatterplot: x = state ZD prevalence (standardised),
@@ -97,9 +98,6 @@ export default function MoranScatter({ states = [], moranI = 0.608 }) {
       .selectAll('text')
       .style('font-size', '10px');
 
-    // LISA colors
-    const LISA_C = { 'High-High': '#d32f2f', 'Low-Low': '#1565c0', 'High-Low': '#f57c00', 'Low-High': '#7b1fa2', 'Not Significant': '#bdbdbd' };
-
     // Points
     g.selectAll('.dot')
       .data(standardised)
@@ -108,7 +106,7 @@ export default function MoranScatter({ states = [], moranI = 0.608 }) {
       .attr('cx', (d) => x(d.z))
       .attr('cy', (d) => y(d.lag))
       .attr('r', 5)
-      .attr('fill', (d) => LISA_C[d.cluster_type] || '#bdbdbd')
+      .attr('fill', (d) => LISA_COLOURS[d.cluster_type] || '#bdbdbd')
       .attr('fill-opacity', 0.8)
       .attr('stroke', '#fff')
       .attr('stroke-width', 0.5)
@@ -146,7 +144,7 @@ export default function MoranScatter({ states = [], moranI = 0.608 }) {
 
   return (
     <div ref={containerRef} style={{ width: '100%' }}>
-      <svg ref={svgRef} style={{ display: 'block' }} />
+      <svg ref={svgRef} style={{ display: 'block' }} role="img" aria-label="Moran scatterplot showing spatial autocorrelation of zero-dose prevalence" />
     </div>
   );
 }

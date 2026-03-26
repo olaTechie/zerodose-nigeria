@@ -1,14 +1,17 @@
 import GlassCard from '../../components/shared/GlassCard';
 import MetricCard from '../../components/shared/MetricCard';
+import LoadingSpinner from '../../components/shared/LoadingSpinner';
 import RadarChart from '../../components/charts/RadarChart';
 import { useData } from '../../hooks/useData';
 import { explorerTabDescriptions } from '../../data/storyContent';
 import { TRUST_STATE_LABELS, PIPELINE_METRICS } from '../../data/constants';
+import { thStyle, tdStyle } from '../../styles/tableStyles';
 
 export default function TrustTab() {
-  const { data: lcaData, loading } = useData('lca_profiles.json');
+  const { data: lcaData, loading, error } = useData('lca_profiles.json');
 
-  if (loading) return <p style={{ color: '#78909c' }}>Loading trust state data...</p>;
+  if (error) return <div className="glass-card" style={{ padding: '2rem', color: '#b33000', textAlign: 'center' }}>Failed to load data. Please refresh the page.</div>;
+  if (loading) return <LoadingSpinner />;
 
   const trustStates = lcaData?.trustStates || [];
   const origProfiles = lcaData?.originalProfiles || [];
@@ -115,5 +118,3 @@ export default function TrustTab() {
   );
 }
 
-const thStyle = { padding: '0.5rem', borderBottom: '2px solid #e0e0e0', fontWeight: 700, fontSize: '0.72rem', textTransform: 'uppercase', color: '#546e7a', textAlign: 'center' };
-const tdStyle = { padding: '0.45rem 0.5rem', borderBottom: '1px solid #f0f0f0' };

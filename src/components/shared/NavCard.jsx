@@ -1,6 +1,6 @@
 export default function NavCard({ icon, title, description, accentColor = '#006633', onClick }) {
   return (
-    <div
+    <button
       className="nav-card glass-card"
       onClick={onClick}
       style={{
@@ -8,6 +8,14 @@ export default function NavCard({ icon, title, description, accentColor = '#0066
         borderLeft: `4px solid ${accentColor}`,
         padding: '1.5rem',
         transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+        background: 'none',
+        border: 'none',
+        borderLeftWidth: '4px',
+        borderLeftStyle: 'solid',
+        borderLeftColor: accentColor,
+        textAlign: 'left',
+        width: '100%',
+        fontFamily: 'inherit',
       }}
       onMouseEnter={(e) => {
         e.currentTarget.style.transform = 'translateY(-2px)';
@@ -25,6 +33,6 @@ export default function NavCard({ icon, title, description, accentColor = '#0066
       <p style={{ fontSize: '0.88rem', color: '#546e7a', lineHeight: 1.55, margin: 0 }}>
         {description}
       </p>
-    </div>
+    </button>
   );
 }

@@ -1,4 +1,5 @@
 import { useRef, useEffect, useState, useCallback } from 'react';
+import { LISA_COLOURS } from '../../data/constants';
 
 const INITIAL_VIEW = { longitude: 8.0, latitude: 9.0, zoom: 5.5 };
 const MAP_STYLE = 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json';
@@ -73,6 +74,8 @@ export default function NigeriaMap({
         width={dimensions.width}
         height={dimensions.height}
         style={{ background: 'transparent' }}
+        role="img"
+        aria-label="Map of Nigeria showing state-level data"
       >
         {/* State polygons */}
         {features.map((f, i) => {
@@ -87,14 +90,11 @@ export default function NigeriaMap({
 
           let fillColor = '#e0e0e0';
           if (showLisa && props.cluster_type) {
-            const lisaColors = {
-              'High-High': '#d32f2f',
-              'Low-Low': '#1565c0',
-              'High-Low': '#f57c00',
-              'Low-High': '#7b1fa2',
-              'Not Significant': '#e0e0e0',
-            };
-            fillColor = lisaColors[props.cluster_type] || '#e0e0e0';
+            // Normalize key: handle "Not significant" vs "Not Significant"
+            const normalizedType = Object.keys(LISA_COLOURS).find(
+              (k) => k.toLowerCase() === props.cluster_type.toLowerCase()
+            );
+            fillColor = (normalizedType ? LISA_COLOURS[normalizedType] : null) || '#e0e0e0';
           } else if (colorScale && props[colorByField] != null) {
             fillColor = colorScale(props[colorByField]);
           }
@@ -172,8 +172,8 @@ export default function NigeriaMap({
         <div
           style={{
             position: 'fixed',
-            left: tooltip.x + 12,
-            top: tooltip.y - 10,
+            left: Math.min(tooltip.x + 12, window.innerWidth - 270),
+            top: Math.max(tooltip.y - 10, 10),
             background: 'rgba(255,255,255,0.95)',
             backdropFilter: 'blur(8px)',
             border: '1px solid rgba(0,102,51,0.15)',

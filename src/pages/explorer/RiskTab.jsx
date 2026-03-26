@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import GlassCard from '../../components/shared/GlassCard';
 import MetricCard from '../../components/shared/MetricCard';
+import LoadingSpinner from '../../components/shared/LoadingSpinner';
 import ShapBarChart from '../../components/charts/ShapBarChart';
 import ShapBeeswarm from '../../components/charts/ShapBeeswarm';
 import NigeriaMap from '../../components/maps/NigeriaMap';
@@ -8,12 +9,16 @@ import { useData } from '../../hooks/useData';
 import { explorerTabDescriptions } from '../../data/storyContent';
 import { PIPELINE_METRICS } from '../../data/constants';
 import { getClusterColorByZdRate } from '../../components/maps/ClusterLayer';
+import { activeToggleBtn, inactiveToggleBtn } from '../../styles/buttonStyles';
 
 export default function RiskTab() {
-  const { data: shapData } = useData('shap_importance.json');
-  const { data: clusterData } = useData('cluster_map.geojson');
-  const { data: stateData } = useData('state_prevalence.json');
+  const { data: shapData, loading: l1, error: e1 } = useData('shap_importance.json');
+  const { data: clusterData, loading: l2, error: e2 } = useData('cluster_map.geojson');
+  const { data: stateData, loading: l3, error: e3 } = useData('state_prevalence.json');
   const [view, setView] = useState('bar');
+
+  if (e1 || e2 || e3) return <div className="glass-card" style={{ padding: '2rem', color: '#b33000', textAlign: 'center' }}>Failed to load data. Please refresh the page.</div>;
+  if (l1 || l2 || l3) return <LoadingSpinner />;
 
   const globalShap = shapData?.global || [];
 
@@ -37,13 +42,13 @@ export default function RiskTab() {
               <div style={{ display: 'flex', gap: '0.3rem' }}>
                 <button
                   onClick={() => setView('bar')}
-                  style={view === 'bar' ? activeBtn : inactiveBtn}
+                  style={view === 'bar' ? activeToggleBtn : inactiveToggleBtn}
                 >
                   Bar
                 </button>
                 <button
                   onClick={() => setView('beeswarm')}
-                  style={view === 'beeswarm' ? activeBtn : inactiveBtn}
+                  style={view === 'beeswarm' ? activeToggleBtn : inactiveToggleBtn}
                 >
                   Beeswarm
                 </button>
@@ -88,5 +93,3 @@ export default function RiskTab() {
   );
 }
 
-const activeBtn = { padding: '0.25rem 0.6rem', borderRadius: '50px', border: '1px solid #006633', background: '#006633', color: '#fff', fontSize: '0.72rem', fontWeight: 600, cursor: 'pointer' };
-const inactiveBtn = { padding: '0.25rem 0.6rem', borderRadius: '50px', border: '1px solid #e0e0e0', background: '#fff', color: '#546e7a', fontSize: '0.72rem', fontWeight: 500, cursor: 'pointer' };

@@ -1,3 +1,5 @@
+import { thStyle, tdStyle } from '../../styles/tableStyles';
+
 /**
  * Robustness heatmap: threshold (rows) x top formula presence/consistency.
  */
@@ -51,18 +53,3 @@ export default function RobustnessHeatmap({ data = [] }) {
   );
 }
 
-const thStyle = {
-  padding: '0.55rem 0.7rem',
-  borderBottom: '2px solid #e0e0e0',
-  fontWeight: 700,
-  fontSize: '0.75rem',
-  textTransform: 'uppercase',
-  letterSpacing: '0.3px',
-  color: '#546e7a',
-  textAlign: 'center',
-};
-
-const tdStyle = {
-  padding: '0.5rem 0.7rem',
-  borderBottom: '1px solid #f0f0f0',
-};

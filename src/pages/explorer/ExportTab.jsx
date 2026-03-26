@@ -20,14 +20,19 @@ export default function ExportTab() {
   const [downloading, setDownloading] = useState(false);
 
   async function downloadFile(filename) {
-    const url = `${import.meta.env.BASE_URL}data/${filename}`;
-    const response = await fetch(url);
-    const blob = await response.blob();
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = filename;
-    a.click();
-    URL.revokeObjectURL(a.href);
+    try {
+      const url = `${import.meta.env.BASE_URL}data/${filename}`;
+      const response = await fetch(url);
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const blob = await response.blob();
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = filename;
+      a.click();
+      URL.revokeObjectURL(a.href);
+    } catch (e) {
+      alert(`Failed to download ${filename}: ${e.message}`);
+    }
   }
 
   async function downloadAll() {
@@ -82,7 +87,7 @@ export default function ExportTab() {
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '0.75rem' }}>
           {DATA_FILES.map((file) => (
-            <div
+            <button
               key={file.filename}
               className="glass-card"
               style={{
@@ -90,6 +95,14 @@ export default function ExportTab() {
                 cursor: 'pointer',
                 borderLeft: '3px solid #006633',
                 transition: 'transform 0.2s',
+                background: 'none',
+                border: 'none',
+                borderLeftWidth: '3px',
+                borderLeftStyle: 'solid',
+                borderLeftColor: '#006633',
+                textAlign: 'left',
+                width: '100%',
+                fontFamily: 'inherit',
               }}
               onClick={() => downloadFile(file.filename)}
               onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-1px)'; }}
@@ -105,7 +118,7 @@ export default function ExportTab() {
               <div style={{ fontSize: '0.72rem', color: '#006633', marginTop: '0.3rem', fontFamily: "'Courier New', monospace" }}>
                 {file.filename}
               </div>
-            </div>
+            </button>
           ))}
         </div>
       </GlassCard>

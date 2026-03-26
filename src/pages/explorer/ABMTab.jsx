@@ -1,18 +1,23 @@
 import { useState } from 'react';
 import GlassCard from '../../components/shared/GlassCard';
 import MetricCard from '../../components/shared/MetricCard';
+import LoadingSpinner from '../../components/shared/LoadingSpinner';
 import TrajectoryChart from '../../components/charts/TrajectoryChart';
 import PosteriorDensity from '../../components/charts/PosteriorDensity';
 import CoverageHeatmap from '../../components/charts/CoverageHeatmap';
 import { useData } from '../../hooks/useData';
 import { explorerTabDescriptions } from '../../data/storyContent';
 import { PIPELINE_METRICS, SCENARIO_LABELS } from '../../data/constants';
+import { activeToggleBtn, inactiveToggleBtn } from '../../styles/buttonStyles';
 
 export default function ABMTab() {
-  const { data: abmData } = useData('abm_scenarios.json');
-  const { data: posteriorData } = useData('calibration_posteriors.json');
+  const { data: abmData, loading: l1, error: e1 } = useData('abm_scenarios.json');
+  const { data: posteriorData, loading: l2, error: e2 } = useData('calibration_posteriors.json');
   const [typology, setTypology] = useState('Reference');
   const [selectedScenarios, setSelectedScenarios] = useState(['S0', 'S1', 'S5']);
+
+  if (e1 || e2) return <div className="glass-card" style={{ padding: '2rem', color: '#b33000', textAlign: 'center' }}>Failed to load data. Please refresh the page.</div>;
+  if (l1 || l2) return <LoadingSpinner />;
 
   const toggleScenario = (s) => {
     setSelectedScenarios((prev) =>
@@ -42,16 +47,7 @@ export default function ABMTab() {
               <button
                 key={t}
                 onClick={() => setTypology(t)}
-                style={{
-                  padding: '0.3rem 0.7rem',
-                  borderRadius: '50px',
-                  border: typology === t ? '2px solid #006633' : '1px solid #e0e0e0',
-                  background: typology === t ? '#006633' : '#fff',
-                  color: typology === t ? '#fff' : '#546e7a',
-                  fontSize: '0.75rem',
-                  fontWeight: 600,
-                  cursor: 'pointer',
-                }}
+                style={typology === t ? activeToggleBtn : inactiveToggleBtn}
               >
                 {t}
               </button>

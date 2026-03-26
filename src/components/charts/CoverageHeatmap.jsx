@@ -1,5 +1,6 @@
 import { getCoverageTier } from '../../utils/coverageTier';
 import { SCENARIO_LABELS } from '../../data/constants';
+import { thStyle, tdStyle } from '../../styles/tableStyles';
 
 /**
  * Scenario x Typology coverage heatmap rendered as an HTML table.
@@ -65,18 +66,3 @@ export default function CoverageHeatmap({ matrix = [], onCellClick }) {
   );
 }
 
-const thStyle = {
-  padding: '0.6rem 0.8rem',
-  borderBottom: '2px solid #e0e0e0',
-  fontWeight: 700,
-  fontSize: '0.78rem',
-  textTransform: 'uppercase',
-  letterSpacing: '0.3px',
-  color: '#546e7a',
-  textAlign: 'center',
-};
-
-const tdStyle = {
-  padding: '0.55rem 0.8rem',
-  borderBottom: '1px solid #f0f0f0',
-};

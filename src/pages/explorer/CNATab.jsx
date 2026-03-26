@@ -1,5 +1,6 @@
 import GlassCard from '../../components/shared/GlassCard';
 import MetricCard from '../../components/shared/MetricCard';
+import LoadingSpinner from '../../components/shared/LoadingSpinner';
 import RecipeCard from '../../components/shared/RecipeCard';
 import NecessityBar from '../../components/charts/NecessityBar';
 import RobustnessHeatmap from '../../components/charts/RobustnessHeatmap';
@@ -7,11 +8,13 @@ import { useData } from '../../hooks/useData';
 import { explorerTabDescriptions } from '../../data/storyContent';
 import { recipePlainLanguage, typologyGuidance } from '../../data/storyContent';
 import { PIPELINE_METRICS } from '../../data/constants';
+import { thStyle, tdStyle } from '../../styles/tableStyles';
 
 export default function CNATab() {
-  const { data: cnaData, loading } = useData('cna_solutions.json');
+  const { data: cnaData, loading, error } = useData('cna_solutions.json');
 
-  if (loading) return <p style={{ color: '#78909c' }}>Loading CNA data...</p>;
+  if (error) return <div className="glass-card" style={{ padding: '2rem', color: '#b33000', textAlign: 'center' }}>Failed to load data. Please refresh the page.</div>;
+  if (loading) return <LoadingSpinner />;
 
   const solutions = cnaData?.solutions || [];
   const necessity = cnaData?.necessity || [];
@@ -110,5 +113,3 @@ export default function CNATab() {
   );
 }
 
-const thStyle = { padding: '0.55rem 0.7rem', borderBottom: '2px solid #e0e0e0', fontWeight: 700, fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.3px', color: '#546e7a', textAlign: 'center' };
-const tdStyle = { padding: '0.5rem 0.7rem', borderBottom: '1px solid #f0f0f0' };

@@ -21,15 +21,3 @@ export function getClusterColorByZdRate(props) {
   return '#1565c0';
 }
 
-/**
- * Pure component that wraps cluster data access — used as a prop helper.
- * The actual rendering is done by NigeriaMap's SVG circles.
- */
-export default function ClusterLayer({ colorBy = 'typology' }) {
-  const colorFnMap = {
-    typology: getClusterColorByTypology,
-    zone: getClusterColorByZone,
-    zdRate: getClusterColorByZdRate,
-  };
-  return colorFnMap[colorBy] || getClusterColorByTypology;
-}
