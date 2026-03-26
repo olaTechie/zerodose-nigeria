@@ -1,0 +1,1987 @@
+/* =============================================================================
+   Nigeria Zero-Dose Dashboard — Glass-Morphism Design System (React)
+   =============================================================================
+   Palette: Nigeria green (#003d1e -> #006633 -> #008744)
+   Style: Glass-morphism with frosted cards, smooth animations
+   Elevated from Streamlit version for React SPA
+   ============================================================================= */
+
+/* ---------------------------------------------------------------------------
+   1. CSS Custom Properties (Design Tokens)
+   --------------------------------------------------------------------------- */
+:root {
+  /* Nigeria green palette */
+  --primary-dark: #003d1e;
+  --primary: #006633;
+  --primary-light: #008744;
+  --primary-glow: rgba(0, 102, 51, 0.25);
+
+  /* Backgrounds */
+  --bg: #f0f4f0;
+  --bg-secondary: #e8f0e8;
+  --bg-card: rgba(255, 255, 255, 0.80);
+  --bg-card-hover: rgba(255, 255, 255, 0.92);
+
+  /* Text */
+  --text: #0d1b2a;
+  --text-secondary: #546e7a;
+  --text-muted: #78909c;
+  --text-inverse: #ffffff;
+
+  /* Coverage tiers */
+  --ontrack: #006633;
+  --ontrack-bg: #e8f5e9;
+  --atrisk: #cc8400;
+  --atrisk-bg: #fff8e1;
+  --critical: #b33000;
+  --critical-bg: #fbe9e7;
+  --crisis: #6b1a1a;
+  --crisis-bg: #fce4ec;
+
+  /* Zone colours (ZD severity mapped) */
+  --zone-nw: #8b0000;
+  --zone-ne: #cc4400;
+  --zone-nc: #cc8400;
+  --zone-se: #006633;
+  --zone-ss: #1565c0;
+  --zone-sw: #4a148c;
+
+  /* Typology */
+  --typology-access: #1565c0;
+  --typology-access-bg: #e3f2fd;
+  --typology-reference: #2e7d32;
+  --typology-reference-bg: #e8f5e9;
+
+  /* Gold accent */
+  --gold: #e6a817;
+  --gold-dark: #cc8400;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+  --shadow-hover: 0 8px 28px rgba(0, 102, 51, 0.15);
+
+  /* Borders */
+  --border-light: 1px solid rgba(0, 102, 51, 0.12);
+  --border-card: 1px solid rgba(0, 102, 51, 0.10);
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 16px;
+  --radius-pill: 50px;
+}
+
+
+/* ---------------------------------------------------------------------------
+   2. Base & Typography
+   --------------------------------------------------------------------------- */
+html,
+body,
+#root {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Inter', sans-serif;
+  color: var(--text);
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+p {
+  line-height: 1.65;
+  color: var(--text);
+}
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--primary-light);
+  text-decoration: underline;
+}
+
+
+/* ---------------------------------------------------------------------------
+   3. Animations
+   --------------------------------------------------------------------------- */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes heroGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.02);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes barDraw {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes gaugeFill {
+  from {
+    stroke-dashoffset: 283;
+  }
+}
+
+
+/* ---------------------------------------------------------------------------
+   4. Glass Card
+   --------------------------------------------------------------------------- */
+.glass-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: var(--border-card);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  margin-bottom: 1.25rem;
+  box-shadow: var(--shadow-md);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  animation: fadeIn 0.4s ease-out;
+}
+
+.glass-card:hover {
+  box-shadow: var(--shadow-lg);
+}
+
+
+/* ---------------------------------------------------------------------------
+   5. Hero Section
+   --------------------------------------------------------------------------- */
+.hero-section {
+  background: linear-gradient(135deg, #003d1e 0%, #006633 35%, #008744 60%, #1a472a 100%);
+  background-size: 200% 200%;
+  animation: heroGradient 8s ease infinite;
+  color: var(--text-inverse);
+  padding: 3rem 2.5rem 2.5rem;
+  border-radius: var(--radius-lg);
+  margin-bottom: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 60%;
+  height: 200%;
+  background: radial-gradient(ellipse, rgba(255, 255, 255, 0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-section::after {
+  content: '';
+  position: absolute;
+  bottom: -30%;
+  left: -10%;
+  width: 40%;
+  height: 150%;
+  background: radial-gradient(ellipse, rgba(0, 135, 68, 0.2) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-overline {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  opacity: 0.8;
+  margin-bottom: 0.6rem;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-title {
+  font-size: 2.6rem;
+  font-weight: 800;
+  line-height: 1.15;
+  margin: 0 0 0.5rem 0;
+  color: #ffffff;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-subtitle {
+  font-size: 1.05rem;
+  font-weight: 400;
+  opacity: 0.9;
+  max-width: 700px;
+  line-height: 1.55;
+  margin-bottom: 1.5rem;
+  color: #ffffff;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-stats {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-stat {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: var(--radius-sm);
+  padding: 0.85rem 1.3rem;
+  min-width: 140px;
+  text-align: center;
+  transition: background 0.2s ease;
+}
+
+.hero-stat:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.hero-stat-value {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.2;
+}
+
+.hero-stat-label {
+  font-size: 0.72rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  opacity: 0.8;
+  margin-top: 0.15rem;
+  color: #ffffff;
+}
+
+
+/* ---------------------------------------------------------------------------
+   6. Metric Card
+   --------------------------------------------------------------------------- */
+.metric-card {
+  background: #ffffff;
+  border-radius: var(--radius-sm);
+  border-top: 3px solid var(--primary);
+  padding: 1.1rem 1.2rem;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  text-align: center;
+}
+
+.metric-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.metric-card-green { border-top-color: var(--ontrack); }
+.metric-card-gold  { border-top-color: var(--gold-dark); }
+.metric-card-red   { border-top-color: var(--critical); }
+.metric-card-blue  { border-top-color: var(--typology-access); }
+
+.metric-value {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1.2;
+  margin-bottom: 0.15rem;
+}
+
+.metric-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  color: var(--text-secondary);
+  margin-bottom: 0.1rem;
+}
+
+.metric-sublabel {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  line-height: 1.35;
+}
+
+
+/* ---------------------------------------------------------------------------
+   7. Page Header
+   --------------------------------------------------------------------------- */
+.page-header {
+  animation: fadeIn 0.45s ease-out;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid rgba(0, 102, 51, 0.15);
+}
+
+.page-header h1 {
+  font-size: 1.85rem;
+  font-weight: 800;
+  margin: 0 0 0.25rem 0;
+  color: var(--primary-dark);
+}
+
+.page-subtitle {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.5;
+}
+
+
+/* ---------------------------------------------------------------------------
+   8. Navigation Card
+   --------------------------------------------------------------------------- */
+.nav-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: var(--border-card);
+  border-top: 3px solid var(--primary);
+  border-radius: var(--radius-lg);
+  padding: 1.4rem 1.5rem;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-hover);
+}
+
+.nav-card-green  { border-top-color: var(--ontrack); }
+.nav-card-gold   { border-top-color: var(--gold-dark); }
+.nav-card-red    { border-top-color: var(--critical); }
+.nav-card-blue   { border-top-color: var(--typology-access); }
+.nav-card-purple { border-top-color: #4a148c; }
+
+.nav-card-icon {
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+  line-height: 1;
+}
+
+.nav-card-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 0.35rem;
+}
+
+.nav-card-desc {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.45;
+  flex: 1;
+}
+
+
+/* ---------------------------------------------------------------------------
+   9. Coverage Tier Badges
+   --------------------------------------------------------------------------- */
+.coverage-tier-ontrack {
+  background: linear-gradient(135deg, #006633, #008744);
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  font-size: 0.85rem;
+  display: inline-block;
+  letter-spacing: 0.3px;
+}
+
+.coverage-tier-atrisk {
+  background: linear-gradient(135deg, #cc8400, #e6a000);
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  font-size: 0.85rem;
+  display: inline-block;
+  letter-spacing: 0.3px;
+}
+
+.coverage-tier-critical {
+  background: linear-gradient(135deg, #b33000, #d44000);
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  font-size: 0.85rem;
+  display: inline-block;
+  letter-spacing: 0.3px;
+}
+
+.coverage-tier-crisis {
+  background: linear-gradient(135deg, #6b1a1a, #8b2020);
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  font-size: 0.85rem;
+  display: inline-block;
+  letter-spacing: 0.3px;
+  animation: pulse 2.5s ease-in-out infinite;
+}
+
+
+/* ---------------------------------------------------------------------------
+   10. Typology Badges
+   --------------------------------------------------------------------------- */
+.typology-badge-access {
+  background: var(--typology-access-bg);
+  border-left: 4px solid var(--typology-access);
+  border-radius: var(--radius-sm);
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  transition: box-shadow 0.2s ease;
+}
+
+.typology-badge-access:hover {
+  box-shadow: var(--shadow-sm);
+}
+
+.typology-badge-access::before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--typology-access);
+  flex-shrink: 0;
+}
+
+.typology-badge-reference {
+  background: var(--typology-reference-bg);
+  border-left: 4px solid var(--typology-reference);
+  border-radius: var(--radius-sm);
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  transition: box-shadow 0.2s ease;
+}
+
+.typology-badge-reference:hover {
+  box-shadow: var(--shadow-sm);
+}
+
+.typology-badge-reference::before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--typology-reference);
+  flex-shrink: 0;
+}
+
+
+/* ---------------------------------------------------------------------------
+   11. Scenario Card
+   --------------------------------------------------------------------------- */
+.scenario-card {
+  background: #ffffff;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  margin-bottom: 1rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.scenario-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.scenario-card-header {
+  padding: 0.85rem 1.2rem;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.scenario-card-header-ontrack {
+  background: linear-gradient(135deg, #006633, #008744);
+}
+
+.scenario-card-header-atrisk {
+  background: linear-gradient(135deg, #cc8400, #e6a000);
+}
+
+.scenario-card-header-critical {
+  background: linear-gradient(135deg, #b33000, #d44000);
+}
+
+.scenario-card-header-crisis {
+  background: linear-gradient(135deg, #6b1a1a, #8b2020);
+}
+
+.scenario-card-body {
+  padding: 1rem 1.2rem;
+}
+
+.scenario-card-coverage {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1.1;
+}
+
+.scenario-card-typology {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 0.15rem;
+}
+
+.scenario-card-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.75rem;
+}
+
+.scenario-card-pill {
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  font-size: 0.7rem;
+  font-weight: 500;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-pill);
+  white-space: nowrap;
+}
+
+.scenario-card-status {
+  margin-top: 0.65rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.scenario-card-status-pass {
+  color: var(--ontrack);
+}
+
+.scenario-card-status-fail {
+  color: var(--critical);
+}
+
+
+/* ---------------------------------------------------------------------------
+   12. Zone Badges
+   --------------------------------------------------------------------------- */
+.zone-badge {
+  display: inline-block;
+  padding: 0.2rem 0.65rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+
+.zone-badge-nw { background: var(--zone-nw); }
+.zone-badge-ne { background: var(--zone-ne); }
+.zone-badge-nc { background: var(--zone-nc); }
+.zone-badge-se { background: var(--zone-se); }
+.zone-badge-ss { background: var(--zone-ss); }
+.zone-badge-sw { background: var(--zone-sw); }
+
+
+/* ---------------------------------------------------------------------------
+   13. Recipe Card (CNA)
+   --------------------------------------------------------------------------- */
+.recipe-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: var(--border-card);
+  border-radius: var(--radius-lg);
+  padding: 1.3rem 1.4rem;
+  margin-bottom: 1rem;
+  box-shadow: var(--shadow-md);
+  animation: slideUp 0.4s ease-out;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.recipe-card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-1px);
+}
+
+.recipe-card-formula {
+  font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+  font-size: 0.88rem;
+  background: var(--bg-secondary);
+  padding: 0.5rem 0.8rem;
+  border-radius: var(--radius-sm);
+  margin-bottom: 0.65rem;
+  color: var(--primary-dark);
+  font-weight: 500;
+  overflow-x: auto;
+}
+
+.recipe-card-translation {
+  font-size: 0.92rem;
+  color: var(--text);
+  margin-bottom: 0.75rem;
+  line-height: 1.55;
+}
+
+.recipe-card-metrics {
+  display: flex;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+}
+
+.recipe-card-metric {
+  text-align: center;
+}
+
+.recipe-card-metric-value {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--primary);
+}
+
+.recipe-card-metric-label {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--text-secondary);
+}
+
+
+/* ---------------------------------------------------------------------------
+   14. Policy Brief Card
+   --------------------------------------------------------------------------- */
+.policy-brief-card {
+  background: #ffffff;
+  border-radius: var(--radius-lg);
+  padding: 2rem 2.5rem;
+  box-shadow: var(--shadow-md);
+  margin-bottom: 1.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  animation: fadeIn 0.45s ease-out;
+}
+
+.policy-brief-card-header {
+  border-bottom: 2px solid var(--primary);
+  padding-bottom: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.policy-brief-card-header h2 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--primary-dark);
+  margin: 0 0 0.25rem 0;
+}
+
+.policy-brief-card-header p {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.policy-brief-card-section {
+  margin-bottom: 1.25rem;
+}
+
+.policy-brief-card-section h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 0.4rem 0;
+}
+
+.policy-brief-card-section p {
+  font-size: 0.9rem;
+  color: var(--text);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.policy-brief-card-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.policy-brief-card-actions button {
+  padding: 0.5rem 1.2rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+  border: none;
+}
+
+.policy-brief-card-actions button:first-child {
+  background: var(--primary);
+  color: #ffffff;
+}
+
+.policy-brief-card-actions button:first-child:hover {
+  background: var(--primary-dark);
+  transform: translateY(-1px);
+}
+
+.policy-brief-card-actions button:last-child {
+  background: var(--bg-secondary);
+  color: var(--text);
+}
+
+.policy-brief-card-actions button:last-child:hover {
+  background: var(--bg);
+}
+
+
+/* ---------------------------------------------------------------------------
+   15. Coverage Gauge (SVG)
+   --------------------------------------------------------------------------- */
+.coverage-gauge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+}
+
+.coverage-gauge svg {
+  overflow: visible;
+}
+
+.coverage-gauge-track {
+  fill: none;
+  stroke: var(--bg-secondary);
+  stroke-width: 12;
+  stroke-linecap: round;
+}
+
+.coverage-gauge-fill {
+  fill: none;
+  stroke-width: 12;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1s ease-out, stroke 0.3s ease;
+}
+
+.coverage-gauge-fill-ontrack  { stroke: var(--ontrack); }
+.coverage-gauge-fill-atrisk   { stroke: var(--atrisk); }
+.coverage-gauge-fill-critical { stroke: var(--critical); }
+.coverage-gauge-fill-crisis   { stroke: var(--crisis); }
+
+.coverage-gauge-value {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--text);
+  margin-top: -0.5rem;
+}
+
+.coverage-gauge-label {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+}
+
+
+/* ---------------------------------------------------------------------------
+   16. Scrollytelling Layout
+   --------------------------------------------------------------------------- */
+.scroll-section {
+  display: flex;
+  position: relative;
+  min-height: 100vh;
+}
+
+.scroll-visual {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  flex: 1 1 55%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.scroll-narrative {
+  flex: 1 1 45%;
+  padding: 40vh 2.5rem;
+  position: relative;
+  z-index: 2;
+}
+
+.scroll-narrative-step {
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2rem;
+  margin-bottom: 1rem;
+}
+
+.scroll-narrative-step h2 {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--text);
+  margin: 0 0 0.75rem 0;
+}
+
+.scroll-narrative-step p {
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  line-height: 1.65;
+  max-width: 500px;
+}
+
+.scroll-narrative-stat {
+  display: inline-block;
+  background: var(--bg-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: var(--border-card);
+  border-radius: var(--radius-sm);
+  padding: 0.4rem 0.8rem;
+  margin-top: 0.75rem;
+}
+
+
+/* ---------------------------------------------------------------------------
+   17. Count Up Number
+   --------------------------------------------------------------------------- */
+.count-up {
+  font-variant-numeric: tabular-nums;
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1.1;
+}
+
+.count-up-large {
+  font-size: 3.5rem;
+}
+
+.count-up-medium {
+  font-size: 2.2rem;
+}
+
+.count-up-small {
+  font-size: 1.5rem;
+}
+
+
+/* ---------------------------------------------------------------------------
+   18. Badge Pills (Utility)
+   --------------------------------------------------------------------------- */
+.badge-pill {
+  display: inline-block;
+  padding: 0.18rem 0.6rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+
+.badge-pill-green {
+  background: var(--ontrack-bg);
+  color: var(--ontrack);
+}
+
+.badge-pill-gold {
+  background: var(--atrisk-bg);
+  color: #8a6d00;
+}
+
+.badge-pill-red {
+  background: var(--critical-bg);
+  color: var(--critical);
+}
+
+.badge-pill-purple {
+  background: #f3e5f5;
+  color: #6a1b9a;
+}
+
+.badge-pill-blue {
+  background: var(--typology-access-bg);
+  color: var(--typology-access);
+}
+
+
+/* ---------------------------------------------------------------------------
+   19. Pipeline Stage Card
+   --------------------------------------------------------------------------- */
+.pipeline-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: var(--border-card);
+  border-radius: var(--radius-lg);
+  padding: 1.4rem;
+  box-shadow: var(--shadow-md);
+  height: 100%;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  animation: slideUp 0.5s ease-out;
+}
+
+.pipeline-card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+}
+
+.pipeline-card-stage {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  margin-bottom: 0.4rem;
+  color: var(--primary);
+}
+
+.pipeline-card-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 0.45rem;
+}
+
+.pipeline-card-desc {
+  font-size: 0.83rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 0.75rem;
+}
+
+.pipeline-card-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+
+/* ---------------------------------------------------------------------------
+   20. Guidance Boxes (CNA Page)
+   --------------------------------------------------------------------------- */
+.guidance-box {
+  border-radius: var(--radius-sm);
+  padding: 1rem 1.2rem;
+  margin-bottom: 0.75rem;
+  transition: box-shadow 0.2s ease;
+}
+
+.guidance-box:hover {
+  box-shadow: var(--shadow-sm);
+}
+
+.guidance-box-access {
+  background: var(--typology-access-bg);
+  border-left: 4px solid var(--typology-access);
+}
+
+.guidance-box-reference {
+  background: var(--typology-reference-bg);
+  border-left: 4px solid var(--typology-reference);
+}
+
+.guidance-box h4 {
+  margin: 0 0 0.3rem 0;
+  font-size: 0.95rem;
+  color: var(--text);
+}
+
+.guidance-box p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+}
+
+
+/* ---------------------------------------------------------------------------
+   21. Stat Highlights
+   --------------------------------------------------------------------------- */
+.stat-highlight {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1.1;
+}
+
+.stat-highlight-gold {
+  color: var(--gold-dark);
+}
+
+.stat-highlight-green {
+  color: var(--primary);
+}
+
+.stat-highlight-red {
+  color: var(--critical);
+}
+
+
+/* ---------------------------------------------------------------------------
+   22. Download Card (Export Page)
+   --------------------------------------------------------------------------- */
+.download-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: var(--border-card);
+  border-left: 4px solid var(--primary);
+  border-radius: var(--radius-sm);
+  padding: 1rem 1.2rem;
+  margin-bottom: 0.75rem;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  cursor: pointer;
+}
+
+.download-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.download-card h4 {
+  margin: 0 0 0.25rem 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.download-card p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  line-height: 1.4;
+}
+
+.download-card-size {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+}
+
+
+/* ---------------------------------------------------------------------------
+   23. Alert / Preservation Banners
+   --------------------------------------------------------------------------- */
+.alert-banner {
+  border-radius: var(--radius-sm);
+  padding: 0.85rem 1.1rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  border-left: 4px solid var(--text-secondary);
+  background: #f5f5f5;
+}
+
+.alert-banner-success {
+  border-left-color: var(--ontrack);
+  background: var(--ontrack-bg);
+  color: #1b5e20;
+}
+
+.alert-banner-warn {
+  border-left-color: var(--atrisk);
+  background: var(--atrisk-bg);
+  color: #795600;
+}
+
+.alert-banner-danger {
+  border-left-color: var(--critical);
+  background: var(--critical-bg);
+  color: #7f1d1d;
+}
+
+
+/* ---------------------------------------------------------------------------
+   24. Dashboard Footer
+   --------------------------------------------------------------------------- */
+.dashboard-footer {
+  text-align: center;
+  padding: 1.5rem 1rem;
+  margin-top: 2rem;
+  border-top: 1px solid rgba(0, 102, 51, 0.1);
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  line-height: 1.6;
+}
+
+.dashboard-footer a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.dashboard-footer a:hover {
+  text-decoration: underline;
+}
+
+
+/* ---------------------------------------------------------------------------
+   25. Loading Spinner
+   --------------------------------------------------------------------------- */
+.loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  gap: 1rem;
+}
+
+.loading-spinner-ring {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--bg-secondary);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loading-spinner-text {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+
+/* ---------------------------------------------------------------------------
+   26. Table Styles (TanStack Table)
+   --------------------------------------------------------------------------- */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.data-table thead {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.data-table th {
+  background: var(--bg-secondary);
+  color: var(--text);
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 0.65rem 0.85rem;
+  text-align: left;
+  border-bottom: 2px solid rgba(0, 102, 51, 0.15);
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.data-table th:hover {
+  background: var(--bg);
+}
+
+.data-table td {
+  padding: 0.55rem 0.85rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+  color: var(--text);
+}
+
+.data-table tbody tr:nth-child(even) {
+  background: rgba(0, 102, 51, 0.02);
+}
+
+.data-table tbody tr:hover {
+  background: rgba(0, 102, 51, 0.05);
+}
+
+.data-table-sortable::after {
+  content: ' \2195';
+  opacity: 0.4;
+  font-size: 0.7rem;
+}
+
+.data-table-sorted-asc::after {
+  content: ' \2191';
+  opacity: 1;
+  color: var(--primary);
+}
+
+.data-table-sorted-desc::after {
+  content: ' \2193';
+  opacity: 1;
+  color: var(--primary);
+}
+
+
+/* ---------------------------------------------------------------------------
+   27. Tab Navigation
+   --------------------------------------------------------------------------- */
+.tab-nav {
+  display: flex;
+  gap: 0;
+  border-bottom: 2px solid rgba(0, 102, 51, 0.1);
+  margin-bottom: 1.5rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.tab-nav-item {
+  padding: 0.65rem 1.2rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  transition: color 0.2s ease, border-color 0.2s ease;
+  white-space: nowrap;
+  background: none;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+}
+
+.tab-nav-item:hover {
+  color: var(--text);
+}
+
+.tab-nav-item-active {
+  color: var(--primary);
+  font-weight: 600;
+  border-bottom-color: var(--primary);
+}
+
+
+/* ---------------------------------------------------------------------------
+   28. Slider Controls (Counterfactual Panel)
+   --------------------------------------------------------------------------- */
+.slider-group {
+  margin-bottom: 1.25rem;
+}
+
+.slider-group-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 0.35rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.slider-group-value {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.slider-group input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--bg-secondary);
+  outline: none;
+  cursor: pointer;
+}
+
+.slider-group input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--primary);
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.slider-group input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+}
+
+.slider-group input[type="range"]::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--primary);
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+}
+
+
+/* ---------------------------------------------------------------------------
+   29. Tooltip
+   --------------------------------------------------------------------------- */
+.map-tooltip {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: var(--radius-sm);
+  padding: 0.6rem 0.8rem;
+  box-shadow: var(--shadow-md);
+  font-size: 0.78rem;
+  color: var(--text);
+  pointer-events: none;
+  z-index: 100;
+  max-width: 250px;
+}
+
+.map-tooltip-title {
+  font-weight: 700;
+  margin-bottom: 0.2rem;
+  font-size: 0.82rem;
+}
+
+.map-tooltip-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.1rem 0;
+}
+
+.map-tooltip-label {
+  color: var(--text-secondary);
+}
+
+.map-tooltip-value {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+
+/* ---------------------------------------------------------------------------
+   30. Buttons
+   --------------------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 1.2rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  border: none;
+  font-family: inherit;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  background: var(--primary-dark);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-secondary {
+  background: var(--bg-secondary);
+  color: var(--text);
+}
+
+.btn-secondary:hover {
+  background: var(--bg);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--primary);
+  border: 1px solid var(--primary);
+}
+
+.btn-outline:hover {
+  background: var(--ontrack-bg);
+}
+
+.btn-sm {
+  padding: 0.35rem 0.8rem;
+  font-size: 0.78rem;
+}
+
+.btn-icon {
+  padding: 0.45rem;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-secondary);
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.btn-icon:hover {
+  background: var(--bg-secondary);
+  color: var(--text);
+}
+
+
+/* ---------------------------------------------------------------------------
+   31. Toggle Switch
+   --------------------------------------------------------------------------- */
+.toggle-group {
+  display: inline-flex;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-sm);
+  padding: 3px;
+  gap: 2px;
+}
+
+.toggle-group-item {
+  padding: 0.4rem 0.85rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+}
+
+.toggle-group-item-active {
+  background: #ffffff;
+  color: var(--text);
+  font-weight: 600;
+  box-shadow: var(--shadow-sm);
+}
+
+
+/* ---------------------------------------------------------------------------
+   32. D3 Chart Container
+   --------------------------------------------------------------------------- */
+.chart-container {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.chart-container svg {
+  display: block;
+  width: 100%;
+}
+
+.chart-container svg text {
+  font-family: 'Inter', sans-serif;
+  fill: var(--text-secondary);
+  font-size: 11px;
+}
+
+.chart-container svg .axis-label {
+  fill: var(--text);
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.chart-container svg .grid-line {
+  stroke: rgba(0, 0, 0, 0.06);
+  stroke-dasharray: 4 4;
+}
+
+.chart-container svg .threshold-line {
+  stroke: var(--primary);
+  stroke-width: 2;
+  stroke-dasharray: 6 4;
+  opacity: 0.7;
+}
+
+.chart-container svg .threshold-label {
+  fill: var(--primary);
+  font-weight: 600;
+  font-size: 11px;
+}
+
+
+/* ---------------------------------------------------------------------------
+   33. Map Container
+   --------------------------------------------------------------------------- */
+.map-container {
+  width: 100%;
+  height: 100%;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  position: relative;
+}
+
+.map-container .maplibregl-canvas {
+  border-radius: var(--radius-lg);
+}
+
+.map-legend {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: var(--radius-sm);
+  padding: 0.65rem 0.85rem;
+  box-shadow: var(--shadow-md);
+  font-size: 0.72rem;
+  z-index: 10;
+}
+
+.map-legend-title {
+  font-weight: 700;
+  font-size: 0.75rem;
+  color: var(--text);
+  margin-bottom: 0.4rem;
+}
+
+.map-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.15rem 0;
+}
+
+.map-legend-swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.map-legend-label {
+  color: var(--text-secondary);
+}
+
+.map-controls {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+
+/* ---------------------------------------------------------------------------
+   34. Divider
+   --------------------------------------------------------------------------- */
+.divider {
+  border: none;
+  border-top: 1px solid rgba(0, 102, 51, 0.1);
+  margin: 1.5rem 0;
+}
+
+
+/* ---------------------------------------------------------------------------
+   35. Responsive Overrides (768px)
+   --------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+  /* Hero adjustments */
+  .hero-section {
+    padding: 2rem 1.5rem 1.5rem;
+  }
+
+  .hero-title {
+    font-size: 1.7rem;
+  }
+
+  .hero-subtitle {
+    font-size: 0.92rem;
+  }
+
+  .hero-stats {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .hero-stat {
+    min-width: auto;
+    padding: 0.6rem 1rem;
+  }
+
+  .hero-stat-value {
+    font-size: 1.2rem;
+  }
+
+  /* Metric adjustments */
+  .metric-value {
+    font-size: 1.3rem;
+  }
+
+  /* Nav cards single column */
+  .nav-card {
+    margin-bottom: 0.5rem;
+  }
+
+  /* Page header */
+  .page-header h1 {
+    font-size: 1.4rem;
+  }
+
+  /* Glass card reduced padding */
+  .glass-card {
+    padding: 1rem;
+    border-radius: var(--radius-md);
+  }
+
+  /* Scenario card */
+  .scenario-card-coverage {
+    font-size: 1.5rem;
+  }
+
+  /* Recipe card */
+  .recipe-card {
+    padding: 1rem;
+  }
+
+  .recipe-card-metrics {
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  /* Pipeline card */
+  .pipeline-card {
+    padding: 1rem;
+  }
+
+  /* Scroll section: stack visual above narrative */
+  .scroll-section {
+    flex-direction: column;
+  }
+
+  .scroll-visual {
+    position: relative;
+    height: 50vh;
+    flex: none;
+  }
+
+  .scroll-narrative {
+    padding: 2rem 1.25rem;
+    flex: none;
+  }
+
+  .scroll-narrative-step {
+    min-height: 40vh;
+    padding: 1.25rem;
+  }
+
+  .scroll-narrative-step h2 {
+    font-size: 1.3rem;
+  }
+
+  .scroll-narrative-step p {
+    font-size: 0.95rem;
+  }
+
+  /* Count up */
+  .count-up-large {
+    font-size: 2.5rem;
+  }
+
+  .count-up-medium {
+    font-size: 1.7rem;
+  }
+
+  /* Policy brief */
+  .policy-brief-card {
+    padding: 1.25rem 1.5rem;
+  }
+
+  .policy-brief-card-header h2 {
+    font-size: 1.2rem;
+  }
+
+  /* Tab nav scroll */
+  .tab-nav {
+    gap: 0;
+    padding-bottom: 2px;
+  }
+
+  .tab-nav-item {
+    padding: 0.55rem 0.85rem;
+    font-size: 0.78rem;
+  }
+
+  /* Table */
+  .data-table {
+    font-size: 0.78rem;
+  }
+
+  .data-table th,
+  .data-table td {
+    padding: 0.45rem 0.55rem;
+  }
+
+  /* Map legend */
+  .map-legend {
+    bottom: 0.5rem;
+    right: 0.5rem;
+    font-size: 0.68rem;
+    padding: 0.45rem 0.65rem;
+  }
+}
+
+
+/* ---------------------------------------------------------------------------
+   36. Responsive Overrides (640px — small mobile)
+   --------------------------------------------------------------------------- */
+@media (max-width: 640px) {
+  .hero-section {
+    padding: 1.5rem 1.2rem 1.2rem;
+    border-radius: var(--radius-md);
+  }
+
+  .hero-title {
+    font-size: 1.5rem;
+  }
+
+  .hero-overline {
+    font-size: 0.68rem;
+  }
+
+  .page-header h1 {
+    font-size: 1.25rem;
+  }
+
+  .page-subtitle {
+    font-size: 0.85rem;
+  }
+
+  .metric-card {
+    padding: 0.85rem;
+  }
+
+  .metric-value {
+    font-size: 1.15rem;
+  }
+
+  .policy-brief-card {
+    padding: 1rem;
+  }
+
+  .policy-brief-card-actions {
+    flex-direction: column;
+  }
+
+  .scroll-visual {
+    height: 40vh;
+  }
+}
+
+
+/* ---------------------------------------------------------------------------
+   37. Print Styles
+   --------------------------------------------------------------------------- */
+@media print {
+  /* Hide interactive / navigation elements */
+  .tab-nav,
+  .toggle-group,
+  .slider-group,
+  .map-controls,
+  .btn,
+  .btn-primary,
+  .btn-secondary,
+  .btn-outline,
+  .btn-icon,
+  .loading-spinner,
+  nav,
+  .scroll-section,
+  .map-container {
+    display: none !important;
+  }
+
+  /* Remove animations and transitions */
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  /* Preserve background colours */
+  .hero-section {
+    background: var(--primary) !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    color-adjust: exact;
+    padding: 1.5rem;
+  }
+
+  .hero-title {
+    font-size: 1.6rem;
+  }
+
+  /* Cards: remove blur, add border */
+  .glass-card,
+  .metric-card,
+  .nav-card,
+  .scenario-card,
+  .recipe-card,
+  .download-card,
+  .pipeline-card {
+    break-inside: avoid;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border: 1px solid #ccc;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    color-adjust: exact;
+  }
+
+  /* Coverage tier badges */
+  .coverage-tier-ontrack,
+  .coverage-tier-atrisk,
+  .coverage-tier-critical,
+  .coverage-tier-crisis {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    color-adjust: exact;
+  }
+
+  /* Zone badges */
+  .zone-badge {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    color-adjust: exact;
+  }
+
+  /* Typology badges */
+  .typology-badge-access,
+  .typology-badge-reference {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    color-adjust: exact;
+  }
+
+  /* Guidance boxes */
+  .guidance-box-access,
+  .guidance-box-reference {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    color-adjust: exact;
+  }
+
+  /* Policy brief card renders as full page */
+  .policy-brief-card {
+    page-break-before: always;
+    page-break-after: always;
+    page-break-inside: avoid;
+    padding: 2cm;
+    margin: 0;
+    border: none;
+    box-shadow: none;
+    min-height: auto;
+  }
+
+  .policy-brief-card-header {
+    border-bottom: 2px solid var(--primary);
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    color-adjust: exact;
+  }
+
+  /* Footer */
+  .dashboard-footer {
+    border-top: 1px solid #ccc;
+    margin-top: 1rem;
+    padding-top: 0.75rem;
+  }
+
+  /* Body print font */
+  body {
+    font-size: 10pt;
+    background: #ffffff;
+    color: #000000;
+  }
+
+  /* Tables always print cleanly */
+  .data-table {
+    font-size: 8pt;
+  }
+
+  .data-table th {
+    background: #f0f0f0 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .data-table td {
+    border-bottom: 1px solid #ddd;
+  }
+}

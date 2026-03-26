@@ -1,0 +1,1488 @@
+{
+  "global": [
+    {
+      "feature": "cluster_penta_coverage",
+      "display": "Cluster DPT1 coverage",
+      "shap": 1.6215,
+      "rank": 1
+    },
+    {
+      "feature": "h1a",
+      "display": "Has vaccination card",
+      "shap": 1.3404,
+      "rank": 2
+    },
+    {
+      "feature": "cluster_zerodose_prev",
+      "display": "Cluster zero-dose prev",
+      "shap": 0.3661,
+      "rank": 3
+    },
+    {
+      "feature": "m14",
+      "display": "ANC visits",
+      "shap": 0.2307,
+      "rank": 4
+    },
+    {
+      "feature": "mat_hcseek",
+      "display": "Health-seeking composite",
+      "shap": 0.1856,
+      "rank": 5
+    },
+    {
+      "feature": "v394",
+      "display": "Facility visit 12m",
+      "shap": 0.1013,
+      "rank": 6
+    },
+    {
+      "feature": "v106",
+      "display": "Maternal education",
+      "shap": 0.0858,
+      "rank": 7
+    },
+    {
+      "feature": "Malaria_Prevalence_2020",
+      "display": "Malaria prevalence",
+      "shap": 0.0831,
+      "rank": 8
+    },
+    {
+      "feature": "Travel_Times",
+      "display": "GC travel times",
+      "shap": 0.0751,
+      "rank": 9
+    },
+    {
+      "feature": "s1112p",
+      "display": "COVID vax received",
+      "shap": 0.0615,
+      "rank": 10
+    },
+    {
+      "feature": "UN_Population_Density_2020",
+      "display": "Population density",
+      "shap": 0.0324,
+      "rank": 11
+    },
+    {
+      "feature": "zone_enc",
+      "display": "Geopolitical zone",
+      "shap": 0.0288,
+      "rank": 12
+    },
+    {
+      "feature": "ITN_Coverage_2020",
+      "display": "ITN coverage",
+      "shap": 0.028,
+      "rank": 13
+    },
+    {
+      "feature": "cluster_prop_facility_delivery",
+      "display": "Cluster facility delivery",
+      "shap": 0.0277,
+      "rank": 14
+    },
+    {
+      "feature": "state_enc",
+      "display": "State",
+      "shap": 0.0233,
+      "rank": 15
+    },
+    {
+      "feature": "v201",
+      "display": "Parity",
+      "shap": 0.021,
+      "rank": 16
+    },
+    {
+      "feature": "v743a",
+      "display": "Healthcare decision",
+      "shap": 0.0184,
+      "rank": 17
+    },
+    {
+      "feature": "Elevation",
+      "display": "Elevation",
+      "shap": 0.0167,
+      "rank": 18
+    },
+    {
+      "feature": "v155",
+      "display": "Literacy",
+      "shap": 0.0165,
+      "rank": 19
+    },
+    {
+      "feature": "cluster_mean_travel_time",
+      "display": "Cluster mean travel time",
+      "shap": 0.0164,
+      "rank": 20
+    },
+    {
+      "feature": "s1112s",
+      "display": "COVID vax willing",
+      "shap": 0.0161,
+      "rank": 21
+    },
+    {
+      "feature": "v131",
+      "display": "Ethnicity",
+      "shap": 0.0155,
+      "rank": 22
+    },
+    {
+      "feature": "v012",
+      "display": "Maternal age",
+      "shap": 0.0147,
+      "rank": 23
+    },
+    {
+      "feature": "v483a",
+      "display": "Travel time (min)",
+      "shap": 0.0146,
+      "rank": 24
+    },
+    {
+      "feature": "cluster_mean_wealth",
+      "display": "Cluster mean wealth",
+      "shap": 0.0121,
+      "rank": 25
+    },
+    {
+      "feature": "v467c",
+      "display": "Cost barrier",
+      "shap": 0.0119,
+      "rank": 26
+    },
+    {
+      "feature": "m15",
+      "display": "Place of delivery",
+      "shap": 0.0105,
+      "rank": 27
+    },
+    {
+      "feature": "v158",
+      "display": "Radio exposure",
+      "shap": 0.0101,
+      "rank": 28
+    },
+    {
+      "feature": "v190",
+      "display": "Wealth quintile",
+      "shap": 0.005,
+      "rank": 29
+    },
+    {
+      "feature": "log_travel_time",
+      "display": "Log travel time",
+      "shap": 0.0041,
+      "rank": 30
+    },
+    {
+      "feature": "v025",
+      "display": "Urban/rural",
+      "shap": 0.0033,
+      "rank": 31
+    },
+    {
+      "feature": "v393",
+      "display": "Fieldworker visit",
+      "shap": 0.0009,
+      "rank": 32
+    },
+    {
+      "feature": "v467d",
+      "display": "Distance barrier",
+      "shap": 0.0,
+      "rank": 33
+    },
+    {
+      "feature": "v467b",
+      "display": "Permission barrier",
+      "shap": 0.0,
+      "rank": 34
+    },
+    {
+      "feature": "v130",
+      "display": "Religion",
+      "shap": 0.0,
+      "rank": 35
+    }
+  ],
+  "byZone": {
+    "NC": [
+      {
+        "feature": "cluster_penta_coverage",
+        "display": "Cluster DPT1 coverage",
+        "shap": 1.6324,
+        "rank": 1
+      },
+      {
+        "feature": "h1a",
+        "display": "Has vaccination card",
+        "shap": 1.3337,
+        "rank": 2
+      },
+      {
+        "feature": "cluster_zerodose_prev",
+        "display": "Cluster zero-dose prev",
+        "shap": 0.3717,
+        "rank": 3
+      },
+      {
+        "feature": "m14",
+        "display": "ANC visits",
+        "shap": 0.2352,
+        "rank": 4
+      },
+      {
+        "feature": "mat_hcseek",
+        "display": "Health-seeking composite",
+        "shap": 0.2166,
+        "rank": 5
+      },
+      {
+        "feature": "v394",
+        "display": "Facility visit 12m",
+        "shap": 0.1119,
+        "rank": 6
+      },
+      {
+        "feature": "Malaria_Prevalence_2020",
+        "display": "Malaria prevalence",
+        "shap": 0.1014,
+        "rank": 7
+      },
+      {
+        "feature": "v106",
+        "display": "Maternal education",
+        "shap": 0.0908,
+        "rank": 8
+      },
+      {
+        "feature": "Travel_Times",
+        "display": "GC travel times",
+        "shap": 0.0794,
+        "rank": 9
+      },
+      {
+        "feature": "s1112p",
+        "display": "COVID vax received",
+        "shap": 0.0634,
+        "rank": 10
+      },
+      {
+        "feature": "UN_Population_Density_2020",
+        "display": "Population density",
+        "shap": 0.0402,
+        "rank": 11
+      },
+      {
+        "feature": "zone_enc",
+        "display": "Geopolitical zone",
+        "shap": 0.0292,
+        "rank": 12
+      },
+      {
+        "feature": "cluster_prop_facility_delivery",
+        "display": "Cluster facility delivery",
+        "shap": 0.0283,
+        "rank": 13
+      },
+      {
+        "feature": "ITN_Coverage_2020",
+        "display": "ITN coverage",
+        "shap": 0.0256,
+        "rank": 14
+      },
+      {
+        "feature": "v201",
+        "display": "Parity",
+        "shap": 0.0216,
+        "rank": 15
+      },
+      {
+        "feature": "v743a",
+        "display": "Healthcare decision",
+        "shap": 0.0198,
+        "rank": 16
+      },
+      {
+        "feature": "state_enc",
+        "display": "State",
+        "shap": 0.0178,
+        "rank": 17
+      },
+      {
+        "feature": "v131",
+        "display": "Ethnicity",
+        "shap": 0.0177,
+        "rank": 18
+      },
+      {
+        "feature": "v483a",
+        "display": "Travel time (min)",
+        "shap": 0.0153,
+        "rank": 19
+      },
+      {
+        "feature": "v012",
+        "display": "Maternal age",
+        "shap": 0.0152,
+        "rank": 20
+      },
+      {
+        "feature": "cluster_mean_travel_time",
+        "display": "Cluster mean travel time",
+        "shap": 0.0151,
+        "rank": 21
+      },
+      {
+        "feature": "v155",
+        "display": "Literacy",
+        "shap": 0.015,
+        "rank": 22
+      },
+      {
+        "feature": "v158",
+        "display": "Radio exposure",
+        "shap": 0.0142,
+        "rank": 23
+      },
+      {
+        "feature": "Elevation",
+        "display": "Elevation",
+        "shap": 0.0135,
+        "rank": 24
+      },
+      {
+        "feature": "s1112s",
+        "display": "COVID vax willing",
+        "shap": 0.0129,
+        "rank": 25
+      },
+      {
+        "feature": "v467c",
+        "display": "Cost barrier",
+        "shap": 0.0126,
+        "rank": 26
+      },
+      {
+        "feature": "cluster_mean_wealth",
+        "display": "Cluster mean wealth",
+        "shap": 0.01,
+        "rank": 27
+      },
+      {
+        "feature": "m15",
+        "display": "Place of delivery",
+        "shap": 0.0093,
+        "rank": 28
+      },
+      {
+        "feature": "v190",
+        "display": "Wealth quintile",
+        "shap": 0.0053,
+        "rank": 29
+      },
+      {
+        "feature": "log_travel_time",
+        "display": "Log travel time",
+        "shap": 0.0044,
+        "rank": 30
+      },
+      {
+        "feature": "v025",
+        "display": "Urban/rural",
+        "shap": 0.0035,
+        "rank": 31
+      },
+      {
+        "feature": "v393",
+        "display": "Fieldworker visit",
+        "shap": 0.0012,
+        "rank": 32
+      },
+      {
+        "feature": "v467d",
+        "display": "Distance barrier",
+        "shap": 0.0,
+        "rank": 33
+      },
+      {
+        "feature": "v467b",
+        "display": "Permission barrier",
+        "shap": 0.0,
+        "rank": 34
+      },
+      {
+        "feature": "v130",
+        "display": "Religion",
+        "shap": 0.0,
+        "rank": 35
+      }
+    ],
+    "NE": [
+      {
+        "feature": "h1a",
+        "display": "Has vaccination card",
+        "shap": 1.4116,
+        "rank": 1
+      },
+      {
+        "feature": "cluster_penta_coverage",
+        "display": "Cluster DPT1 coverage",
+        "shap": 1.1612,
+        "rank": 2
+      },
+      {
+        "feature": "cluster_zerodose_prev",
+        "display": "Cluster zero-dose prev",
+        "shap": 0.2611,
+        "rank": 3
+      },
+      {
+        "feature": "m14",
+        "display": "ANC visits",
+        "shap": 0.2261,
+        "rank": 4
+      },
+      {
+        "feature": "mat_hcseek",
+        "display": "Health-seeking composite",
+        "shap": 0.1917,
+        "rank": 5
+      },
+      {
+        "feature": "v394",
+        "display": "Facility visit 12m",
+        "shap": 0.1148,
+        "rank": 6
+      },
+      {
+        "feature": "Travel_Times",
+        "display": "GC travel times",
+        "shap": 0.1011,
+        "rank": 7
+      },
+      {
+        "feature": "Malaria_Prevalence_2020",
+        "display": "Malaria prevalence",
+        "shap": 0.0959,
+        "rank": 8
+      },
+      {
+        "feature": "v106",
+        "display": "Maternal education",
+        "shap": 0.0773,
+        "rank": 9
+      },
+      {
+        "feature": "s1112p",
+        "display": "COVID vax received",
+        "shap": 0.0731,
+        "rank": 10
+      },
+      {
+        "feature": "UN_Population_Density_2020",
+        "display": "Population density",
+        "shap": 0.0547,
+        "rank": 11
+      },
+      {
+        "feature": "zone_enc",
+        "display": "Geopolitical zone",
+        "shap": 0.041,
+        "rank": 12
+      },
+      {
+        "feature": "cluster_prop_facility_delivery",
+        "display": "Cluster facility delivery",
+        "shap": 0.0272,
+        "rank": 13
+      },
+      {
+        "feature": "ITN_Coverage_2020",
+        "display": "ITN coverage",
+        "shap": 0.0269,
+        "rank": 14
+      },
+      {
+        "feature": "v131",
+        "display": "Ethnicity",
+        "shap": 0.0231,
+        "rank": 15
+      },
+      {
+        "feature": "state_enc",
+        "display": "State",
+        "shap": 0.0221,
+        "rank": 16
+      },
+      {
+        "feature": "v201",
+        "display": "Parity",
+        "shap": 0.0209,
+        "rank": 17
+      },
+      {
+        "feature": "Elevation",
+        "display": "Elevation",
+        "shap": 0.0206,
+        "rank": 18
+      },
+      {
+        "feature": "cluster_mean_travel_time",
+        "display": "Cluster mean travel time",
+        "shap": 0.0205,
+        "rank": 19
+      },
+      {
+        "feature": "v743a",
+        "display": "Healthcare decision",
+        "shap": 0.0188,
+        "rank": 20
+      },
+      {
+        "feature": "v155",
+        "display": "Literacy",
+        "shap": 0.0175,
+        "rank": 21
+      },
+      {
+        "feature": "s1112s",
+        "display": "COVID vax willing",
+        "shap": 0.017,
+        "rank": 22
+      },
+      {
+        "feature": "v483a",
+        "display": "Travel time (min)",
+        "shap": 0.0157,
+        "rank": 23
+      },
+      {
+        "feature": "v012",
+        "display": "Maternal age",
+        "shap": 0.0156,
+        "rank": 24
+      },
+      {
+        "feature": "cluster_mean_wealth",
+        "display": "Cluster mean wealth",
+        "shap": 0.0148,
+        "rank": 25
+      },
+      {
+        "feature": "v158",
+        "display": "Radio exposure",
+        "shap": 0.013,
+        "rank": 26
+      },
+      {
+        "feature": "m15",
+        "display": "Place of delivery",
+        "shap": 0.0125,
+        "rank": 27
+      },
+      {
+        "feature": "v467c",
+        "display": "Cost barrier",
+        "shap": 0.0117,
+        "rank": 28
+      },
+      {
+        "feature": "log_travel_time",
+        "display": "Log travel time",
+        "shap": 0.005,
+        "rank": 29
+      },
+      {
+        "feature": "v190",
+        "display": "Wealth quintile",
+        "shap": 0.0046,
+        "rank": 30
+      },
+      {
+        "feature": "v025",
+        "display": "Urban/rural",
+        "shap": 0.0038,
+        "rank": 31
+      },
+      {
+        "feature": "v393",
+        "display": "Fieldworker visit",
+        "shap": 0.0013,
+        "rank": 32
+      },
+      {
+        "feature": "v467d",
+        "display": "Distance barrier",
+        "shap": 0.0,
+        "rank": 33
+      },
+      {
+        "feature": "v467b",
+        "display": "Permission barrier",
+        "shap": 0.0,
+        "rank": 34
+      },
+      {
+        "feature": "v130",
+        "display": "Religion",
+        "shap": 0.0,
+        "rank": 35
+      }
+    ],
+    "NW": [
+      {
+        "feature": "h1a",
+        "display": "Has vaccination card",
+        "shap": 1.5547,
+        "rank": 1
+      },
+      {
+        "feature": "cluster_penta_coverage",
+        "display": "Cluster DPT1 coverage",
+        "shap": 1.1658,
+        "rank": 2
+      },
+      {
+        "feature": "cluster_zerodose_prev",
+        "display": "Cluster zero-dose prev",
+        "shap": 0.2572,
+        "rank": 3
+      },
+      {
+        "feature": "m14",
+        "display": "ANC visits",
+        "shap": 0.2383,
+        "rank": 4
+      },
+      {
+        "feature": "mat_hcseek",
+        "display": "Health-seeking composite",
+        "shap": 0.1936,
+        "rank": 5
+      },
+      {
+        "feature": "v394",
+        "display": "Facility visit 12m",
+        "shap": 0.0991,
+        "rank": 6
+      },
+      {
+        "feature": "v106",
+        "display": "Maternal education",
+        "shap": 0.0864,
+        "rank": 7
+      },
+      {
+        "feature": "Travel_Times",
+        "display": "GC travel times",
+        "shap": 0.0764,
+        "rank": 8
+      },
+      {
+        "feature": "Malaria_Prevalence_2020",
+        "display": "Malaria prevalence",
+        "shap": 0.0706,
+        "rank": 9
+      },
+      {
+        "feature": "s1112p",
+        "display": "COVID vax received",
+        "shap": 0.0595,
+        "rank": 10
+      },
+      {
+        "feature": "state_enc",
+        "display": "State",
+        "shap": 0.0425,
+        "rank": 11
+      },
+      {
+        "feature": "ITN_Coverage_2020",
+        "display": "ITN coverage",
+        "shap": 0.0291,
+        "rank": 12
+      },
+      {
+        "feature": "zone_enc",
+        "display": "Geopolitical zone",
+        "shap": 0.0288,
+        "rank": 13
+      },
+      {
+        "feature": "cluster_prop_facility_delivery",
+        "display": "Cluster facility delivery",
+        "shap": 0.0272,
+        "rank": 14
+      },
+      {
+        "feature": "UN_Population_Density_2020",
+        "display": "Population density",
+        "shap": 0.0255,
+        "rank": 15
+      },
+      {
+        "feature": "s1112s",
+        "display": "COVID vax willing",
+        "shap": 0.0244,
+        "rank": 16
+      },
+      {
+        "feature": "v201",
+        "display": "Parity",
+        "shap": 0.0228,
+        "rank": 17
+      },
+      {
+        "feature": "Elevation",
+        "display": "Elevation",
+        "shap": 0.0211,
+        "rank": 18
+      },
+      {
+        "feature": "cluster_mean_travel_time",
+        "display": "Cluster mean travel time",
+        "shap": 0.0207,
+        "rank": 19
+      },
+      {
+        "feature": "v743a",
+        "display": "Healthcare decision",
+        "shap": 0.0167,
+        "rank": 20
+      },
+      {
+        "feature": "v012",
+        "display": "Maternal age",
+        "shap": 0.0158,
+        "rank": 21
+      },
+      {
+        "feature": "v155",
+        "display": "Literacy",
+        "shap": 0.0145,
+        "rank": 22
+      },
+      {
+        "feature": "v483a",
+        "display": "Travel time (min)",
+        "shap": 0.014,
+        "rank": 23
+      },
+      {
+        "feature": "cluster_mean_wealth",
+        "display": "Cluster mean wealth",
+        "shap": 0.0125,
+        "rank": 24
+      },
+      {
+        "feature": "v131",
+        "display": "Ethnicity",
+        "shap": 0.0121,
+        "rank": 25
+      },
+      {
+        "feature": "m15",
+        "display": "Place of delivery",
+        "shap": 0.0108,
+        "rank": 26
+      },
+      {
+        "feature": "v467c",
+        "display": "Cost barrier",
+        "shap": 0.0088,
+        "rank": 27
+      },
+      {
+        "feature": "v158",
+        "display": "Radio exposure",
+        "shap": 0.0067,
+        "rank": 28
+      },
+      {
+        "feature": "v190",
+        "display": "Wealth quintile",
+        "shap": 0.0058,
+        "rank": 29
+      },
+      {
+        "feature": "log_travel_time",
+        "display": "Log travel time",
+        "shap": 0.0043,
+        "rank": 30
+      },
+      {
+        "feature": "v025",
+        "display": "Urban/rural",
+        "shap": 0.0028,
+        "rank": 31
+      },
+      {
+        "feature": "v393",
+        "display": "Fieldworker visit",
+        "shap": 0.0006,
+        "rank": 32
+      },
+      {
+        "feature": "v467b",
+        "display": "Permission barrier",
+        "shap": 0.0,
+        "rank": 33
+      },
+      {
+        "feature": "v467d",
+        "display": "Distance barrier",
+        "shap": 0.0,
+        "rank": 34
+      },
+      {
+        "feature": "v130",
+        "display": "Religion",
+        "shap": 0.0,
+        "rank": 35
+      }
+    ],
+    "SE": [
+      {
+        "feature": "cluster_penta_coverage",
+        "display": "Cluster DPT1 coverage",
+        "shap": 2.6341,
+        "rank": 1
+      },
+      {
+        "feature": "h1a",
+        "display": "Has vaccination card",
+        "shap": 1.0282,
+        "rank": 2
+      },
+      {
+        "feature": "cluster_zerodose_prev",
+        "display": "Cluster zero-dose prev",
+        "shap": 0.599,
+        "rank": 3
+      },
+      {
+        "feature": "m14",
+        "display": "ANC visits",
+        "shap": 0.2028,
+        "rank": 4
+      },
+      {
+        "feature": "mat_hcseek",
+        "display": "Health-seeking composite",
+        "shap": 0.1493,
+        "rank": 5
+      },
+      {
+        "feature": "v106",
+        "display": "Maternal education",
+        "shap": 0.0897,
+        "rank": 6
+      },
+      {
+        "feature": "v394",
+        "display": "Facility visit 12m",
+        "shap": 0.0845,
+        "rank": 7
+      },
+      {
+        "feature": "Malaria_Prevalence_2020",
+        "display": "Malaria prevalence",
+        "shap": 0.0696,
+        "rank": 8
+      },
+      {
+        "feature": "Travel_Times",
+        "display": "GC travel times",
+        "shap": 0.0476,
+        "rank": 9
+      },
+      {
+        "feature": "s1112p",
+        "display": "COVID vax received",
+        "shap": 0.0471,
+        "rank": 10
+      },
+      {
+        "feature": "cluster_prop_facility_delivery",
+        "display": "Cluster facility delivery",
+        "shap": 0.0298,
+        "rank": 11
+      },
+      {
+        "feature": "ITN_Coverage_2020",
+        "display": "ITN coverage",
+        "shap": 0.027,
+        "rank": 12
+      },
+      {
+        "feature": "zone_enc",
+        "display": "Geopolitical zone",
+        "shap": 0.0192,
+        "rank": 13
+      },
+      {
+        "feature": "v155",
+        "display": "Literacy",
+        "shap": 0.0191,
+        "rank": 14
+      },
+      {
+        "feature": "UN_Population_Density_2020",
+        "display": "Population density",
+        "shap": 0.019,
+        "rank": 15
+      },
+      {
+        "feature": "v743a",
+        "display": "Healthcare decision",
+        "shap": 0.0158,
+        "rank": 16
+      },
+      {
+        "feature": "v201",
+        "display": "Parity",
+        "shap": 0.0158,
+        "rank": 17
+      },
+      {
+        "feature": "v483a",
+        "display": "Travel time (min)",
+        "shap": 0.0155,
+        "rank": 18
+      },
+      {
+        "feature": "v467c",
+        "display": "Cost barrier",
+        "shap": 0.0154,
+        "rank": 19
+      },
+      {
+        "feature": "Elevation",
+        "display": "Elevation",
+        "shap": 0.0125,
+        "rank": 20
+      },
+      {
+        "feature": "cluster_mean_travel_time",
+        "display": "Cluster mean travel time",
+        "shap": 0.0111,
+        "rank": 21
+      },
+      {
+        "feature": "v012",
+        "display": "Maternal age",
+        "shap": 0.0107,
+        "rank": 22
+      },
+      {
+        "feature": "m15",
+        "display": "Place of delivery",
+        "shap": 0.0105,
+        "rank": 23
+      },
+      {
+        "feature": "cluster_mean_wealth",
+        "display": "Cluster mean wealth",
+        "shap": 0.0096,
+        "rank": 24
+      },
+      {
+        "feature": "s1112s",
+        "display": "COVID vax willing",
+        "shap": 0.0087,
+        "rank": 25
+      },
+      {
+        "feature": "state_enc",
+        "display": "State",
+        "shap": 0.0082,
+        "rank": 26
+      },
+      {
+        "feature": "v158",
+        "display": "Radio exposure",
+        "shap": 0.0081,
+        "rank": 27
+      },
+      {
+        "feature": "v131",
+        "display": "Ethnicity",
+        "shap": 0.0053,
+        "rank": 28
+      },
+      {
+        "feature": "v190",
+        "display": "Wealth quintile",
+        "shap": 0.0039,
+        "rank": 29
+      },
+      {
+        "feature": "v025",
+        "display": "Urban/rural",
+        "shap": 0.0033,
+        "rank": 30
+      },
+      {
+        "feature": "log_travel_time",
+        "display": "Log travel time",
+        "shap": 0.0031,
+        "rank": 31
+      },
+      {
+        "feature": "v393",
+        "display": "Fieldworker visit",
+        "shap": 0.0006,
+        "rank": 32
+      },
+      {
+        "feature": "v467d",
+        "display": "Distance barrier",
+        "shap": 0.0,
+        "rank": 33
+      },
+      {
+        "feature": "v467b",
+        "display": "Permission barrier",
+        "shap": 0.0,
+        "rank": 34
+      },
+      {
+        "feature": "v130",
+        "display": "Religion",
+        "shap": 0.0,
+        "rank": 35
+      }
+    ],
+    "SS": [
+      {
+        "feature": "cluster_penta_coverage",
+        "display": "Cluster DPT1 coverage",
+        "shap": 2.0996,
+        "rank": 1
+      },
+      {
+        "feature": "h1a",
+        "display": "Has vaccination card",
+        "shap": 1.1578,
+        "rank": 2
+      },
+      {
+        "feature": "cluster_zerodose_prev",
+        "display": "Cluster zero-dose prev",
+        "shap": 0.4808,
+        "rank": 3
+      },
+      {
+        "feature": "m14",
+        "display": "ANC visits",
+        "shap": 0.2366,
+        "rank": 4
+      },
+      {
+        "feature": "mat_hcseek",
+        "display": "Health-seeking composite",
+        "shap": 0.1491,
+        "rank": 5
+      },
+      {
+        "feature": "v394",
+        "display": "Facility visit 12m",
+        "shap": 0.091,
+        "rank": 6
+      },
+      {
+        "feature": "v106",
+        "display": "Maternal education",
+        "shap": 0.0867,
+        "rank": 7
+      },
+      {
+        "feature": "Malaria_Prevalence_2020",
+        "display": "Malaria prevalence",
+        "shap": 0.0787,
+        "rank": 8
+      },
+      {
+        "feature": "Travel_Times",
+        "display": "GC travel times",
+        "shap": 0.0577,
+        "rank": 9
+      },
+      {
+        "feature": "s1112p",
+        "display": "COVID vax received",
+        "shap": 0.0529,
+        "rank": 10
+      },
+      {
+        "feature": "ITN_Coverage_2020",
+        "display": "ITN coverage",
+        "shap": 0.0304,
+        "rank": 11
+      },
+      {
+        "feature": "cluster_prop_facility_delivery",
+        "display": "Cluster facility delivery",
+        "shap": 0.0272,
+        "rank": 12
+      },
+      {
+        "feature": "zone_enc",
+        "display": "Geopolitical zone",
+        "shap": 0.0229,
+        "rank": 13
+      },
+      {
+        "feature": "v201",
+        "display": "Parity",
+        "shap": 0.0207,
+        "rank": 14
+      },
+      {
+        "feature": "v155",
+        "display": "Literacy",
+        "shap": 0.0205,
+        "rank": 15
+      },
+      {
+        "feature": "UN_Population_Density_2020",
+        "display": "Population density",
+        "shap": 0.0197,
+        "rank": 16
+      },
+      {
+        "feature": "v743a",
+        "display": "Healthcare decision",
+        "shap": 0.0195,
+        "rank": 17
+      },
+      {
+        "feature": "v131",
+        "display": "Ethnicity",
+        "shap": 0.0188,
+        "rank": 18
+      },
+      {
+        "feature": "v012",
+        "display": "Maternal age",
+        "shap": 0.0143,
+        "rank": 19
+      },
+      {
+        "feature": "v483a",
+        "display": "Travel time (min)",
+        "shap": 0.0136,
+        "rank": 20
+      },
+      {
+        "feature": "v467c",
+        "display": "Cost barrier",
+        "shap": 0.0135,
+        "rank": 21
+      },
+      {
+        "feature": "Elevation",
+        "display": "Elevation",
+        "shap": 0.0123,
+        "rank": 22
+      },
+      {
+        "feature": "cluster_mean_wealth",
+        "display": "Cluster mean wealth",
+        "shap": 0.0114,
+        "rank": 23
+      },
+      {
+        "feature": "cluster_mean_travel_time",
+        "display": "Cluster mean travel time",
+        "shap": 0.01,
+        "rank": 24
+      },
+      {
+        "feature": "s1112s",
+        "display": "COVID vax willing",
+        "shap": 0.0097,
+        "rank": 25
+      },
+      {
+        "feature": "m15",
+        "display": "Place of delivery",
+        "shap": 0.0097,
+        "rank": 26
+      },
+      {
+        "feature": "state_enc",
+        "display": "State",
+        "shap": 0.0094,
+        "rank": 27
+      },
+      {
+        "feature": "v158",
+        "display": "Radio exposure",
+        "shap": 0.0089,
+        "rank": 28
+      },
+      {
+        "feature": "v190",
+        "display": "Wealth quintile",
+        "shap": 0.0045,
+        "rank": 29
+      },
+      {
+        "feature": "v025",
+        "display": "Urban/rural",
+        "shap": 0.0036,
+        "rank": 30
+      },
+      {
+        "feature": "log_travel_time",
+        "display": "Log travel time",
+        "shap": 0.003,
+        "rank": 31
+      },
+      {
+        "feature": "v393",
+        "display": "Fieldworker visit",
+        "shap": 0.001,
+        "rank": 32
+      },
+      {
+        "feature": "v467d",
+        "display": "Distance barrier",
+        "shap": 0.0,
+        "rank": 33
+      },
+      {
+        "feature": "v467b",
+        "display": "Permission barrier",
+        "shap": 0.0,
+        "rank": 34
+      },
+      {
+        "feature": "v130",
+        "display": "Religion",
+        "shap": 0.0,
+        "rank": 35
+      }
+    ],
+    "SW": [
+      {
+        "feature": "cluster_penta_coverage",
+        "display": "Cluster DPT1 coverage",
+        "shap": 2.3739,
+        "rank": 1
+      },
+      {
+        "feature": "h1a",
+        "display": "Has vaccination card",
+        "shap": 1.0765,
+        "rank": 2
+      },
+      {
+        "feature": "cluster_zerodose_prev",
+        "display": "Cluster zero-dose prev",
+        "shap": 0.5386,
+        "rank": 3
+      },
+      {
+        "feature": "m14",
+        "display": "ANC visits",
+        "shap": 0.2341,
+        "rank": 4
+      },
+      {
+        "feature": "mat_hcseek",
+        "display": "Health-seeking composite",
+        "shap": 0.1701,
+        "rank": 5
+      },
+      {
+        "feature": "v394",
+        "display": "Facility visit 12m",
+        "shap": 0.0894,
+        "rank": 6
+      },
+      {
+        "feature": "v106",
+        "display": "Maternal education",
+        "shap": 0.0884,
+        "rank": 7
+      },
+      {
+        "feature": "Malaria_Prevalence_2020",
+        "display": "Malaria prevalence",
+        "shap": 0.0802,
+        "rank": 8
+      },
+      {
+        "feature": "s1112p",
+        "display": "COVID vax received",
+        "shap": 0.0646,
+        "rank": 9
+      },
+      {
+        "feature": "Travel_Times",
+        "display": "GC travel times",
+        "shap": 0.0559,
+        "rank": 10
+      },
+      {
+        "feature": "ITN_Coverage_2020",
+        "display": "ITN coverage",
+        "shap": 0.0295,
+        "rank": 11
+      },
+      {
+        "feature": "cluster_prop_facility_delivery",
+        "display": "Cluster facility delivery",
+        "shap": 0.0281,
+        "rank": 12
+      },
+      {
+        "feature": "v743a",
+        "display": "Healthcare decision",
+        "shap": 0.0221,
+        "rank": 13
+      },
+      {
+        "feature": "v201",
+        "display": "Parity",
+        "shap": 0.021,
+        "rank": 14
+      },
+      {
+        "feature": "UN_Population_Density_2020",
+        "display": "Population density",
+        "shap": 0.0199,
+        "rank": 15
+      },
+      {
+        "feature": "zone_enc",
+        "display": "Geopolitical zone",
+        "shap": 0.0185,
+        "rank": 16
+      },
+      {
+        "feature": "v155",
+        "display": "Literacy",
+        "shap": 0.0162,
+        "rank": 17
+      },
+      {
+        "feature": "v467c",
+        "display": "Cost barrier",
+        "shap": 0.0156,
+        "rank": 18
+      },
+      {
+        "feature": "v131",
+        "display": "Ethnicity",
+        "shap": 0.0135,
+        "rank": 19
+      },
+      {
+        "feature": "v483a",
+        "display": "Travel time (min)",
+        "shap": 0.0133,
+        "rank": 20
+      },
+      {
+        "feature": "v012",
+        "display": "Maternal age",
+        "shap": 0.0129,
+        "rank": 21
+      },
+      {
+        "feature": "cluster_mean_wealth",
+        "display": "Cluster mean wealth",
+        "shap": 0.012,
+        "rank": 22
+      },
+      {
+        "feature": "v158",
+        "display": "Radio exposure",
+        "shap": 0.0101,
+        "rank": 23
+      },
+      {
+        "feature": "Elevation",
+        "display": "Elevation",
+        "shap": 0.0099,
+        "rank": 24
+      },
+      {
+        "feature": "cluster_mean_travel_time",
+        "display": "Cluster mean travel time",
+        "shap": 0.0096,
+        "rank": 25
+      },
+      {
+        "feature": "s1112s",
+        "display": "COVID vax willing",
+        "shap": 0.0091,
+        "rank": 26
+      },
+      {
+        "feature": "m15",
+        "display": "Place of delivery",
+        "shap": 0.0086,
+        "rank": 27
+      },
+      {
+        "feature": "state_enc",
+        "display": "State",
+        "shap": 0.0081,
+        "rank": 28
+      },
+      {
+        "feature": "v190",
+        "display": "Wealth quintile",
+        "shap": 0.0051,
+        "rank": 29
+      },
+      {
+        "feature": "v025",
+        "display": "Urban/rural",
+        "shap": 0.0034,
+        "rank": 30
+      },
+      {
+        "feature": "log_travel_time",
+        "display": "Log travel time",
+        "shap": 0.0034,
+        "rank": 31
+      },
+      {
+        "feature": "v393",
+        "display": "Fieldworker visit",
+        "shap": 0.0007,
+        "rank": 32
+      },
+      {
+        "feature": "v467d",
+        "display": "Distance barrier",
+        "shap": 0.0,
+        "rank": 33
+      },
+      {
+        "feature": "v467b",
+        "display": "Permission barrier",
+        "shap": 0.0,
+        "rank": 34
+      },
+      {
+        "feature": "v130",
+        "display": "Religion",
+        "shap": 0.0,
+        "rank": 35
+      }
+    ]
+  }
+}

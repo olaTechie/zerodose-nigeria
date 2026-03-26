@@ -1,0 +1,175 @@
+{
+  "solutions": [
+    {
+      "outcome": "outcome_binary",
+      "condition": "outreach<->outcome_binary",
+      "consistency": 1.0,
+      "coverage": 0.75,
+      "complexity": 1
+    },
+    {
+      "outcome": "outcome_binary",
+      "condition": "supply_reinf<->outcome_binary",
+      "consistency": 0.75,
+      "coverage": 0.75,
+      "complexity": 1
+    },
+    {
+      "outcome": "outcome_binary",
+      "condition": "ACCESS_CONSTRAINED<->outcome_binary",
+      "consistency": 0.8333,
+      "coverage": 0.625,
+      "complexity": 1
+    },
+    {
+      "outcome": "outcome_binary",
+      "condition": "comm_engage<->outcome_binary",
+      "consistency": 0.8333,
+      "coverage": 0.625,
+      "complexity": 1
+    }
+  ],
+  "necessity": [
+    {
+      "condition": "outreach",
+      "necessity_consistency": 1.0
+    },
+    {
+      "condition": "comm_engage",
+      "necessity_consistency": 0.75
+    },
+    {
+      "condition": "supply_reinf",
+      "necessity_consistency": 0.5
+    },
+    {
+      "condition": "access_constrained",
+      "necessity_consistency": 0.25
+    }
+  ],
+  "robustness": [
+    {
+      "threshold": 0.7,
+      "n_solutions": 4,
+      "has_solution": true,
+      "top_formula": "outreach<->outcome_binary",
+      "top_con": 1.0,
+      "top_cov": 0.75
+    },
+    {
+      "threshold": 0.75,
+      "n_solutions": 4,
+      "has_solution": true,
+      "top_formula": "outreach<->outcome_binary",
+      "top_con": 1.0,
+      "top_cov": 0.75
+    },
+    {
+      "threshold": 0.8,
+      "n_solutions": 3,
+      "has_solution": true,
+      "top_formula": "outreach<->outcome_binary",
+      "top_con": 1.0,
+      "top_cov": 0.75
+    },
+    {
+      "threshold": 0.85,
+      "n_solutions": 3,
+      "has_solution": true,
+      "top_formula": "outreach<->outcome_binary",
+      "top_con": 1.0,
+      "top_cov": 0.75
+    },
+    {
+      "threshold": 0.9,
+      "n_solutions": 3,
+      "has_solution": true,
+      "top_formula": "outreach<->outcome_binary",
+      "top_con": 1.0,
+      "top_cov": 0.75
+    }
+  ],
+  "translations": {
+    "raw_markdown": "# CNA Causal Recipes \u2014 Plain Language\n\n## Data Notes\n\n- Input: 12 ABM scenarios (6 intervention combos x 2 typologies)\n- Outcome: Pentavalent-1 coverage >= 80% at month 36\n- 4/12 scenarios achieve the outcome\n- Contradictions: 0\n\n## Primary Solutions (CSF, con=0.75, cov=0.60)\n\n### Recipe 1\n\n**Formula:** `outreach<->outcome_binary`\n\n**Translation:** mobile outreach\n\n**Consistency:** 1.000 | **Coverage:** 0.750\n\n### Recipe 2\n\n**Formula:** `supply_reinf<->outcome_binary`\n\n**Translation:** supply reinforcement\n\n**Consistency:** 0.750 | **Coverage:** 0.750\n\n### Recipe 3\n\n**Formula:** `ACCESS_CONSTRAINED<->outcome_binary`\n\n**Translation:** NOT access-constrained (i.e., Reference community)\n\n**Consistency:** 0.833 | **Coverage:** 0.625\n\n### Recipe 4\n\n**Formula:** `comm_engage<->outcome_binary`\n\n**Translation:** community engagement\n\n**Consistency:** 0.833 | **Coverage:** 0.625\n\n## Atomic Solution Formulas (ASF)\n\n### ASF 1\n\n**Formula:** `outreach<->outcome_binary`\n\n**Translation:** mobile outreach\n\n**Consistency:** 1.000 | **Coverage:** 0.750\n\n### ASF 2\n\n**Formula:** `supply_reinf<->outcome_binary`\n\n**Translation:** supply reinforcement\n\n**Consistency:** 0.750 | **Coverage:** 0.750\n\n### ASF 3\n\n**Formula:** `ACCESS_CONSTRAINED<->outcome_binary`\n\n**Translation:** NOT access-constrained (i.e., Reference community)\n\n**Consistency:** 0.833 | **Coverage:** 0.625\n\n### ASF 4\n\n**Formula:** `comm_engage<->outcome_binary`\n\n**Translation:** community engagement\n\n**Consistency:** 0.833 | **Coverage:** 0.625\n\n## Necessity Analysis\n\n| Condition | Necessity |\n|-----------|----------|\n| outreach | 1.000 |\n| comm_engage | 0.750 |\n| supply_reinf | 0.500 |\n| access_constrained | 0.250 |\n\n## Typology-Stratified Results\n\n### Reference\n\n- `outreach<->outcome_binary` (con=1.000, cov=1.000)\n  Translation: mobile outreach\n\n### Access-Constrained\n\n- `supply_reinf<->outcome_binary` (con=1.000, cov=0.800)\n  Translation: supply reinforcement\n\n- `outreach<->outcome_binary` (con=1.000, cov=0.600)\n  Translation: mobile outreach\n\n- `comm_engage<->outcome_binary` (con=1.000, cov=0.600)\n  Translation: community engagement\n\n## Robustness\n\n| Threshold | Solutions | Top Formula |\n|-----------|-----------|-------------|\n| 0.70 | 4 | outreach<->outcome_binary |\n| 0.75 | 4 | outreach<->outcome_binary |\n| 0.80 | 3 | outreach<->outcome_binary |\n| 0.85 | 3 | outreach<->outcome_binary |\n| 0.90 | 3 | outreach<->outcome_binary |\n",
+    "recipes": [
+      {
+        "formula": "outreach<->outcome_binary",
+        "translation": "mobile outreach",
+        "consistency": 1.0,
+        "coverage": 0.75
+      },
+      {
+        "formula": "supply_reinf<->outcome_binary",
+        "translation": "supply reinforcement",
+        "consistency": 0.75,
+        "coverage": 0.75
+      },
+      {
+        "formula": "ACCESS_CONSTRAINED<->outcome_binary",
+        "translation": "NOT access-constrained (i.e., Reference community)",
+        "consistency": 0.833,
+        "coverage": 0.625
+      },
+      {
+        "formula": "comm_engage<->outcome_binary",
+        "translation": "community engagement",
+        "consistency": 0.833,
+        "coverage": 0.625
+      },
+      {
+        "formula": "outreach<->outcome_binary",
+        "translation": "mobile outreach",
+        "consistency": 1.0,
+        "coverage": 0.75
+      },
+      {
+        "formula": "supply_reinf<->outcome_binary",
+        "translation": "supply reinforcement",
+        "consistency": 0.75,
+        "coverage": 0.75
+      },
+      {
+        "formula": "ACCESS_CONSTRAINED<->outcome_binary",
+        "translation": "NOT access-constrained (i.e., Reference community)",
+        "consistency": 0.833,
+        "coverage": 0.625
+      },
+      {
+        "formula": "comm_engage<->outcome_binary",
+        "translation": "community engagement",
+        "consistency": 0.833,
+        "coverage": 0.625
+      }
+    ],
+    "typologyStratified": {
+      "Reference": [
+        {
+          "formula": "outreach<->outcome_binary",
+          "consistency": 1.0,
+          "coverage": 1.0,
+          "translation": "mobile outreach"
+        }
+      ],
+      "Access-Constrained": [
+        {
+          "formula": "supply_reinf<->outcome_binary",
+          "consistency": 1.0,
+          "coverage": 0.8,
+          "translation": "supply reinforcement"
+        },
+        {
+          "formula": "outreach<->outcome_binary",
+          "consistency": 1.0,
+          "coverage": 0.6,
+          "translation": "mobile outreach"
+        },
+        {
+          "formula": "comm_engage<->outcome_binary",
+          "consistency": 1.0,
+          "coverage": 0.6,
+          "translation": "community engagement"
+        }
+      ]
+    }
+  }
+}

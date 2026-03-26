@@ -1,0 +1,145 @@
+{
+  "studyTitle": "Trust, Access, and Causal Recipes for Vaccination Coverage Recovery in Nigeria",
+  "dataSource": "Nigeria DHS 2024",
+  "n_children": 4875,
+  "n_clusters": 1283,
+  "auc_roc": 0.9719,
+  "weighted_zd_prevalence": 0.368,
+  "lca_k": 4,
+  "lca_bic": 52150.1,
+  "typology_silhouette": 0.3209,
+  "calibration_rmse": 0.033,
+  "validation_spearman": 0.943,
+  "moran_I": 0.6075,
+  "decisionCoefficients": {
+    "beta_0": 0.8621,
+    "beta_trust": 0.16,
+    "beta_access": 0.0416,
+    "beta_outreach": 0.0964,
+    "beta_supply": 0.0732,
+    "beta_peer": 2.1726
+  },
+  "trustClassProfiles": {
+    "Willing": {
+      "mean_trust_score": 0.9525,
+      "sd": 0.0949,
+      "proportion": 0.157
+    },
+    "Hesitant": {
+      "mean_trust_score": 0.4866,
+      "sd": 0.0637,
+      "proportion": 0.5586
+    },
+    "Refusing": {
+      "mean_trust_score": 0.0629,
+      "sd": 0.0928,
+      "proportion": 0.2844
+    }
+  },
+  "typologyDistribution": {
+    "Reference": 0.6087,
+    "Access-Constrained": 0.3913
+  },
+  "featureImportanceTop20": [
+    {
+      "rank": 1,
+      "feature": "cluster_penta_coverage",
+      "mean_shap": 1.6215
+    },
+    {
+      "rank": 2,
+      "feature": "h1a",
+      "mean_shap": 1.3404
+    },
+    {
+      "rank": 3,
+      "feature": "cluster_zerodose_prev",
+      "mean_shap": 0.3661
+    },
+    {
+      "rank": 4,
+      "feature": "m14",
+      "mean_shap": 0.2307
+    },
+    {
+      "rank": 5,
+      "feature": "mat_hcseek",
+      "mean_shap": 0.1856
+    },
+    {
+      "rank": 6,
+      "feature": "v394",
+      "mean_shap": 0.1013
+    },
+    {
+      "rank": 7,
+      "feature": "v106",
+      "mean_shap": 0.0858
+    },
+    {
+      "rank": 8,
+      "feature": "Malaria_Prevalence_2020",
+      "mean_shap": 0.0831
+    },
+    {
+      "rank": 9,
+      "feature": "Travel_Times",
+      "mean_shap": 0.0751
+    },
+    {
+      "rank": 10,
+      "feature": "s1112p",
+      "mean_shap": 0.0615
+    },
+    {
+      "rank": 11,
+      "feature": "UN_Population_Density_2020",
+      "mean_shap": 0.0324
+    },
+    {
+      "rank": 12,
+      "feature": "zone_enc",
+      "mean_shap": 0.0288
+    },
+    {
+      "rank": 13,
+      "feature": "ITN_Coverage_2020",
+      "mean_shap": 0.028
+    },
+    {
+      "rank": 14,
+      "feature": "cluster_prop_facility_delivery",
+      "mean_shap": 0.0277
+    },
+    {
+      "rank": 15,
+      "feature": "state_enc",
+      "mean_shap": 0.0233
+    },
+    {
+      "rank": 16,
+      "feature": "v201",
+      "mean_shap": 0.021
+    },
+    {
+      "rank": 17,
+      "feature": "v743a",
+      "mean_shap": 0.0184
+    },
+    {
+      "rank": 18,
+      "feature": "Elevation",
+      "mean_shap": 0.0167
+    },
+    {
+      "rank": 19,
+      "feature": "v155",
+      "mean_shap": 0.0165
+    },
+    {
+      "rank": 20,
+      "feature": "cluster_mean_travel_time",
+      "mean_shap": 0.0164
+    }
+  ]
+}
