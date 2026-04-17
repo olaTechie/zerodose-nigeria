@@ -50,14 +50,14 @@ export default function ShapBarChart({ data = [], maxFeatures = 15, animated = t
       .call(axisBottom(x).ticks(5).tickFormat(format('.2f')))
       .selectAll('text')
       .style('font-size', '11px')
-      .style('font-family', 'Inter, sans-serif');
+      .style('font-family', '"Source Sans 3", ui-sans-serif, system-ui, sans-serif');
 
     // Y axis
     g.append('g')
       .call(axisLeft(y))
       .selectAll('text')
       .style('font-size', '11px')
-      .style('font-family', 'Inter, sans-serif');
+      .style('font-family', '"Source Sans 3", ui-sans-serif, system-ui, sans-serif');
 
     // Bars
     const bars = g
@@ -91,7 +91,7 @@ export default function ShapBarChart({ data = [], maxFeatures = 15, animated = t
       .attr('y', (d) => y(d.display || d.feature) + y.bandwidth() / 2)
       .attr('dy', '0.35em')
       .style('font-size', '10px')
-      .style('font-family', 'Inter, sans-serif')
+      .style('font-family', '"Source Sans 3", ui-sans-serif, system-ui, sans-serif')
       .style('fill', '#546e7a')
       .text((d) => d.shap.toFixed(3));
 

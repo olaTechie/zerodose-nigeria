@@ -1,5 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+/* Editorial type pair (Pair B): Source Serif 4 (display) + Source Sans 3 (body).
+   Loaded via <link> in index.html with preconnect + media=print swap pattern for non-blocking paint.
+   See docs/design-brief-editorial.md §4 for the type scale and pair rationale. */
 
 @import "tailwindcss";
 
 @import './glass-morphism.css';
+
+@config "../../tailwind.config.js";

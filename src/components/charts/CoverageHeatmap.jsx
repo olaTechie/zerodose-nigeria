@@ -16,7 +16,7 @@ export default function CoverageHeatmap({ matrix = [], onCellClick }) {
 
   return (
     <div style={{ overflowX: 'auto' }}>
-      <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.82rem', fontFamily: 'Inter, sans-serif' }}>
+      <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.82rem', fontFamily: '"Source Sans 3", ui-sans-serif, system-ui, sans-serif' }}>
         <thead>
           <tr>
             <th style={{ ...thStyle, textAlign: 'left' }}>Scenario</th>

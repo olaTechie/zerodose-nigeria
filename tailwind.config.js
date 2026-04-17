@@ -62,13 +62,70 @@ export default {
         },
       },
       fontFamily: {
-        inter: [
-          'Inter',
+        // Editorial pair (design brief §4 — Pair B, Source Serif 4 + Source Sans 3).
+        // Display = Source Serif 4 (heroes, headings, operational headline numbers).
+        // Body    = Source Sans 3 (paragraphs, eyebrows, tabular figures).
+        sans: [
+          '"Source Sans 3"',
+          'ui-sans-serif',
+          'system-ui',
           '-apple-system',
           'BlinkMacSystemFont',
           'Segoe UI',
           'sans-serif',
         ],
+        serif: [
+          '"Source Serif 4"',
+          'ui-serif',
+          'Georgia',
+          'Cambria',
+          '"Times New Roman"',
+          'Times',
+          'serif',
+        ],
+        display: [
+          '"Source Serif 4"',
+          'ui-serif',
+          'Georgia',
+          'serif',
+        ],
+        body: [
+          '"Source Sans 3"',
+          'ui-sans-serif',
+          'system-ui',
+          'sans-serif',
+        ],
+        mono: [
+          'ui-monospace',
+          'SFMono-Regular',
+          '"SF Mono"',
+          'Menlo',
+          'Consolas',
+          '"Liberation Mono"',
+          'monospace',
+        ],
+        // Transitional alias — kept so any straggling `font-inter` utility resolves cleanly to
+        // the new body sans during the polish/editorial-rebuild migration. /quieter removes this.
+        inter: [
+          '"Source Sans 3"',
+          'ui-sans-serif',
+          'system-ui',
+          'sans-serif',
+        ],
+      },
+      fontSize: {
+        // Modular scale at 1.25 (major third) anchored at 16 px body — design brief §4.
+        // Token : [size-px, { lineHeight, letterSpacing? }]
+        'display-1': ['64px', { lineHeight: '1.05', letterSpacing: '-0.015em' }],
+        'display-2': ['48px', { lineHeight: '1.10', letterSpacing: '-0.012em' }],
+        'display-3': ['36px', { lineHeight: '1.15', letterSpacing: '-0.008em' }],
+        'h1': ['28px', { lineHeight: '1.20', letterSpacing: '-0.005em' }],
+        'h2': ['22px', { lineHeight: '1.30' }],
+        'h3': ['18px', { lineHeight: '1.40' }],
+        'body': ['16px', { lineHeight: '1.60' }],
+        'small': ['14px', { lineHeight: '1.55' }],
+        'eyebrow': ['12px', { lineHeight: '1.40', letterSpacing: '0.08em' }],
+        'mono': ['14px', { lineHeight: '1.50' }],
       },
       fontWeight: {
         light: '300',

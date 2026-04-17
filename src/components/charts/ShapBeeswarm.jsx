@@ -51,13 +51,13 @@ export default function ShapBeeswarm({ data = [], maxFeatures = 10 }) {
       .call(axisBottom(x).ticks(5))
       .selectAll('text')
       .style('font-size', '10px')
-      .style('font-family', 'Inter, sans-serif');
+      .style('font-family', '"Source Sans 3", ui-sans-serif, system-ui, sans-serif');
 
     g.append('g')
       .call(axisLeft(y))
       .selectAll('text')
       .style('font-size', '10px')
-      .style('font-family', 'Inter, sans-serif');
+      .style('font-family', '"Source Sans 3", ui-sans-serif, system-ui, sans-serif');
 
     // Render as dots scattered around the mean
     sliced.forEach((feat) => {

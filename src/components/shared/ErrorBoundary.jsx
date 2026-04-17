@@ -20,7 +20,7 @@ export default class ErrorBoundary extends Component {
         <div style={{
           padding: '2rem',
           textAlign: 'center',
-          fontFamily: 'Inter, sans-serif',
+          fontFamily: '"Source Sans 3", ui-sans-serif, system-ui, sans-serif',
           color: '#0d1b2a',
         }}>
           <h2 style={{ color: '#b33000' }}>Something went wrong</h2>

@@ -79,7 +79,7 @@
 html,
 body,
 #root {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: 'Source Sans 3', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   color: var(--text);
   background: var(--bg);
   -webkit-font-smoothing: antialiased;
@@ -87,7 +87,7 @@ body,
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Source Serif 4', ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif;
   color: var(--text);
   font-weight: 700;
   line-height: 1.25;
@@ -1544,7 +1544,7 @@ a:hover {
 }
 
 .chart-container svg text {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Source Sans 3', ui-sans-serif, system-ui, sans-serif;
   fill: var(--text-secondary);
   font-size: 11px;
 }

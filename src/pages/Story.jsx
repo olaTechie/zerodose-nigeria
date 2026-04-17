@@ -225,7 +225,7 @@ const btnStyle = {
 
 function DecisionTreeSVG() {
   return (
-    <svg viewBox="0 0 400 350" role="img" aria-label="Decision tree showing two community types and their recommended intervention strategies" style={{ width: '100%', height: 'auto', maxWidth: '400px', margin: '0 auto', display: 'block', fontFamily: 'Inter, sans-serif' }}>
+    <svg viewBox="0 0 400 350" role="img" aria-label="Decision tree showing two community types and their recommended intervention strategies" style={{ width: '100%', height: 'auto', maxWidth: '400px', margin: '0 auto', display: 'block', fontFamily: '"Source Sans 3", ui-sans-serif, system-ui, sans-serif' }}>
       {/* Root node */}
       <rect x="130" y="10" width="140" height="40" rx="8" fill="#006633" />
       <text x="200" y="35" textAnchor="middle" fill="#fff" fontSize="12" fontWeight="600">Community type?</text>

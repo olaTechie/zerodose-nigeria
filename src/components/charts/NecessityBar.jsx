@@ -54,7 +54,7 @@ export default function NecessityBar({ data = [], threshold = 0.75 }) {
       .call(axisLeft(y))
       .selectAll('text')
       .style('font-size', '11px')
-      .style('font-family', 'Inter, sans-serif');
+      .style('font-family', '"Source Sans 3", ui-sans-serif, system-ui, sans-serif');
 
     // Threshold line
     g.append('line')

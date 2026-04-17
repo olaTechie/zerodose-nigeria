@@ -32,7 +32,7 @@ export default function DescriptiveTab() {
           Table 1: Sample Characteristics by Zero-Dose Status
         </h3>
         <div style={{ overflowX: 'auto' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.8rem', fontFamily: 'Inter, sans-serif' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.8rem', fontFamily: '"Source Sans 3", ui-sans-serif, system-ui, sans-serif' }}>
             <thead>
               <tr>
                 <th style={thStyle}>Variable</th>
