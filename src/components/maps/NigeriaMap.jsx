@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState, useCallback } from 'react';
+import { useRef, useEffect, useState, useCallback, useMemo } from 'react';
 import { LISA_COLOURS } from '../../data/constants';
 
 // Convert raw tooltip value to a percent (0–100) for display.
@@ -41,6 +41,13 @@ export default function NigeriaMap({
   clusterColorFn,
   height = 500,
   children,
+  /**
+   * Optional 0-to-1 scroll-driven reveal. When provided, each state polygon
+   * fades from neutral grey to its `colorScale` value sequentially in order
+   * of `weighted_prevalence` ascending (least zero-dose first, hotspots last).
+   * Pass `null` (default) for the original instant render.
+   */
+  revealProgress = null,
 }) {
   const svgRef = useRef(null);
   const [tooltip, setTooltip] = useState(null);
@@ -86,6 +93,20 @@ export default function NigeriaMap({
 
   const features = (showLisa && lisaData?.features) || stateData?.features || [];
 
+  // Reveal index per feature, sorted by colorByField ASC (least zero-dose first,
+  // hotspots last). Memoised so the order stays stable across re-renders.
+  const revealIndexByKey = useMemo(() => {
+    if (revealProgress == null) return null;
+    const indexed = features.map((f, i) => ({
+      key: i,
+      v: f?.properties?.[colorByField] ?? -Infinity,
+    }));
+    indexed.sort((a, b) => a.v - b.v);
+    const map = new Map();
+    indexed.forEach((entry, order) => map.set(entry.key, order));
+    return map;
+  }, [features, colorByField, revealProgress]);
+
   return (
     <div style={{ position: 'relative', width: '100%', height }}>
       <svg
@@ -118,6 +139,16 @@ export default function NigeriaMap({
             fillColor = colorScale(props[colorByField]);
           }
 
+          // Scroll-driven reveal: paint this state grey until its reveal slot
+          // (sorted ascending by colorByField) is unlocked by `revealProgress`.
+          if (revealIndexByKey) {
+            const order = revealIndexByKey.get(i);
+            const total = revealIndexByKey.size || 1;
+            // Slot N reveals when progress crosses N / total.
+            const reveal = (order ?? total) / total;
+            if (revealProgress < reveal) fillColor = '#e6eae6';
+          }
+
           return paths.map((d, j) => (
             <path
               key={`${i}-${j}`}
@@ -126,7 +157,7 @@ export default function NigeriaMap({
               fillOpacity={0.75}
               stroke="#fff"
               strokeWidth={0.8}
-              style={{ cursor: 'pointer', transition: 'fill-opacity 0.2s' }}
+              style={{ cursor: 'pointer', transition: 'fill 0.45s ease, fill-opacity 0.2s' }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.fillOpacity = '0.95';
                 setTooltip({

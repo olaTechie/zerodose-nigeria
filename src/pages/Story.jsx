@@ -3,15 +3,18 @@ import { useNavigate } from 'react-router-dom';
 import { Scrollama, Step } from 'react-scrollama';
 import StoryHero from '../components/story/StoryHero';
 import NetworkAnimation from '../components/story/NetworkAnimation';
+import TrustDynamicsChart from '../components/story/TrustDynamicsChart';
 import NigeriaMap from '../components/maps/NigeriaMap';
 import ShapBarChart from '../components/charts/ShapBarChart';
 import CoverageHeatmap from '../components/charts/CoverageHeatmap';
+import TrajectoryChart from '../components/charts/TrajectoryChart';
 import LoadingSpinner from '../components/shared/LoadingSpinner';
 import ErrorState from '../components/shared/ErrorState';
 import SiteNav from '../components/shared/SiteNav';
 import DecisionTreeFigure from '../components/shared/DecisionTreeFigure';
 import OperationalHeadline from '../components/shared/OperationalHeadline';
 import { useData } from '../hooks/useData';
+import { useScrollProgress } from '../hooks/useScrollProgress';
 import { storySections } from '../data/storyContent';
 import { getPrevalenceColorScale } from '../components/maps/ChoroplethLayer';
 
@@ -19,6 +22,10 @@ export default function Story() {
   const navigate = useNavigate();
   const [currentSection, setCurrentSection] = useState(0);
   const [sectionStep, setSectionStep] = useState(0);
+  // Act 1 — scroll-driven state-by-state reveal of the prevalence map.
+  // The hook returns a 0-to-1 value as the Act 1 narrative column passes the
+  // viewport; we feed it straight into NigeriaMap's `revealProgress`.
+  const [act1ProgressRef, act1Progress] = useScrollProgress();
 
   const { data: stateData, loading: l1, error: e1, retry: r1 } = useData('state_prevalence.json');
   const { data: lisaData, loading: l2, error: e2, retry: r2 } = useData('lisa_clusters.json');
@@ -43,11 +50,17 @@ export default function Story() {
     );
 
   const colorScale = getPrevalenceColorScale(90);
+  // Reduced-motion users get full-opacity narrative blocks so they read the
+  // entire argument without the scroll-driven dimming. The ML/ABM visuals
+  // each handle their own reduced-motion branch internally.
+  const reduceMotion =
+    typeof window !== 'undefined' &&
+    window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
 
   // Render the sticky visual for each section
   function renderVisual(sectionIndex) {
     switch (sectionIndex) {
-      case 0: // Crisis — cluster map grey->coloured
+      case 0: // Crisis — state-by-state fade driven by scroll progress (Act 1)
         return (
           <div style={{ width: '100%', height: '100%' }}>
             <NigeriaMap
@@ -56,6 +69,7 @@ export default function Story() {
               showClusters={sectionStep >= 1}
               colorScale={colorScale}
               colorByField="weighted_prevalence"
+              revealProgress={act1Progress}
               height={450}
             />
           </div>
@@ -97,17 +111,38 @@ export default function Story() {
             />
           </div>
         );
-      case 3: // Digital twin — network animation
+      case 3: // Digital twin — network animation + trust dynamics inset (Act 3)
         return (
-          <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-            <NetworkAnimation step={sectionStep} width={450} height={400} />
+          <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '1rem', alignItems: 'stretch' }}>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <NetworkAnimation step={sectionStep} width={420} height={300} />
+            </div>
+            {sectionStep >= 1 && (
+              <div style={{ borderTop: '1px solid #c7cfc7', paddingTop: '0.75rem' }}>
+                <div style={{ fontSize: '0.72rem', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#697269', marginBottom: '0.35rem' }}>
+                  Trust score: status quo vs full package
+                </div>
+                <TrustDynamicsChart height={220} />
+              </div>
+            )}
           </div>
         );
-      case 4: // Recipes — coverage bars
+      case 4: // Recipes — coverage bars + trajectory pen-strokes (Act 4)
         return (
-          <div style={{ width: '100%' }}>
-            {abmData && (
-              <CoverageHeatmap matrix={abmData.matrix} />
+          <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            {abmData && <CoverageHeatmap matrix={abmData.matrix} />}
+            {abmData?.trajectories && sectionStep >= 1 && (
+              <div style={{ borderTop: '1px solid #c7cfc7', paddingTop: '0.75rem' }}>
+                <div style={{ fontSize: '0.72rem', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#697269', marginBottom: '0.35rem' }}>
+                  Coverage trajectory · {sectionStep >= 2 ? 'Access-Constrained' : 'Reference'}
+                </div>
+                <TrajectoryChart
+                  trajectories={abmData.trajectories}
+                  selectedScenarios={['S0', 'S1', 'S5']}
+                  typology={sectionStep >= 2 ? 'Access-Constrained' : 'Reference'}
+                  height={260}
+                />
+              </div>
             )}
           </div>
         );
@@ -173,8 +208,12 @@ export default function Story() {
               {Math.abs(currentSection - sIdx) <= 1 && renderVisual(sIdx)}
             </div>
 
-            {/* Scrolling narrative */}
-            <div style={{ flex: '1 1 45%', padding: '40vh 2.5rem' }}>
+            {/* Scrolling narrative — Act 1 column doubles as the scroll-progress
+                target so NigeriaMap fades state-by-state in sync with the prose. */}
+            <div
+              ref={sIdx === 0 ? act1ProgressRef : undefined}
+              style={{ flex: '1 1 45%', padding: '40vh 2.5rem' }}
+            >
               <Scrollama
                 onStepEnter={({ data }) => {
                   setCurrentSection(sIdx);
@@ -190,8 +229,12 @@ export default function Story() {
                         paddingTop: '1.25rem',
                         borderTop: '1px solid #c7cfc7',
                         maxWidth: '440px',
-                        opacity: currentSection === sIdx && sectionStep >= bIdx ? 1 : 0.4,
-                        transition: 'opacity 0.4s ease',
+                        opacity: reduceMotion
+                          ? 1
+                          : currentSection === sIdx && sectionStep >= bIdx
+                            ? 1
+                            : 0.4,
+                        transition: reduceMotion ? 'none' : 'opacity 0.4s ease',
                       }}
                     >
                       <p style={{ fontSize: '1.0625rem', lineHeight: 1.6, margin: 0, color: '#1c211d' }}>

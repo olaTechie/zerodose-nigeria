@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import EditorialBlock from '../components/shared/EditorialBlock';
 import PageHeader from '../components/shared/PageHeader';
 import KeyFigure from '../components/shared/KeyFigure';
@@ -59,20 +58,13 @@ export default function Policy() {
           />
         </div>
 
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeId}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.25 }}
-          >
-            {activeIdx === 0 && <GeographicPanel />}
-            {activeIdx === 1 && <InterventionPanel />}
-            {activeIdx === 2 && <CounterfactualPanel />}
-            {activeIdx === 3 && <ActionPanel />}
-          </motion.div>
-        </AnimatePresence>
+        {/* Calm panel swap — instant render per the /animate budget; no scroll or fade. */}
+        <div key={activeId}>
+          {activeIdx === 0 && <GeographicPanel />}
+          {activeIdx === 1 && <InterventionPanel />}
+          {activeIdx === 2 && <CounterfactualPanel />}
+          {activeIdx === 3 && <ActionPanel />}
+        </div>
       </div>
     </div>
   );

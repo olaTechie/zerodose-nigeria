@@ -5,10 +5,27 @@ import { scaleLinear, scaleBand } from 'd3-scale';
 import { axisBottom, axisLeft } from 'd3-axis';
 import { format } from 'd3-format';
 
+/**
+ * ShapBarChart — horizontal bar chart of mean |SHAP| values, with optional
+ * scroll-driven sequential reveal in argument order (top driver first).
+ *
+ * `animated`            — when true, bars draw left-to-right with a 90 ms
+ *                         stagger between siblings the first time the chart
+ *                         crosses the viewport threshold.
+ * `prefers-reduced-motion: reduce` collapses the choreography: bars render
+ * at final width on first paint, no stagger.
+ */
 export default function ShapBarChart({ data = [], maxFeatures = 15, animated = true }) {
   const svgRef = useRef(null);
   const containerRef = useRef(null);
+  const hasAnimatedRef = useRef(false);
   const [dims, setDims] = useState({ width: 600, height: 400 });
+  const [shouldAnimate, setShouldAnimate] = useState(false);
+
+  // Detect reduced-motion once.
+  const reduceMotion =
+    typeof window !== 'undefined' &&
+    window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -19,6 +36,26 @@ export default function ShapBarChart({ data = [], maxFeatures = 15, animated = t
     obs.observe(containerRef.current);
     return () => obs.disconnect();
   }, [maxFeatures]);
+
+  // IntersectionObserver: wait until the chart is on-screen before kicking off
+  // the staggered draw. One-shot per mount.
+  useEffect(() => {
+    if (!animated || reduceMotion || hasAnimatedRef.current) return undefined;
+    const node = containerRef.current;
+    if (!node) return undefined;
+    const obs = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          hasAnimatedRef.current = true;
+          setShouldAnimate(true);
+          obs.disconnect();
+        }
+      },
+      { threshold: 0.25 }
+    );
+    obs.observe(node);
+    return () => obs.disconnect();
+  }, [animated, reduceMotion]);
 
   useEffect(() => {
     if (!data.length || !svgRef.current) return;
@@ -71,12 +108,14 @@ export default function ShapBarChart({ data = [], maxFeatures = 15, animated = t
       .attr('fill', '#006633')
       .attr('rx', 3);
 
-    if (animated) {
+    // Sequential pen-stroke reveal in SHAP order (top driver first), but only
+    // when the chart is on-screen and the user hasn't asked for less motion.
+    if (animated && !reduceMotion && shouldAnimate) {
       bars
         .attr('width', 0)
         .transition()
-        .duration(800)
-        .delay((_, i) => i * 50)
+        .duration(700)
+        .delay((_, i) => i * 90)
         .attr('width', (d) => x(d.shap));
     } else {
       bars.attr('width', (d) => x(d.shap));
@@ -103,7 +142,7 @@ export default function ShapBarChart({ data = [], maxFeatures = 15, animated = t
       .style('font-size', '11px')
       .style('fill', '#78909c')
       .text('Mean |SHAP|');
-  }, [data, dims, maxFeatures, animated]);
+  }, [data, dims, maxFeatures, animated, shouldAnimate, reduceMotion]);
 
   return (
     <div ref={containerRef} style={{ width: '100%' }}>
