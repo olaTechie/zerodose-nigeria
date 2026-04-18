@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import GlassCard from '../../components/shared/GlassCard';
-import MetricCard from '../../components/shared/MetricCard';
+import EditorialBlock from '../../components/shared/EditorialBlock';
+import KeyFigure from '../../components/shared/KeyFigure';
 import LoadingSpinner from '../../components/shared/LoadingSpinner';
 import NigeriaMap from '../../components/maps/NigeriaMap';
 import MoranScatter from '../../components/charts/MoranScatter';
@@ -29,15 +29,15 @@ export default function SpatialTab() {
       </p>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '0.75rem', marginBottom: '1.5rem' }}>
-        <MetricCard label="Moran's I" value={PIPELINE_METRICS.morans_i.toFixed(4)} color="green" />
-        <MetricCard label="Z-score" value={PIPELINE_METRICS.morans_z.toFixed(2)} color="gold" />
-        <MetricCard label="P-value" value={`<0.001`} color="red" />
-        <MetricCard label="HH Hotspots" value={PIPELINE_METRICS.n_lisa_hotspots.toString()} color="red" />
+        <KeyFigure label="Moran's I" value={PIPELINE_METRICS.morans_i.toFixed(4)} color="green" />
+        <KeyFigure label="Z-score" value={PIPELINE_METRICS.morans_z.toFixed(2)} color="gold" />
+        <KeyFigure label="P-value" value={`<0.001`} color="red" />
+        <KeyFigure label="HH Hotspots" value={PIPELINE_METRICS.n_lisa_hotspots.toString()} color="red" />
       </div>
 
       <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
         <div style={{ flex: '1 1 55%', minWidth: '300px' }}>
-          <GlassCard>
+          <EditorialBlock>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
               <h3 style={{ fontSize: '1rem', fontWeight: 700, margin: 0 }}>
                 {showLisa ? 'LISA Clusters' : 'State Prevalence'}
@@ -67,23 +67,23 @@ export default function SpatialTab() {
               colorByField="weighted_prevalence"
               height={400}
             />
-          </GlassCard>
+          </EditorialBlock>
         </div>
 
         <div style={{ flex: '1 1 40%', minWidth: '300px' }}>
-          <GlassCard>
+          <EditorialBlock>
             <h3 style={{ fontSize: '1rem', fontWeight: 700, marginBottom: '0.5rem' }}>
               Moran Scatterplot
             </h3>
             <MoranScatter states={lisaProps.length ? lisaProps : stateProps} moranI={PIPELINE_METRICS.morans_i} />
-          </GlassCard>
+          </EditorialBlock>
         </div>
       </div>
 
-      <GlassCard style={{ marginTop: '1rem' }}>
+      <EditorialBlock style={{ marginTop: '1rem' }}>
         <h3 style={{ fontSize: '1rem', fontWeight: 700, marginBottom: '0.5rem' }}>Funnel Plot</h3>
         <FunnelPlot states={stateProps} nationalMean={PIPELINE_METRICS.weighted_zd_prevalence} />
-      </GlassCard>
+      </EditorialBlock>
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import GlassCard from '../../components/shared/GlassCard';
-import MetricCard from '../../components/shared/MetricCard';
+import EditorialBlock from '../../components/shared/EditorialBlock';
+import KeyFigure from '../../components/shared/KeyFigure';
 import LoadingSpinner from '../../components/shared/LoadingSpinner';
 import TrajectoryChart from '../../components/charts/TrajectoryChart';
 import PosteriorDensity from '../../components/charts/PosteriorDensity';
@@ -32,14 +32,14 @@ export default function ABMTab() {
       </p>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '0.75rem', marginBottom: '1.5rem' }}>
-        <MetricCard label="Calibration RMSE" value={PIPELINE_METRICS.calibration_rmse.toFixed(3)} color="green" />
-        <MetricCard label="Spearman r" value={PIPELINE_METRICS.validation_spearman_r.toFixed(3)} color="green" />
-        <MetricCard label="Validation RMSE" value={PIPELINE_METRICS.validation_rmse.toFixed(3)} color="gold" />
-        <MetricCard label="Households" value={PIPELINE_METRICS.n_households_simulated.toLocaleString()} color="blue" />
+        <KeyFigure label="Calibration RMSE" value={PIPELINE_METRICS.calibration_rmse.toFixed(3)} color="green" />
+        <KeyFigure label="Spearman r" value={PIPELINE_METRICS.validation_spearman_r.toFixed(3)} color="green" />
+        <KeyFigure label="Validation RMSE" value={PIPELINE_METRICS.validation_rmse.toFixed(3)} color="gold" />
+        <KeyFigure label="Households" value={PIPELINE_METRICS.n_households_simulated.toLocaleString()} color="blue" />
       </div>
 
       {/* Trajectory chart */}
-      <GlassCard>
+      <EditorialBlock>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem', flexWrap: 'wrap', gap: '0.5rem' }}>
           <h3 style={{ fontSize: '1rem', fontWeight: 700, margin: 0 }}>Coverage Trajectories</h3>
           <div style={{ display: 'flex', gap: '0.3rem' }}>
@@ -91,17 +91,17 @@ export default function ABMTab() {
             height={380}
           />
         )}
-      </GlassCard>
+      </EditorialBlock>
 
       {/* Heatmap */}
-      <GlassCard style={{ marginTop: '1rem' }}>
+      <EditorialBlock style={{ marginTop: '1rem' }}>
         <h3 style={{ fontSize: '1rem', fontWeight: 700, marginBottom: '0.5rem' }}>Scenario x Typology Matrix</h3>
         {abmData && <CoverageHeatmap matrix={abmData.matrix} />}
-      </GlassCard>
+      </EditorialBlock>
 
       {/* Posterior densities */}
       {posteriorData && (
-        <GlassCard style={{ marginTop: '1rem' }}>
+        <EditorialBlock style={{ marginTop: '1rem' }}>
           <h3 style={{ fontSize: '1rem', fontWeight: 700, marginBottom: '0.75rem' }}>
             ABC Calibration Posteriors
           </h3>
@@ -115,7 +115,7 @@ export default function ABMTab() {
               />
             ))}
           </div>
-        </GlassCard>
+        </EditorialBlock>
       )}
     </div>
   );

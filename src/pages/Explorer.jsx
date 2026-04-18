@@ -3,7 +3,7 @@ import { lazy, Suspense } from 'react';
 import LoadingSpinner from '../components/shared/LoadingSpinner';
 import PageHeader from '../components/shared/PageHeader';
 import SiteNav from '../components/shared/SiteNav';
-import { explorerTabDescriptions } from '../data/storyContent';
+import OperationalHeadline from '../components/shared/OperationalHeadline';
 
 const DescriptiveTab = lazy(() => import('./explorer/DescriptiveTab'));
 const SpatialTab = lazy(() => import('./explorer/SpatialTab'));
@@ -28,6 +28,9 @@ export default function Explorer() {
     <div style={{ background: '#fbfcfb', minHeight: '100vh' }}>
       {/* Nav */}
       <SiteNav activePage="explorer" />
+
+      {/* Operational headline strip — sticky on Explorer routes (design brief §3 Variant B) */}
+      <OperationalHeadline mode="strip" sticky />
 
       <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '1.5rem' }}>
         <PageHeader title="Technical Explorer" subtitle="Detailed outputs from each pipeline stage" />

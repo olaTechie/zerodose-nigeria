@@ -1,8 +1,9 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import GlassCard from '../components/shared/GlassCard';
+import EditorialBlock from '../components/shared/EditorialBlock';
 import PageHeader from '../components/shared/PageHeader';
-import MetricCard from '../components/shared/MetricCard';
+import KeyFigure from '../components/shared/KeyFigure';
+import OperationalHeadline from '../components/shared/OperationalHeadline';
 import CoverageGauge from '../components/shared/CoverageGauge';
 import CoverageTierBadge from '../components/shared/CoverageTierBadge';
 import TypologyBadge from '../components/shared/TypologyBadge';
@@ -34,7 +35,15 @@ export default function Policy() {
       <SiteNav activePage="policy" />
 
       <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '1.5rem' }}>
-        <PageHeader title="Policy Dashboard" subtitle="Intervention targeting and resource allocation for zero-dose communities in Nigeria" />
+        <PageHeader
+          title="Policy Dashboard"
+          subtitle="Pick a community type. Read the recipe. Allocate the resource."
+        />
+
+        {/* Operational headline — the page lede (per design brief §2 Policy) */}
+        <div id="recipe">
+          <OperationalHeadline mode="hero" />
+        </div>
 
         {/* Underline tab bar (design brief §9) */}
         <div
@@ -110,12 +119,12 @@ function GeographicPanel() {
   return (
     <div>
       <dl style={{ display: 'flex', gap: '2.5rem', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
-        <MetricCard label="Moran's I" value="0.608" sublabel="Strong spatial clustering" color="green" />
-        <MetricCard label="HH Hotspots" value="5" sublabel="NW states" color="red" />
-        <MetricCard label="LL Coldspots" value="5" sublabel="SE/SS states" color="blue" />
+        <KeyFigure label="Moran's I" value="0.608" sublabel="Strong spatial clustering" color="green" />
+        <KeyFigure label="HH Hotspots" value="5" sublabel="NW states" color="red" />
+        <KeyFigure label="LL Coldspots" value="5" sublabel="SE/SS states" color="blue" />
       </dl>
 
-      <GlassCard>
+      <EditorialBlock>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
           <h3 className="font-serif" style={{ fontSize: '1.125rem', fontWeight: 600, margin: 0, color: '#1c211d' }}>
             {showLisa ? 'LISA Cluster Map' : 'Zero-Dose Prevalence by State'}
@@ -142,7 +151,7 @@ function GeographicPanel() {
           </div>
           {selectedState && (
             <div style={{ flex: '1 1 28%' }}>
-              <GlassCard>
+              <EditorialBlock>
                 <h4 style={{ fontWeight: 700, fontSize: '1rem', marginBottom: '0.5rem' }}>{selectedState.state_name}</h4>
                 <div style={{ fontSize: '0.85rem', lineHeight: 1.8 }}>
                   <div><strong>Zone:</strong> {selectedState.zone}</div>
@@ -153,11 +162,11 @@ function GeographicPanel() {
                     <div><strong>LISA:</strong> {selectedState.cluster_type}</div>
                   )}
                 </div>
-              </GlassCard>
+              </EditorialBlock>
             </div>
           )}
         </div>
-      </GlassCard>
+      </EditorialBlock>
     </div>
   );
 }
@@ -205,14 +214,14 @@ function InterventionPanel() {
         </aside>
       </div>
 
-      <GlassCard>
+      <EditorialBlock>
         <h3 className="font-serif" style={{ fontSize: '1.125rem', fontWeight: 600, marginBottom: '0.75rem', color: '#1c211d' }}>
           Coverage by Scenario and Typology
         </h3>
         {abmData && (
           <CoverageHeatmap matrix={abmData.matrix} onCellClick={setSelectedCell} />
         )}
-      </GlassCard>
+      </EditorialBlock>
 
       {selectedCell && (
         <div style={{ marginTop: '1rem' }}>
@@ -264,7 +273,7 @@ function CounterfactualPanel() {
       <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
         {/* Controls */}
         <div style={{ flex: '1 1 350px' }}>
-          <GlassCard>
+          <EditorialBlock>
             <h3 className="font-serif" style={{ fontSize: '1.125rem', fontWeight: 600, marginBottom: '1rem', color: '#1c211d' }}>
               Adjust Intervention Parameters
             </h3>
@@ -321,12 +330,12 @@ function CounterfactualPanel() {
               onChange={(v) => setSupply(parseFloat(v))}
               display={`${(supply * 100).toFixed(0)}%`}
             />
-          </GlassCard>
+          </EditorialBlock>
         </div>
 
         {/* Results */}
         <div style={{ flex: '1 1 400px' }}>
-          <GlassCard>
+          <EditorialBlock>
             <div style={{ textAlign: 'center', marginBottom: '1rem' }}>
               <CoverageGauge value={coverageValue} size={220} />
             </div>
@@ -345,7 +354,7 @@ function CounterfactualPanel() {
                 Loading interpolation engine...
               </p>
             )}
-          </GlassCard>
+          </EditorialBlock>
         </div>
       </div>
     </div>
@@ -391,7 +400,7 @@ function ActionPanel() {
   return (
     <div>
       {/* Priority states table */}
-      <GlassCard>
+      <EditorialBlock>
         <h3 className="font-serif" style={{ fontSize: '1.125rem', fontWeight: 600, marginBottom: '0.75rem', color: '#1c211d' }}>Priority States</h3>
         <div style={{ overflowX: 'auto' }}>
           <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.82rem' }}>
@@ -419,14 +428,14 @@ function ActionPanel() {
             </tbody>
           </table>
         </div>
-      </GlassCard>
+      </EditorialBlock>
 
       {/* CNA necessity */}
       {cnaData && (
-        <GlassCard style={{ marginTop: '1rem' }}>
+        <EditorialBlock style={{ marginTop: '1rem' }}>
           <h3 className="font-serif" style={{ fontSize: '1.125rem', fontWeight: 600, marginBottom: '0.75rem', color: '#1c211d' }}>Necessity Analysis</h3>
           <NecessityBar data={cnaData.necessity} threshold={0.75} />
-        </GlassCard>
+        </EditorialBlock>
       )}
 
       {/* Recipe cards */}

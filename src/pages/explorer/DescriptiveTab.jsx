@@ -1,5 +1,5 @@
-import GlassCard from '../../components/shared/GlassCard';
-import MetricCard from '../../components/shared/MetricCard';
+import EditorialBlock from '../../components/shared/EditorialBlock';
+import KeyFigure from '../../components/shared/KeyFigure';
 import LoadingSpinner from '../../components/shared/LoadingSpinner';
 import { useData } from '../../hooks/useData';
 import { explorerTabDescriptions } from '../../data/storyContent';
@@ -21,13 +21,13 @@ export default function DescriptiveTab() {
       </p>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '0.75rem', marginBottom: '1.5rem' }}>
-        <MetricCard label="Children" value={PIPELINE_METRICS.n_children.toLocaleString()} color="green" />
-        <MetricCard label="Clusters" value={PIPELINE_METRICS.n_clusters.toLocaleString()} color="green" />
-        <MetricCard label="ZD Prevalence" value={`${(PIPELINE_METRICS.weighted_zd_prevalence * 100).toFixed(1)}%`} color="red" />
-        <MetricCard label="Model AUC" value={PIPELINE_METRICS.model_auc_roc.toFixed(4)} color="gold" />
+        <KeyFigure label="Children" value={PIPELINE_METRICS.n_children.toLocaleString()} color="green" />
+        <KeyFigure label="Clusters" value={PIPELINE_METRICS.n_clusters.toLocaleString()} color="green" />
+        <KeyFigure label="ZD Prevalence" value={`${(PIPELINE_METRICS.weighted_zd_prevalence * 100).toFixed(1)}%`} color="red" />
+        <KeyFigure label="Model AUC" value={PIPELINE_METRICS.model_auc_roc.toFixed(4)} color="gold" />
       </div>
 
-      <GlassCard>
+      <EditorialBlock>
         <h3 style={{ fontSize: '1rem', fontWeight: 700, marginBottom: '0.75rem' }}>
           Table 1: Sample Characteristics by Zero-Dose Status
         </h3>
@@ -64,7 +64,7 @@ export default function DescriptiveTab() {
             </tbody>
           </table>
         </div>
-      </GlassCard>
+      </EditorialBlock>
     </div>
   );
 }

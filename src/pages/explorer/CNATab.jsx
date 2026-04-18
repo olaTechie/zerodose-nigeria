@@ -1,5 +1,5 @@
-import GlassCard from '../../components/shared/GlassCard';
-import MetricCard from '../../components/shared/MetricCard';
+import EditorialBlock from '../../components/shared/EditorialBlock';
+import KeyFigure from '../../components/shared/KeyFigure';
 import LoadingSpinner from '../../components/shared/LoadingSpinner';
 import RecipeCard from '../../components/shared/RecipeCard';
 import NecessityBar from '../../components/charts/NecessityBar';
@@ -28,13 +28,13 @@ export default function CNATab() {
       </p>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '0.75rem', marginBottom: '1.5rem' }}>
-        <MetricCard label="Positive Outcomes" value={`${PIPELINE_METRICS.n_positive_outcomes}/${PIPELINE_METRICS.n_total_scenarios}`} color="green" />
-        <MetricCard label="Solutions" value={solutions.length.toString()} color="gold" />
-        <MetricCard label="Top Consistency" value={solutions[0]?.consistency?.toFixed(2) || '--'} color="green" />
+        <KeyFigure label="Positive Outcomes" value={`${PIPELINE_METRICS.n_positive_outcomes}/${PIPELINE_METRICS.n_total_scenarios}`} color="green" />
+        <KeyFigure label="Solutions" value={solutions.length.toString()} color="gold" />
+        <KeyFigure label="Top Consistency" value={solutions[0]?.consistency?.toFixed(2) || '--'} color="green" />
       </div>
 
       {/* Primary solutions */}
-      <GlassCard>
+      <EditorialBlock>
         <h3 style={{ fontSize: '1rem', fontWeight: 700, marginBottom: '0.75rem' }}>Primary Solutions (CSF)</h3>
         <div style={{ overflowX: 'auto' }}>
           <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.82rem' }}>
@@ -62,25 +62,25 @@ export default function CNATab() {
             </tbody>
           </table>
         </div>
-      </GlassCard>
+      </EditorialBlock>
 
       {/* Necessity */}
-      <GlassCard style={{ marginTop: '1rem' }}>
+      <EditorialBlock style={{ marginTop: '1rem' }}>
         <h3 style={{ fontSize: '1rem', fontWeight: 700, marginBottom: '0.5rem' }}>Necessity Analysis</h3>
         <NecessityBar data={necessity} threshold={0.75} />
-      </GlassCard>
+      </EditorialBlock>
 
       {/* Robustness */}
-      <GlassCard style={{ marginTop: '1rem' }}>
+      <EditorialBlock style={{ marginTop: '1rem' }}>
         <h3 style={{ fontSize: '1rem', fontWeight: 700, marginBottom: '0.5rem' }}>Robustness Across Thresholds</h3>
         <RobustnessHeatmap data={robustness} />
-      </GlassCard>
+      </EditorialBlock>
 
       {/* Typology-stratified */}
       <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginTop: '1rem' }}>
         {Object.entries(typStratified).map(([typ, recipes]) => (
           <div key={typ} style={{ flex: '1 1 45%', minWidth: '300px' }}>
-            <GlassCard>
+            <EditorialBlock>
               <h3 style={{ fontSize: '1rem', fontWeight: 700, marginBottom: '0.5rem' }}>{typ}</h3>
               {recipes.map((r, i) => (
                 <RecipeCard
@@ -91,13 +91,13 @@ export default function CNATab() {
                   coverage={r.coverage}
                 />
               ))}
-            </GlassCard>
+            </EditorialBlock>
           </div>
         ))}
       </div>
 
       {/* Expanded recipe translations */}
-      <GlassCard style={{ marginTop: '1rem' }}>
+      <EditorialBlock style={{ marginTop: '1rem' }}>
         <h3 style={{ fontSize: '1rem', fontWeight: 700, marginBottom: '0.75rem' }}>Plain-Language Recipe Translations</h3>
         {Object.entries(recipePlainLanguage).map(([key, recipe]) => (
           <RecipeCard
@@ -108,7 +108,7 @@ export default function CNATab() {
             coverage={recipe.coverage}
           />
         ))}
-      </GlassCard>
+      </EditorialBlock>
     </div>
   );
 }

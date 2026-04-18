@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import GlassCard from '../../components/shared/GlassCard';
+import EditorialBlock from '../../components/shared/EditorialBlock';
 import { explorerTabDescriptions } from '../../data/storyContent';
 
 const DATA_FILES = [
@@ -64,7 +64,7 @@ export default function ExportTab() {
         {explorerTabDescriptions.export}
       </p>
 
-      <GlassCard>
+      <EditorialBlock>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', flexWrap: 'wrap', gap: '0.75rem' }}>
           <h3 className="font-serif" style={{ fontSize: '1.125rem', fontWeight: 600, margin: 0, color: '#1c211d' }}>
             Pipeline Data Files
@@ -131,7 +131,7 @@ export default function ExportTab() {
             </button>
           ))}
         </div>
-      </GlassCard>
+      </EditorialBlock>
     </div>
   );
 }

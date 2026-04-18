@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import GlassCard from '../../components/shared/GlassCard';
-import MetricCard from '../../components/shared/MetricCard';
+import EditorialBlock from '../../components/shared/EditorialBlock';
+import KeyFigure from '../../components/shared/KeyFigure';
 import LoadingSpinner from '../../components/shared/LoadingSpinner';
 import ShapBarChart from '../../components/charts/ShapBarChart';
 import ShapBeeswarm from '../../components/charts/ShapBeeswarm';
@@ -29,14 +29,14 @@ export default function RiskTab() {
       </p>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '0.75rem', marginBottom: '1.5rem' }}>
-        <MetricCard label="AUC-ROC" value={PIPELINE_METRICS.model_auc_roc.toFixed(4)} color="green" />
-        <MetricCard label="Top SHAP" value="Cluster DPT1" sublabel="1.62" color="gold" />
-        <MetricCard label="#2 SHAP" value="Vax card" sublabel="1.34" color="gold" />
+        <KeyFigure label="AUC-ROC" value={PIPELINE_METRICS.model_auc_roc.toFixed(4)} color="green" />
+        <KeyFigure label="Top SHAP" value="Cluster DPT1" sublabel="1.62" color="gold" />
+        <KeyFigure label="#2 SHAP" value="Vax card" sublabel="1.34" color="gold" />
       </div>
 
       <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
         <div style={{ flex: '1 1 55%', minWidth: '300px' }}>
-          <GlassCard>
+          <EditorialBlock>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
               <h3 style={{ fontSize: '1rem', fontWeight: 700, margin: 0 }}>SHAP Feature Importance</h3>
               <div style={{ display: 'flex', gap: '0.3rem' }}>
@@ -59,11 +59,11 @@ export default function RiskTab() {
             ) : (
               <ShapBeeswarm data={globalShap} maxFeatures={15} />
             )}
-          </GlassCard>
+          </EditorialBlock>
         </div>
 
         <div style={{ flex: '1 1 40%', minWidth: '300px' }}>
-          <GlassCard>
+          <EditorialBlock>
             <h3 style={{ fontSize: '1rem', fontWeight: 700, marginBottom: '0.5rem' }}>Cluster Risk Map</h3>
             <NigeriaMap
               stateData={stateData}
@@ -86,7 +86,7 @@ export default function RiskTab() {
                 </span>
               ))}
             </div>
-          </GlassCard>
+          </EditorialBlock>
         </div>
       </div>
     </div>
