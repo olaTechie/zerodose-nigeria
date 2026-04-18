@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import GlassCard from '../components/shared/GlassCard';
 import PageHeader from '../components/shared/PageHeader';
@@ -26,8 +26,23 @@ import { thStyle, tdStyle } from '../styles/tableStyles';
 
 export default function Policy() {
   const [activeTab, setActiveTab] = useState(0);
+  const tabRefs = useRef({});
 
   const tabs = policyPanelTitles;
+
+  function handleKey(e, idx) {
+    if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(e.key)) return;
+    e.preventDefault();
+    let nextIdx = idx;
+    if (e.key === 'ArrowRight') nextIdx = (idx + 1) % tabs.length;
+    if (e.key === 'ArrowLeft') nextIdx = (idx - 1 + tabs.length) % tabs.length;
+    if (e.key === 'Home') nextIdx = 0;
+    if (e.key === 'End') nextIdx = tabs.length - 1;
+    setActiveTab(nextIdx);
+    requestAnimationFrame(() => {
+      tabRefs.current[nextIdx]?.focus();
+    });
+  }
 
   return (
     <div style={{ background: 'var(--bg)', minHeight: '100vh' }}>
@@ -37,27 +52,41 @@ export default function Policy() {
       <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '1.5rem' }}>
         <PageHeader title="Policy Dashboard" subtitle="Intervention targeting and resource allocation for zero-dose communities in Nigeria" />
 
-        {/* Tab bar */}
-        <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
-          {tabs.map((tab, i) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(i)}
-              style={{
-                padding: '0.5rem 1.2rem',
-                borderRadius: '50px',
-                border: activeTab === i ? '2px solid #006633' : '1px solid #e0e0e0',
-                background: activeTab === i ? '#006633' : '#fff',
-                color: activeTab === i ? '#fff' : '#546e7a',
-                fontWeight: 600,
-                fontSize: '0.82rem',
-                cursor: 'pointer',
-                transition: 'all 0.2s',
-              }}
-            >
-              {tab.title}
-            </button>
-          ))}
+        {/* Tab bar — ARIA tablist with arrow-key navigation */}
+        <div
+          role="tablist"
+          aria-label="Policy dashboard sections"
+          style={{ display: 'flex', gap: '0.5rem', marginBottom: '1.5rem', flexWrap: 'wrap' }}
+        >
+          {tabs.map((tab, i) => {
+            const isActive = activeTab === i;
+            return (
+              <button
+                key={tab.id}
+                ref={(el) => { tabRefs.current[i] = el; }}
+                role="tab"
+                aria-selected={isActive}
+                aria-controls={`policy-panel-${tab.id}`}
+                id={`policy-tab-${tab.id}`}
+                tabIndex={isActive ? 0 : -1}
+                onClick={() => setActiveTab(i)}
+                onKeyDown={(e) => handleKey(e, i)}
+                style={{
+                  padding: '0.5rem 1.2rem',
+                  borderRadius: '50px',
+                  border: isActive ? '2px solid #006633' : '1px solid #e0e0e0',
+                  background: isActive ? '#006633' : '#fff',
+                  color: isActive ? '#fff' : '#546e7a',
+                  fontWeight: 600,
+                  fontSize: '0.82rem',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s',
+                }}
+              >
+                {tab.title}
+              </button>
+            );
+          })}
         </div>
 
         <AnimatePresence mode="wait">
@@ -106,6 +135,8 @@ function GeographicPanel() {
             {showLisa ? 'LISA Cluster Map' : 'Zero-Dose Prevalence by State'}
           </h3>
           <button
+            type="button"
+            aria-pressed={showLisa}
             onClick={() => setShowLisa(!showLisa)}
             style={{ padding: '0.3rem 0.8rem', borderRadius: '50px', border: '1px solid #006633', background: showLisa ? '#006633' : '#fff', color: showLisa ? '#fff' : '#006633', fontSize: '0.78rem', fontWeight: 600, cursor: 'pointer' }}
           >
