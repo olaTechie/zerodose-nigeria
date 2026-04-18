@@ -1,6 +1,7 @@
 import EditorialBlock from '../../components/shared/EditorialBlock';
 import KeyFigure from '../../components/shared/KeyFigure';
 import LoadingSpinner from '../../components/shared/LoadingSpinner';
+import ErrorState from '../../components/shared/ErrorState';
 import RadarChart from '../../components/charts/RadarChart';
 import { useData } from '../../hooks/useData';
 import { explorerTabDescriptions } from '../../data/storyContent';
@@ -8,13 +9,16 @@ import { TRUST_STATE_LABELS, PIPELINE_METRICS } from '../../data/constants';
 import { thStyle, tdStyle } from '../../styles/tableStyles';
 
 export default function TrustTab() {
-  const { data: lcaData, loading, error } = useData('lca_profiles.json');
+  const { data: lcaData, loading, error, retry } = useData('lca_profiles.json');
 
   if (error)
     return (
-      <div style={{ padding: '2rem', color: '#b33000', textAlign: 'center' }}>
-        Failed to load data. Please refresh the page.
-      </div>
+      <ErrorState
+        source="Explorer · Trust States"
+        title="Trust state profiles unavailable"
+        message="The LCA profile output (lca_profiles.json) failed to load."
+        onRetry={retry}
+      />
     );
   if (loading) return <LoadingSpinner />;
 

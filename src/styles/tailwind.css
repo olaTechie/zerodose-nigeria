@@ -90,3 +90,51 @@
     background-color: #f4f7f4;
   }
 }
+
+/* prefers-reduced-motion — respect the OS-level "reduce motion" preference.
+   We disable transitions, animations, and transform-based motion globally,
+   except for elements that opt back in via the `.motion-keep` class
+   (e.g. the LoadingSpinner ring, which needs to spin to convey progress).
+   The OperationalHeadline strip dismiss still works — it's a state change,
+   not an animation. The Story scroll choreography (Skill 8) degrades to
+   instant transitions: opacity flips at the threshold instead of fading. */
+@media (prefers-reduced-motion: reduce) {
+  *:not(.motion-keep),
+  *:not(.motion-keep)::before,
+  *:not(.motion-keep)::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  /* Strip transform-based motion. We keep static `transform: translate(-50%, ...)`
+     used for centering by NOT clobbering transform itself — only animate-driven
+     movement is suppressed via the duration overrides above. Hover scale
+     escalations are neutralised by the duration:0.001ms rule. */
+}
+
+/* Print styles — hide chrome (nav, toolbars) and force A4-friendly layout.
+   StateBrief uses .print:hidden on its toolbar; SiteNav and footers are also
+   stripped. .print:break-inside-avoid lives on PolicyBriefCard / StateBrief
+   sections so text never splits awkwardly across pages. */
+@media print {
+  nav[aria-label='Main navigation'],
+  .print\:hidden,
+  .state-brief-toolbar {
+    display: none !important;
+  }
+  body,
+  html,
+  #root {
+    background: #ffffff !important;
+  }
+  .state-brief-sheet {
+    border: none !important;
+    padding: 1cm 1.5cm !important;
+    max-width: none !important;
+  }
+  @page {
+    size: A4 portrait;
+    margin: 1.5cm;
+  }
+}

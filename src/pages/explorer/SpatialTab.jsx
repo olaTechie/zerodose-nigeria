@@ -2,6 +2,7 @@ import { useState } from 'react';
 import EditorialBlock from '../../components/shared/EditorialBlock';
 import KeyFigure from '../../components/shared/KeyFigure';
 import LoadingSpinner from '../../components/shared/LoadingSpinner';
+import ErrorState from '../../components/shared/ErrorState';
 import NigeriaMap from '../../components/maps/NigeriaMap';
 import MoranScatter from '../../components/charts/MoranScatter';
 import FunnelPlot from '../../components/charts/FunnelPlot';
@@ -11,11 +12,19 @@ import { PIPELINE_METRICS } from '../../data/constants';
 import { getPrevalenceColorScale } from '../../components/maps/ChoroplethLayer';
 
 export default function SpatialTab() {
-  const { data: stateData, loading: l1, error: e1 } = useData('state_prevalence.json');
-  const { data: lisaData, loading: l2, error: e2 } = useData('lisa_clusters.json');
+  const { data: stateData, loading: l1, error: e1, retry: r1 } = useData('state_prevalence.json');
+  const { data: lisaData, loading: l2, error: e2, retry: r2 } = useData('lisa_clusters.json');
   const [showLisa, setShowLisa] = useState(false);
 
-  if (e1 || e2) return <div style={{ padding: '2rem', color: '#b33000', textAlign: 'center' }}>Failed to load data. Please refresh the page.</div>;
+  if (e1 || e2)
+    return (
+      <ErrorState
+        source="Explorer · Spatial"
+        title="Spatial data unavailable"
+        message="State prevalence or LISA cluster data failed to load."
+        onRetry={() => { r1(); r2(); }}
+      />
+    );
   if (l1 || l2) return <LoadingSpinner />;
 
   const colorScale = getPrevalenceColorScale(90);

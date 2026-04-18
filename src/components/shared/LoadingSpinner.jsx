@@ -9,6 +9,7 @@ export default function LoadingSpinner() {
       gap: '1rem',
     }}>
       <div
+        className="motion-keep"
         style={{
           width: '40px',
           height: '40px',

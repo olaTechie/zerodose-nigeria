@@ -7,6 +7,7 @@ import NigeriaMap from '../components/maps/NigeriaMap';
 import ShapBarChart from '../components/charts/ShapBarChart';
 import CoverageHeatmap from '../components/charts/CoverageHeatmap';
 import LoadingSpinner from '../components/shared/LoadingSpinner';
+import ErrorState from '../components/shared/ErrorState';
 import SiteNav from '../components/shared/SiteNav';
 import DecisionTreeFigure from '../components/shared/DecisionTreeFigure';
 import OperationalHeadline from '../components/shared/OperationalHeadline';
@@ -19,17 +20,27 @@ export default function Story() {
   const [currentSection, setCurrentSection] = useState(0);
   const [sectionStep, setSectionStep] = useState(0);
 
-  const { data: stateData, loading: l1, error: e1 } = useData('state_prevalence.json');
-  const { data: lisaData, loading: l2, error: e2 } = useData('lisa_clusters.json');
-  const { data: clusterData, loading: l3, error: e3 } = useData('cluster_map.geojson');
-  const { data: shapData, loading: l4, error: e4 } = useData('shap_importance.json');
-  const { data: abmData, loading: l5, error: e5 } = useData('abm_scenarios.json');
+  const { data: stateData, loading: l1, error: e1, retry: r1 } = useData('state_prevalence.json');
+  const { data: lisaData, loading: l2, error: e2, retry: r2 } = useData('lisa_clusters.json');
+  const { data: clusterData, loading: l3, error: e3, retry: r3 } = useData('cluster_map.geojson');
+  const { data: shapData, loading: l4, error: e4, retry: r4 } = useData('shap_importance.json');
+  const { data: abmData, loading: l5, error: e5, retry: r5 } = useData('abm_scenarios.json');
 
   const anyLoading = l1 || l2 || l3 || l4 || l5;
   const anyError = e1 || e2 || e3 || e4 || e5;
 
   if (anyLoading) return <LoadingSpinner />;
-  if (anyError) return <div style={{ padding: '2rem', color: '#b33000', textAlign: 'center' }}>Failed to load story data. Please refresh the page.</div>;
+  if (anyError)
+    return (
+      <ErrorState
+        source="Story · pipeline outputs"
+        title="Story data unavailable"
+        message="One of the pipeline output files (prevalence, LISA clusters, SHAP, or ABM scenarios) did not load. Check your connection and try again."
+        onRetry={() => {
+          r1(); r2(); r3(); r4(); r5();
+        }}
+      />
+    );
 
   const colorScale = getPrevalenceColorScale(90);
 

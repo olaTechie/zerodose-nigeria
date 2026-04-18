@@ -1,6 +1,14 @@
 import { useRef, useEffect, useState, useCallback } from 'react';
 import { LISA_COLOURS } from '../../data/constants';
 
+// Convert raw tooltip value to a percent (0–100) for display.
+// The scale is declared by the producer (see header comment above).
+// Defaults to 'percent' for backwards compatibility with state files.
+function formatTooltipValue(v, scale) {
+  if (scale === 'proportion') return v * 100;
+  return v; // 'percent' or undefined
+}
+
 const INITIAL_VIEW = { longitude: 8.0, latitude: 9.0, zoom: 5.5 };
 const MAP_STYLE = 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json';
 
@@ -8,6 +16,17 @@ const MAP_STYLE = 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json
  * Lightweight SVG-based Nigeria map that does not require MapLibre GL JS.
  * Uses GeoJSON data loaded from public/data/ and renders polygons as SVG paths.
  * For cluster points, renders as SVG circles.
+ */
+/**
+ * Value-scale convention (post-/harden):
+ *   The two underlying datasets store prevalence on different scales —
+ *     state_prevalence.json + lisa_clusters.json: weighted_prevalence in PERCENT (0–100)
+ *     cluster_map.geojson:                       zero_dose_rate     in PROPORTION (0–1)
+ *   Rather than guess from magnitude (the previous code did
+ *   `value * (value > 1 ? 1 : 100)` which collapses at 1.0), each tooltip
+ *   payload now declares its own `scale` so rendering is deterministic.
+ *   `scale: 'percent'`     — value already in 0–100, render as `value.toFixed(1)%`
+ *   `scale: 'proportion'`  — value in 0–1, render as `(value * 100).toFixed(1)%`
  */
 export default function NigeriaMap({
   stateData,
@@ -115,6 +134,8 @@ export default function NigeriaMap({
                   y: e.clientY,
                   name: props.state_name || props.gadm_name || '',
                   value: props[colorByField],
+                  // state-level files are stored as percent (0–100)
+                  scale: 'percent',
                   cluster_type: props.cluster_type,
                 });
               }}
@@ -154,6 +175,8 @@ export default function NigeriaMap({
                     y: e.clientY,
                     name: `Cluster ${props.cluster_id}`,
                     value: props.zero_dose_rate,
+                    // cluster file is stored as proportion (0–1)
+                    scale: 'proportion',
                     typology: props.typology,
                     zone: props.zone,
                   });
@@ -189,7 +212,7 @@ export default function NigeriaMap({
           {tooltip.value != null && (
             <div>
               {typeof tooltip.value === 'number'
-                ? `${(tooltip.value * (tooltip.value > 1 ? 1 : 100)).toFixed(1)}%`
+                ? `${formatTooltipValue(tooltip.value, tooltip.scale).toFixed(1)}%`
                 : tooltip.value}
             </div>
           )}

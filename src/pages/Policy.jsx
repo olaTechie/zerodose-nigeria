@@ -13,6 +13,8 @@ import ScenarioCard from '../components/shared/ScenarioCard';
 import RecipeCard from '../components/shared/RecipeCard';
 import PolicyBriefCard from '../components/shared/PolicyBriefCard';
 import LoadingSpinner from '../components/shared/LoadingSpinner';
+import ErrorState from '../components/shared/ErrorState';
+import StateBrief from '../components/shared/StateBrief';
 import NigeriaMap from '../components/maps/NigeriaMap';
 import CoverageHeatmap from '../components/charts/CoverageHeatmap';
 import TrajectoryChart from '../components/charts/TrajectoryChart';
@@ -107,16 +109,25 @@ export default function Policy() {
 
 // ---- Panel 1: Geographic Targeting ----
 function GeographicPanel() {
-  const { data: stateData, loading: l1, error: e1 } = useData('state_prevalence.json');
-  const { data: lisaData, loading: l2, error: e2 } = useData('lisa_clusters.json');
-  const { data: clusterData, loading: l3, error: e3 } = useData('cluster_map.geojson');
+  const { data: stateData, loading: l1, error: e1, retry: r1 } = useData('state_prevalence.json');
+  const { data: lisaData, loading: l2, error: e2, retry: r2 } = useData('lisa_clusters.json');
+  const { data: clusterData, loading: l3, error: e3, retry: r3 } = useData('cluster_map.geojson');
   const [showLisa, setShowLisa] = useState(false);
   const [selectedState, setSelectedState] = useState(null);
+  const [briefState, setBriefState] = useState(null);
   const colorScale = getPrevalenceColorScale(90);
 
   const anyError = e1 || e2 || e3;
   if (l1 || l2 || l3) return <LoadingSpinner />;
-  if (anyError) return <div style={{ padding: '2rem', color: '#b33000', textAlign: 'center' }}>Failed to load data. Please refresh the page.</div>;
+  if (anyError)
+    return (
+      <ErrorState
+        source="Policy · geographic targeting"
+        title="Geographic data unavailable"
+        message="State prevalence, LISA clusters, or the cluster map failed to load."
+        onRetry={() => { r1(); r2(); r3(); }}
+      />
+    );
 
   return (
     <div>
@@ -170,21 +181,55 @@ function GeographicPanel() {
                     <div><strong>LISA:</strong> {selectedState.cluster_type}</div>
                   )}
                 </div>
+                <button
+                  type="button"
+                  onClick={() => setBriefState(selectedState)}
+                  style={{
+                    marginTop: '0.75rem',
+                    background: 'transparent',
+                    border: 'none',
+                    padding: 0,
+                    color: '#003d1e',
+                    fontSize: '0.875rem',
+                    fontWeight: 500,
+                    cursor: 'pointer',
+                    textDecoration: 'underline',
+                    textUnderlineOffset: '3px',
+                    fontFamily: 'inherit',
+                  }}
+                >
+                  Generate brief for {selectedState.state_name} {'\u2192'}
+                </button>
               </EditorialBlock>
             </div>
           )}
         </div>
       </EditorialBlock>
+
+      {briefState && (
+        <StateBrief
+          stateProps={briefState}
+          onClose={() => setBriefState(null)}
+        />
+      )}
     </div>
   );
 }
 
 // ---- Panel 2: Intervention Scenarios ----
 function InterventionPanel() {
-  const { data: abmData, loading, error } = useData('abm_scenarios.json');
+  const { data: abmData, loading, error, retry } = useData('abm_scenarios.json');
   const [selectedCell, setSelectedCell] = useState(null);
 
-  if (error) return <div style={{ padding: '2rem', color: '#b33000', textAlign: 'center' }}>Failed to load data. Please refresh the page.</div>;
+  if (error)
+    return (
+      <ErrorState
+        source="Policy · intervention scenarios"
+        title="Scenario data unavailable"
+        message="The ABM scenario matrix (abm_scenarios.json) failed to load."
+        onRetry={retry}
+      />
+    );
   if (loading) return <LoadingSpinner />;
 
   return (
@@ -248,7 +293,7 @@ function InterventionPanel() {
 
 // ---- Panel 3: What-If Explorer ----
 function CounterfactualPanel() {
-  const { data: abmData, loading, error: dataError } = useData('abm_scenarios.json');
+  const { data: abmData, loading, error: dataError, retry: dataRetry } = useData('abm_scenarios.json');
   const { result, compute, ready, error: workerError } = useCounterfactual();
   const [typology, setTypology] = useState('Reference');
   const [outreach, setOutreach] = useState(1);
@@ -268,7 +313,15 @@ function CounterfactualPanel() {
 
   const coverageValue = result?.median_m36 ?? 0;
 
-  if (dataError) return <div style={{ padding: '2rem', color: '#b33000', textAlign: 'center' }}>Failed to load data. Please refresh the page.</div>;
+  if (dataError)
+    return (
+      <ErrorState
+        source="Policy · what-if explorer"
+        title="Counterfactual data unavailable"
+        message="The ABM scenario matrix (abm_scenarios.json) failed to load."
+        onRetry={dataRetry}
+      />
+    );
   if (loading) return <LoadingSpinner />;
 
   return (
@@ -392,12 +445,20 @@ function SliderControl({ label, value, min, max, step, onChange, display }) {
 
 // ---- Panel 4: Action Plans ----
 function ActionPanel() {
-  const { data: stateData, loading: l1, error: e1 } = useData('state_prevalence.json');
-  const { data: cnaData, loading: l2, error: e2 } = useData('cna_solutions.json');
+  const { data: stateData, loading: l1, error: e1, retry: r1 } = useData('state_prevalence.json');
+  const { data: cnaData, loading: l2, error: e2, retry: r2 } = useData('cna_solutions.json');
 
   const anyError = e1 || e2;
   if (l1 || l2) return <LoadingSpinner />;
-  if (anyError) return <div style={{ padding: '2rem', color: '#b33000', textAlign: 'center' }}>Failed to load data. Please refresh the page.</div>;
+  if (anyError)
+    return (
+      <ErrorState
+        source="Policy · action plans"
+        title="Priority data unavailable"
+        message="State prevalence or CNA solution data failed to load."
+        onRetry={() => { r1(); r2(); }}
+      />
+    );
 
   const priorityStates = stateData?.features
     ?.map((f) => f.properties)

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import EditorialBlock from '../../components/shared/EditorialBlock';
 import KeyFigure from '../../components/shared/KeyFigure';
 import LoadingSpinner from '../../components/shared/LoadingSpinner';
+import ErrorState from '../../components/shared/ErrorState';
 import ShapBarChart from '../../components/charts/ShapBarChart';
 import ShapBeeswarm from '../../components/charts/ShapBeeswarm';
 import NigeriaMap from '../../components/maps/NigeriaMap';
@@ -12,12 +13,20 @@ import { getClusterColorByZdRate } from '../../components/maps/ClusterLayer';
 import { activeToggleBtn, inactiveToggleBtn } from '../../styles/buttonStyles';
 
 export default function RiskTab() {
-  const { data: shapData, loading: l1, error: e1 } = useData('shap_importance.json');
-  const { data: clusterData, loading: l2, error: e2 } = useData('cluster_map.geojson');
-  const { data: stateData, loading: l3, error: e3 } = useData('state_prevalence.json');
+  const { data: shapData, loading: l1, error: e1, retry: r1 } = useData('shap_importance.json');
+  const { data: clusterData, loading: l2, error: e2, retry: r2 } = useData('cluster_map.geojson');
+  const { data: stateData, loading: l3, error: e3, retry: r3 } = useData('state_prevalence.json');
   const [view, setView] = useState('bar');
 
-  if (e1 || e2 || e3) return <div style={{ padding: '2rem', color: '#b33000', textAlign: 'center' }}>Failed to load data. Please refresh the page.</div>;
+  if (e1 || e2 || e3)
+    return (
+      <ErrorState
+        source="Explorer · Risk Factors"
+        title="Risk model data unavailable"
+        message="SHAP importance, cluster map, or state prevalence failed to load."
+        onRetry={() => { r1(); r2(); r3(); }}
+      />
+    );
   if (l1 || l2 || l3) return <LoadingSpinner />;
 
   const globalShap = shapData?.global || [];
@@ -29,9 +38,9 @@ export default function RiskTab() {
       </p>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '0.75rem', marginBottom: '1.5rem' }}>
-        <KeyFigure label="AUC-ROC" value={PIPELINE_METRICS.model_auc_roc.toFixed(4)} color="green" />
-        <KeyFigure label="Top SHAP" value="Cluster DPT1" sublabel="1.62" color="gold" />
-        <KeyFigure label="#2 SHAP" value="Vax card" sublabel="1.34" color="gold" />
+        <KeyFigure label="AUC-ROC" value={PIPELINE_METRICS.model_auc_roc.toFixed(4)} color="green" sourceId="auc" />
+        <KeyFigure label="Top SHAP" value="Cluster DPT1" sublabel="1.62" color="gold" sourceId="auc" />
+        <KeyFigure label="#2 SHAP" value="Vax card" sublabel="1.34" color="gold" sourceId="auc" />
       </div>
 
       <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>

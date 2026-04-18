@@ -8,6 +8,7 @@ const Landing = lazy(() => import('./pages/Landing'));
 const Story = lazy(() => import('./pages/Story'));
 const Policy = lazy(() => import('./pages/Policy'));
 const Explorer = lazy(() => import('./pages/Explorer'));
+const Glossary = lazy(() => import('./pages/Glossary'));
 
 export default function App() {
   return (
@@ -20,6 +21,7 @@ export default function App() {
               <Route path="/story" element={<Story />} />
               <Route path="/policy" element={<Policy />} />
               <Route path="/explorer/*" element={<Explorer />} />
+              <Route path="/methods/glossary" element={<Glossary />} />
             </Routes>
           </Suspense>
         </MethodsProvider>
