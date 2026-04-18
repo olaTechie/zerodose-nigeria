@@ -15,7 +15,7 @@ export default function SpatialTab() {
   const { data: lisaData, loading: l2, error: e2 } = useData('lisa_clusters.json');
   const [showLisa, setShowLisa] = useState(false);
 
-  if (e1 || e2) return <div className="glass-card" style={{ padding: '2rem', color: '#b33000', textAlign: 'center' }}>Failed to load data. Please refresh the page.</div>;
+  if (e1 || e2) return <div style={{ padding: '2rem', color: '#b33000', textAlign: 'center' }}>Failed to load data. Please refresh the page.</div>;
   if (l1 || l2) return <LoadingSpinner />;
 
   const colorScale = getPrevalenceColorScale(90);
@@ -44,7 +44,17 @@ export default function SpatialTab() {
               </h3>
               <button
                 onClick={() => setShowLisa(!showLisa)}
-                style={{ padding: '0.3rem 0.7rem', borderRadius: '50px', border: '1px solid #006633', background: showLisa ? '#006633' : '#fff', color: showLisa ? '#fff' : '#006633', fontSize: '0.75rem', fontWeight: 600, cursor: 'pointer' }}
+                style={{
+                  padding: '0.35rem 0.75rem',
+                  borderRadius: '6px',
+                  border: '1px solid #003d1e',
+                  background: showLisa ? '#003d1e' : 'transparent',
+                  color: showLisa ? '#ffffff' : '#003d1e',
+                  fontSize: '0.8125rem',
+                  fontWeight: 500,
+                  cursor: 'pointer',
+                  fontFamily: 'inherit',
+                }}
               >
                 {showLisa ? 'Prevalence' : 'LISA'}
               </button>

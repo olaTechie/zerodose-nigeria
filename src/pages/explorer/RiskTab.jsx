@@ -17,7 +17,7 @@ export default function RiskTab() {
   const { data: stateData, loading: l3, error: e3 } = useData('state_prevalence.json');
   const [view, setView] = useState('bar');
 
-  if (e1 || e2 || e3) return <div className="glass-card" style={{ padding: '2rem', color: '#b33000', textAlign: 'center' }}>Failed to load data. Please refresh the page.</div>;
+  if (e1 || e2 || e3) return <div style={{ padding: '2rem', color: '#b33000', textAlign: 'center' }}>Failed to load data. Please refresh the page.</div>;
   if (l1 || l2 || l3) return <LoadingSpinner />;
 
   const globalShap = shapData?.global || [];

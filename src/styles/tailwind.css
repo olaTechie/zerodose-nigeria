@@ -1,9 +1,92 @@
 /* Editorial type pair (Pair B): Source Serif 4 (display) + Source Sans 3 (body).
    Loaded via <link> in index.html with preconnect + media=print swap pattern for non-blocking paint.
-   See docs/design-brief-editorial.md §4 for the type scale and pair rationale. */
+   See docs/design-brief-editorial.md §4 for the type scale and pair rationale.
+
+   /quieter deleted ./glass-morphism.css and replaced its component-level chrome with
+   editorial primitives. Button utilities live in @layer components below; everything
+   else is composed at the JSX level via Tailwind utilities. */
 
 @import "tailwindcss";
 
-@import './glass-morphism.css';
-
 @config "../../tailwind.config.js";
+
+@layer base {
+  html,
+  body,
+  #root {
+    background: #fbfcfb;
+    color: #1c211d;
+    font-family: "Source Sans 3", ui-sans-serif, system-ui, -apple-system,
+      BlinkMacSystemFont, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "Source Serif 4", ui-serif, Georgia, Cambria, "Times New Roman",
+      Times, serif;
+    color: #1c211d;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  p {
+    line-height: 1.6;
+    color: #1c211d;
+  }
+
+  a {
+    color: #003d1e;
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+
+  a:hover {
+    color: #006633;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+}
+
+@layer components {
+  /* Editorial primary action — solid brand fill, square corners, no glow, no shadow. */
+  .btn-primary {
+    background-color: #003d1e;
+    color: #ffffff;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 0.875rem;
+    border: 1px solid #003d1e;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background-color 0.15s ease;
+  }
+
+  .btn-primary:hover {
+    background-color: #002a14;
+  }
+
+  /* Editorial secondary action — hairline outline, primary text, no fill. */
+  .btn-secondary {
+    background-color: transparent;
+    color: #003d1e;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 0.875rem;
+    border: 1px solid #003d1e;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background-color 0.15s ease;
+  }
+
+  .btn-secondary:hover {
+    background-color: #f4f7f4;
+  }
+}

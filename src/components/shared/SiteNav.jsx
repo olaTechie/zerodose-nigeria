@@ -1,64 +1,68 @@
 import { Link } from 'react-router-dom';
 
+// SiteNav — solid white nav with 1 px neutral hairline rule.
+// No backdrop blur, no rgba background, no shadow. Active link uses gold underline
+// (the gold accent's only role in nav per design brief §9).
 const navStyle = {
   position: 'sticky',
   top: 0,
   zIndex: 100,
-  background: 'rgba(255,255,255,0.85)',
-  backdropFilter: 'blur(12px)',
-  padding: '0.6rem 1.5rem',
+  background: '#ffffff',
+  padding: '0.75rem 1.5rem',
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
-  borderBottom: '1px solid rgba(0,102,51,0.1)',
+  borderBottom: '1px solid #c7cfc7',
 };
 
 const linkBase = {
   textDecoration: 'none',
-  fontSize: '0.85rem',
+  fontSize: '0.9375rem',
   background: 'none',
   border: 'none',
-  padding: 0,
+  padding: '0.25rem 0',
   cursor: 'pointer',
   fontFamily: 'inherit',
+  position: 'relative',
 };
+
+function navLinkStyle(isActive) {
+  return {
+    ...linkBase,
+    color: isActive ? '#1c211d' : '#697269',
+    fontWeight: isActive ? 600 : 500,
+    borderBottom: isActive ? '2px solid #cc8400' : '2px solid transparent',
+  };
+}
 
 export default function SiteNav({ activePage }) {
   return (
     <nav style={navStyle} aria-label="Main navigation">
-      <Link to="/" style={{ fontWeight: 700, color: '#006633', textDecoration: 'none' }}>
+      <Link
+        to="/"
+        className="font-serif"
+        style={{ fontWeight: 600, color: '#003d1e', textDecoration: 'none', fontSize: '1.125rem' }}
+      >
         Zero-Dose Nigeria
       </Link>
-      <div style={{ display: 'flex', gap: '1.5rem' }}>
+      <div style={{ display: 'flex', gap: '1.75rem' }}>
         <Link
           to="/story"
-          style={{
-            ...linkBase,
-            color: activePage === 'story' ? '#006633' : '#546e7a',
-            fontWeight: activePage === 'story' ? 600 : 400,
-          }}
+          style={navLinkStyle(activePage === 'story')}
           aria-current={activePage === 'story' ? 'page' : undefined}
         >
           Story
         </Link>
         <Link
           to="/policy"
-          style={{
-            ...linkBase,
-            color: activePage === 'policy' ? '#006633' : '#546e7a',
-            fontWeight: activePage === 'policy' ? 600 : 400,
-          }}
+          style={navLinkStyle(activePage === 'policy')}
           aria-current={activePage === 'policy' ? 'page' : undefined}
         >
           Policy
         </Link>
         <Link
           to="/explorer/descriptive"
-          style={{
-            ...linkBase,
-            color: activePage === 'explorer' ? '#006633' : '#546e7a',
-            fontWeight: activePage === 'explorer' ? 600 : 400,
-          }}
+          style={navLinkStyle(activePage === 'explorer')}
           aria-current={activePage === 'explorer' ? 'page' : undefined}
         >
           Explorer

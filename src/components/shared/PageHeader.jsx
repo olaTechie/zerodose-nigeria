@@ -1,14 +1,31 @@
+// PageHeader — calm editorial header. No animation, no thick coloured rule.
+// 1 px neutral hairline below; serif title in primary green; sans subtitle in neutral-600.
 export default function PageHeader({ title, subtitle }) {
   return (
-    <div className="page-header" style={{ animation: 'fadeIn 0.45s ease-out' }}>
-      <h1 style={{ fontSize: '1.8rem', fontWeight: 800, color: '#0d1b2a', marginBottom: '0.35rem' }}>
+    <header
+      style={{
+        marginBottom: '1.5rem',
+        paddingBottom: '0.75rem',
+        borderBottom: '1px solid #c7cfc7',
+      }}
+    >
+      <h1
+        className="font-serif"
+        style={{
+          fontSize: '1.875rem',
+          fontWeight: 600,
+          color: '#003d1e',
+          margin: '0 0 0.35rem 0',
+          lineHeight: 1.15,
+        }}
+      >
         {title}
       </h1>
       {subtitle && (
-        <p className="page-subtitle" style={{ fontSize: '0.95rem', color: '#546e7a', maxWidth: '700px', lineHeight: 1.55, margin: 0 }}>
+        <p style={{ fontSize: '0.9375rem', color: '#697269', maxWidth: '70ch', lineHeight: 1.55, margin: 0 }}>
           {subtitle}
         </p>
       )}
-    </div>
+    </header>
   );
 }

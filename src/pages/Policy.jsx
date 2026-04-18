@@ -29,34 +29,50 @@ export default function Policy() {
   const tabs = policyPanelTitles;
 
   return (
-    <div style={{ background: 'var(--bg)', minHeight: '100vh' }}>
+    <div style={{ background: '#fbfcfb', minHeight: '100vh' }}>
       {/* Nav */}
       <SiteNav activePage="policy" />
 
       <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '1.5rem' }}>
         <PageHeader title="Policy Dashboard" subtitle="Intervention targeting and resource allocation for zero-dose communities in Nigeria" />
 
-        {/* Tab bar */}
-        <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
-          {tabs.map((tab, i) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(i)}
-              style={{
-                padding: '0.5rem 1.2rem',
-                borderRadius: '50px',
-                border: activeTab === i ? '2px solid #006633' : '1px solid #e0e0e0',
-                background: activeTab === i ? '#006633' : '#fff',
-                color: activeTab === i ? '#fff' : '#546e7a',
-                fontWeight: 600,
-                fontSize: '0.82rem',
-                cursor: 'pointer',
-                transition: 'all 0.2s',
-              }}
-            >
-              {tab.title}
-            </button>
-          ))}
+        {/* Underline tab bar (design brief §9) */}
+        <div
+          role="tablist"
+          style={{
+            display: 'flex',
+            gap: '1.75rem',
+            marginBottom: '1.5rem',
+            flexWrap: 'wrap',
+            borderBottom: '1px solid #c7cfc7',
+            paddingBottom: '0',
+          }}
+        >
+          {tabs.map((tab, i) => {
+            const isActive = activeTab === i;
+            return (
+              <button
+                key={tab.id}
+                role="tab"
+                aria-selected={isActive}
+                onClick={() => setActiveTab(i)}
+                style={{
+                  padding: '0.5rem 0',
+                  border: 'none',
+                  background: 'transparent',
+                  color: isActive ? '#1c211d' : '#697269',
+                  fontWeight: isActive ? 600 : 500,
+                  fontSize: '0.9375rem',
+                  cursor: 'pointer',
+                  fontFamily: 'inherit',
+                  borderBottom: isActive ? '2px solid #cc8400' : '2px solid transparent',
+                  marginBottom: '-1px',
+                }}
+              >
+                {tab.title}
+              </button>
+            );
+          })}
         </div>
 
         <AnimatePresence mode="wait">
@@ -89,24 +105,24 @@ function GeographicPanel() {
 
   const anyError = e1 || e2 || e3;
   if (l1 || l2 || l3) return <LoadingSpinner />;
-  if (anyError) return <div className="glass-card" style={{ padding: '2rem', color: '#b33000', textAlign: 'center' }}>Failed to load data. Please refresh the page.</div>;
+  if (anyError) return <div style={{ padding: '2rem', color: '#b33000', textAlign: 'center' }}>Failed to load data. Please refresh the page.</div>;
 
   return (
     <div>
-      <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
+      <dl style={{ display: 'flex', gap: '2.5rem', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
         <MetricCard label="Moran's I" value="0.608" sublabel="Strong spatial clustering" color="green" />
         <MetricCard label="HH Hotspots" value="5" sublabel="NW states" color="red" />
         <MetricCard label="LL Coldspots" value="5" sublabel="SE/SS states" color="blue" />
-      </div>
+      </dl>
 
       <GlassCard>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
-          <h3 style={{ fontSize: '1rem', fontWeight: 700, margin: 0 }}>
+          <h3 className="font-serif" style={{ fontSize: '1.125rem', fontWeight: 600, margin: 0, color: '#1c211d' }}>
             {showLisa ? 'LISA Cluster Map' : 'Zero-Dose Prevalence by State'}
           </h3>
           <button
             onClick={() => setShowLisa(!showLisa)}
-            style={{ padding: '0.3rem 0.8rem', borderRadius: '50px', border: '1px solid #006633', background: showLisa ? '#006633' : '#fff', color: showLisa ? '#fff' : '#006633', fontSize: '0.78rem', fontWeight: 600, cursor: 'pointer' }}
+            style={toggleBtnStyle(showLisa)}
           >
             {showLisa ? 'Show Prevalence' : 'Show LISA'}
           </button>
@@ -151,38 +167,46 @@ function InterventionPanel() {
   const { data: abmData, loading, error } = useData('abm_scenarios.json');
   const [selectedCell, setSelectedCell] = useState(null);
 
-  if (error) return <div className="glass-card" style={{ padding: '2rem', color: '#b33000', textAlign: 'center' }}>Failed to load data. Please refresh the page.</div>;
+  if (error) return <div style={{ padding: '2rem', color: '#b33000', textAlign: 'center' }}>Failed to load data. Please refresh the page.</div>;
   if (loading) return <LoadingSpinner />;
 
   return (
     <div>
-      <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
-        <div style={{ flex: 1 }}>
-          <GlassCard style={{ borderTop: '3px solid #2e7d32', textAlign: 'center' }}>
-            <TypologyBadge typology="Reference" />
-            <div style={{ marginTop: '0.5rem', fontSize: '0.85rem', color: '#546e7a' }}>
-              60.9% of communities
-            </div>
-            <div style={{ fontSize: '0.78rem', marginTop: '0.3rem' }}>
-              {typologyGuidance.Reference.primary}
-            </div>
-          </GlassCard>
-        </div>
-        <div style={{ flex: 1 }}>
-          <GlassCard style={{ borderTop: '3px solid #1565c0', textAlign: 'center' }}>
-            <TypologyBadge typology="Access-Constrained" />
-            <div style={{ marginTop: '0.5rem', fontSize: '0.85rem', color: '#546e7a' }}>
-              39.1% of communities
-            </div>
-            <div style={{ fontSize: '0.78rem', marginTop: '0.3rem' }}>
-              {typologyGuidance['Access-Constrained'].primary}
-            </div>
-          </GlassCard>
-        </div>
+      <div style={{ display: 'flex', gap: '2rem', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
+        <aside
+          style={{
+            flex: '1 1 280px',
+            paddingLeft: '1rem',
+            borderLeft: '2px solid #2e7d32',
+          }}
+        >
+          <TypologyBadge typology="Reference" />
+          <div style={{ marginTop: '0.5rem', fontSize: '0.875rem', color: '#697269' }}>
+            60.9% of communities
+          </div>
+          <p style={{ fontSize: '0.9375rem', marginTop: '0.4rem', color: '#1c211d', lineHeight: 1.55 }}>
+            {typologyGuidance.Reference.primary}
+          </p>
+        </aside>
+        <aside
+          style={{
+            flex: '1 1 280px',
+            paddingLeft: '1rem',
+            borderLeft: '2px solid #1565c0',
+          }}
+        >
+          <TypologyBadge typology="Access-Constrained" />
+          <div style={{ marginTop: '0.5rem', fontSize: '0.875rem', color: '#697269' }}>
+            39.1% of communities
+          </div>
+          <p style={{ fontSize: '0.9375rem', marginTop: '0.4rem', color: '#1c211d', lineHeight: 1.55 }}>
+            {typologyGuidance['Access-Constrained'].primary}
+          </p>
+        </aside>
       </div>
 
       <GlassCard>
-        <h3 style={{ fontSize: '1rem', fontWeight: 700, marginBottom: '0.75rem' }}>
+        <h3 className="font-serif" style={{ fontSize: '1.125rem', fontWeight: 600, marginBottom: '0.75rem', color: '#1c211d' }}>
           Coverage by Scenario and Typology
         </h3>
         {abmData && (
@@ -227,13 +251,13 @@ function CounterfactualPanel() {
 
   const coverageValue = result?.median_m36 ?? 0;
 
-  if (dataError) return <div className="glass-card" style={{ padding: '2rem', color: '#b33000', textAlign: 'center' }}>Failed to load data. Please refresh the page.</div>;
+  if (dataError) return <div style={{ padding: '2rem', color: '#b33000', textAlign: 'center' }}>Failed to load data. Please refresh the page.</div>;
   if (loading) return <LoadingSpinner />;
 
   return (
     <div>
       {workerError && (
-        <div className="glass-card" style={{ padding: '1rem', color: '#b33000', textAlign: 'center', marginBottom: '1rem' }}>
+        <div style={{ padding: '1rem 1.5rem', color: '#b33000', background: '#fbe9e7', marginBottom: '1rem' }}>
           Counterfactual engine error: {workerError}
         </div>
       )}
@@ -241,24 +265,38 @@ function CounterfactualPanel() {
         {/* Controls */}
         <div style={{ flex: '1 1 350px' }}>
           <GlassCard>
-            <h3 style={{ fontSize: '1rem', fontWeight: 700, marginBottom: '1rem' }}>Adjust Intervention Parameters</h3>
+            <h3 className="font-serif" style={{ fontSize: '1.125rem', fontWeight: 600, marginBottom: '1rem', color: '#1c211d' }}>
+              Adjust Intervention Parameters
+            </h3>
 
             <div style={{ marginBottom: '1rem' }}>
               <label style={labelStyle}>Community Type</label>
-              <div style={{ display: 'flex', gap: '0.5rem' }}>
-                {['Reference', 'Access-Constrained'].map((t) => (
-                  <button
-                    key={t}
-                    onClick={() => setTypology(t)}
-                    style={{
-                      ...tabBtnStyle,
-                      background: typology === t ? (t === 'Reference' ? '#2e7d32' : '#1565c0') : '#f5f5f5',
-                      color: typology === t ? '#fff' : '#546e7a',
-                    }}
-                  >
-                    {t}
-                  </button>
-                ))}
+              <div role="tablist" style={{ display: 'flex', gap: '1.5rem', borderBottom: '1px solid #c7cfc7' }}>
+                {['Reference', 'Access-Constrained'].map((t) => {
+                  const isActive = typology === t;
+                  return (
+                    <button
+                      key={t}
+                      role="tab"
+                      aria-selected={isActive}
+                      onClick={() => setTypology(t)}
+                      style={{
+                        padding: '0.4rem 0',
+                        background: 'transparent',
+                        border: 'none',
+                        color: isActive ? '#1c211d' : '#697269',
+                        fontWeight: isActive ? 600 : 500,
+                        fontSize: '0.875rem',
+                        cursor: 'pointer',
+                        fontFamily: 'inherit',
+                        borderBottom: isActive ? '2px solid #cc8400' : '2px solid transparent',
+                        marginBottom: '-1px',
+                      }}
+                    >
+                      {t}
+                    </button>
+                  );
+                })}
               </div>
             </div>
 
@@ -342,7 +380,7 @@ function ActionPanel() {
 
   const anyError = e1 || e2;
   if (l1 || l2) return <LoadingSpinner />;
-  if (anyError) return <div className="glass-card" style={{ padding: '2rem', color: '#b33000', textAlign: 'center' }}>Failed to load data. Please refresh the page.</div>;
+  if (anyError) return <div style={{ padding: '2rem', color: '#b33000', textAlign: 'center' }}>Failed to load data. Please refresh the page.</div>;
 
   const priorityStates = stateData?.features
     ?.map((f) => f.properties)
@@ -354,7 +392,7 @@ function ActionPanel() {
     <div>
       {/* Priority states table */}
       <GlassCard>
-        <h3 style={{ fontSize: '1rem', fontWeight: 700, marginBottom: '0.75rem' }}>Priority States</h3>
+        <h3 className="font-serif" style={{ fontSize: '1.125rem', fontWeight: 600, marginBottom: '0.75rem', color: '#1c211d' }}>Priority States</h3>
         <div style={{ overflowX: 'auto' }}>
           <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.82rem' }}>
             <thead>
@@ -386,14 +424,14 @@ function ActionPanel() {
       {/* CNA necessity */}
       {cnaData && (
         <GlassCard style={{ marginTop: '1rem' }}>
-          <h3 style={{ fontSize: '1rem', fontWeight: 700, marginBottom: '0.75rem' }}>Necessity Analysis</h3>
+          <h3 className="font-serif" style={{ fontSize: '1.125rem', fontWeight: 600, marginBottom: '0.75rem', color: '#1c211d' }}>Necessity Analysis</h3>
           <NecessityBar data={cnaData.necessity} threshold={0.75} />
         </GlassCard>
       )}
 
       {/* Recipe cards */}
       <div style={{ marginTop: '1rem' }}>
-        <h3 style={{ fontSize: '1rem', fontWeight: 700, marginBottom: '0.75rem' }}>Causal Recipes</h3>
+        <h3 className="font-serif" style={{ fontSize: '1.125rem', fontWeight: 600, marginBottom: '0.75rem', color: '#1c211d' }}>Causal Recipes</h3>
         {Object.entries(recipePlainLanguage).map(([key, recipe]) => (
           <RecipeCard
             key={key}
@@ -407,7 +445,7 @@ function ActionPanel() {
 
       {/* Policy briefs */}
       <div style={{ marginTop: '1rem' }}>
-        <h3 style={{ fontSize: '1rem', fontWeight: 700, marginBottom: '0.75rem' }}>Policy Briefs</h3>
+        <h3 className="font-serif" style={{ fontSize: '1.125rem', fontWeight: 600, marginBottom: '0.75rem', color: '#1c211d' }}>Policy Briefs</h3>
         <PolicyBriefCard typology="Reference" content={policyBriefContent.Reference} />
         <PolicyBriefCard typology="Access-Constrained" content={policyBriefContent['Access-Constrained']} />
       </div>
@@ -415,5 +453,26 @@ function ActionPanel() {
   );
 }
 
-const labelStyle = { fontSize: '0.82rem', fontWeight: 600, color: '#546e7a' };
-const tabBtnStyle = { padding: '0.35rem 1rem', borderRadius: '50px', border: 'none', fontSize: '0.8rem', fontWeight: 600, cursor: 'pointer' };
+const labelStyle = {
+  fontSize: '0.75rem',
+  fontWeight: 500,
+  color: '#697269',
+  textTransform: 'uppercase',
+  letterSpacing: '0.08em',
+  display: 'block',
+  marginBottom: '0.4rem',
+};
+
+function toggleBtnStyle(active) {
+  return {
+    padding: '0.35rem 0.75rem',
+    borderRadius: '6px',
+    border: '1px solid #003d1e',
+    background: active ? '#003d1e' : 'transparent',
+    color: active ? '#ffffff' : '#003d1e',
+    fontSize: '0.8125rem',
+    fontWeight: 500,
+    cursor: 'pointer',
+    fontFamily: 'inherit',
+  };
+}

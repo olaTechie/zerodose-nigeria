@@ -174,16 +174,15 @@ export default function NigeriaMap({
             position: 'fixed',
             left: Math.min(tooltip.x + 12, window.innerWidth - 270),
             top: Math.max(tooltip.y - 10, 10),
-            background: 'rgba(255,255,255,0.95)',
-            backdropFilter: 'blur(8px)',
-            border: '1px solid rgba(0,102,51,0.15)',
-            borderRadius: '8px',
+            background: '#ffffff',
+            border: '1px solid #c7cfc7',
+            borderRadius: '6px',
             padding: '0.5rem 0.75rem',
-            fontSize: '0.78rem',
-            color: '#0d1b2a',
+            fontSize: '0.8125rem',
+            color: '#1c211d',
             pointerEvents: 'none',
             zIndex: 1000,
-            boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+            boxShadow: '0 1px 3px rgba(0, 0, 0, 0.06)',
           }}
         >
           <div style={{ fontWeight: 700 }}>{tooltip.name}</div>

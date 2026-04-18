@@ -10,7 +10,7 @@ import { thStyle, tdStyle } from '../../styles/tableStyles';
 export default function TrustTab() {
   const { data: lcaData, loading, error } = useData('lca_profiles.json');
 
-  if (error) return <div className="glass-card" style={{ padding: '2rem', color: '#b33000', textAlign: 'center' }}>Failed to load data. Please refresh the page.</div>;
+  if (error) return <div style={{ padding: '2rem', color: '#b33000', textAlign: 'center' }}>Failed to load data. Please refresh the page.</div>;
   if (loading) return <LoadingSpinner />;
 
   const trustStates = lcaData?.trustStates || [];

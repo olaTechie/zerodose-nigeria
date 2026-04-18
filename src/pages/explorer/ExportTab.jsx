@@ -65,58 +65,68 @@ export default function ExportTab() {
       </p>
 
       <GlassCard>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-          <h3 style={{ fontSize: '1rem', fontWeight: 700, margin: 0 }}>Pipeline Data Files</h3>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', flexWrap: 'wrap', gap: '0.75rem' }}>
+          <h3 className="font-serif" style={{ fontSize: '1.125rem', fontWeight: 600, margin: 0, color: '#1c211d' }}>
+            Pipeline Data Files
+          </h3>
           <button
             onClick={downloadAll}
             disabled={downloading}
             style={{
-              padding: '0.5rem 1.2rem',
-              background: downloading ? '#ccc' : '#006633',
-              color: '#fff',
+              padding: '0.5rem 1rem',
+              background: downloading ? '#c7cfc7' : '#003d1e',
+              color: '#ffffff',
               border: 'none',
-              borderRadius: '50px',
-              fontSize: '0.85rem',
-              fontWeight: 600,
+              borderRadius: '6px',
+              fontSize: '0.875rem',
+              fontWeight: 500,
               cursor: downloading ? 'default' : 'pointer',
+              fontFamily: 'inherit',
             }}
           >
-            {downloading ? 'Zipping...' : 'Download All (ZIP)'}
+            {downloading ? 'Zipping...' : 'Download all (ZIP)'}
           </button>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '0.75rem' }}>
+        <div>
           {DATA_FILES.map((file) => (
             <button
               key={file.filename}
-              className="glass-card"
+              onClick={() => downloadFile(file.filename)}
               style={{
-                padding: '1rem',
+                display: 'block',
+                padding: '1rem 0',
                 cursor: 'pointer',
-                borderLeft: '3px solid #006633',
-                transition: 'transform 0.2s',
                 background: 'none',
                 border: 'none',
-                borderLeftWidth: '3px',
-                borderLeftStyle: 'solid',
-                borderLeftColor: '#006633',
+                borderTop: '1px solid #c7cfc7',
                 textAlign: 'left',
                 width: '100%',
                 fontFamily: 'inherit',
               }}
-              onClick={() => downloadFile(file.filename)}
-              onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-1px)'; }}
-              onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; }}
             >
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                <div>
-                  <div style={{ fontWeight: 700, fontSize: '0.9rem', color: '#0d1b2a' }}>{file.label}</div>
-                  <div style={{ fontSize: '0.78rem', color: '#546e7a', marginTop: '0.2rem' }}>{file.desc}</div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '1rem' }}>
+                <div style={{ flex: 1 }}>
+                  <div className="font-serif" style={{ fontWeight: 600, fontSize: '1rem', color: '#1c211d' }}>
+                    {file.label}
+                  </div>
+                  <div style={{ fontSize: '0.875rem', color: '#697269', marginTop: '0.2rem' }}>
+                    {file.desc}
+                  </div>
+                  <div
+                    style={{
+                      fontSize: '0.8125rem',
+                      color: '#003d1e',
+                      marginTop: '0.3rem',
+                      fontFamily: 'ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace',
+                    }}
+                  >
+                    {file.filename}
+                  </div>
                 </div>
-                <div style={{ fontSize: '0.72rem', color: '#78909c', whiteSpace: 'nowrap' }}>{file.size}</div>
-              </div>
-              <div style={{ fontSize: '0.72rem', color: '#006633', marginTop: '0.3rem', fontFamily: "'Courier New', monospace" }}>
-                {file.filename}
+                <div style={{ fontSize: '0.8125rem', color: '#697269', whiteSpace: 'nowrap', fontVariantNumeric: 'tabular-nums' }}>
+                  {file.size}
+                </div>
               </div>
             </button>
           ))}

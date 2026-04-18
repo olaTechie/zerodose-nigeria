@@ -28,7 +28,7 @@ export default function Story() {
   const anyError = e1 || e2 || e3 || e4 || e5;
 
   if (anyLoading) return <LoadingSpinner />;
-  if (anyError) return <div className="glass-card" style={{ padding: '2rem', color: '#b33000', textAlign: 'center' }}>Failed to load story data. Please refresh the page.</div>;
+  if (anyError) return <div style={{ padding: '2rem', color: '#b33000', textAlign: 'center' }}>Failed to load story data. Please refresh the page.</div>;
 
   const colorScale = getPrevalenceColorScale(90);
 
@@ -111,33 +111,58 @@ export default function Story() {
   }
 
   return (
-    <div style={{ background: 'var(--bg)', minHeight: '100vh' }}>
+    <div style={{ background: '#fbfcfb', minHeight: '100vh' }}>
       {/* Navigation bar */}
       <SiteNav activePage="story" />
 
       {/* Hero */}
-      <div style={{ paddingTop: '3rem' }}>
-        <StoryHero />
-      </div>
+      <StoryHero />
 
       {/* Scrollytelling sections */}
       {storySections.map((section, sIdx) => (
         <div key={section.id} style={{ minHeight: '100vh', padding: '0 2rem' }}>
-          <h2 style={{
-            fontSize: '2rem', fontWeight: 800, color: '#003d1e',
-            textAlign: 'center', padding: '2rem 0 1rem',
-          }}>
+          <h2
+            className="font-serif"
+            style={{
+              fontSize: '2.25rem',
+              fontWeight: 500,
+              color: '#003d1e',
+              padding: '3rem 0 1.5rem',
+              maxWidth: '1200px',
+              margin: '0 auto',
+              lineHeight: 1.15,
+            }}
+          >
             {section.title}
           </h2>
 
-          <div className="scroll-section" style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <div
+            style={{
+              maxWidth: '1200px',
+              margin: '0 auto',
+              display: 'flex',
+              position: 'relative',
+              minHeight: '100vh',
+            }}
+          >
             {/* Sticky visual */}
-            <div className="scroll-visual">
+            <div
+              style={{
+                position: 'sticky',
+                top: '4rem',
+                height: 'calc(100vh - 4rem)',
+                flex: '1 1 55%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                overflow: 'hidden',
+              }}
+            >
               {Math.abs(currentSection - sIdx) <= 1 && renderVisual(sIdx)}
             </div>
 
             {/* Scrolling narrative */}
-            <div className="scroll-narrative">
+            <div style={{ flex: '1 1 45%', padding: '40vh 2.5rem' }}>
               <Scrollama
                 onStepEnter={({ data }) => {
                   setCurrentSection(sIdx);
@@ -148,16 +173,16 @@ export default function Story() {
                 {section.narrativeBlocks.map((block, bIdx) => (
                   <Step key={bIdx} data={bIdx}>
                     <div
-                      className="glass-card"
                       style={{
                         marginBottom: '40vh',
-                        padding: '1.5rem',
-                        maxWidth: '400px',
-                        opacity: currentSection === sIdx && sectionStep >= bIdx ? 1 : 0.3,
+                        paddingTop: '1.25rem',
+                        borderTop: '1px solid #c7cfc7',
+                        maxWidth: '440px',
+                        opacity: currentSection === sIdx && sectionStep >= bIdx ? 1 : 0.4,
                         transition: 'opacity 0.4s ease',
                       }}
                     >
-                      <p style={{ fontSize: '0.95rem', lineHeight: 1.65, margin: 0, color: '#0d1b2a' }}>
+                      <p style={{ fontSize: '1.0625rem', lineHeight: 1.6, margin: 0, color: '#1c211d' }}>
                         {block}
                       </p>
                     </div>
@@ -167,22 +192,38 @@ export default function Story() {
                 {/* Stat highlight */}
                 <Step data={section.narrativeBlocks.length}>
                   <div
-                    className="glass-card"
                     style={{
                       marginBottom: '30vh',
-                      padding: '1.2rem',
-                      maxWidth: '400px',
-                      textAlign: 'center',
-                      borderTop: '3px solid #006633',
+                      paddingTop: '1.5rem',
+                      borderTop: '1px solid #c7cfc7',
+                      maxWidth: '440px',
                     }}
                   >
-                    <div style={{ fontSize: '2.2rem', fontWeight: 800, color: '#006633' }}>
-                      {section.statHighlight.value}
-                    </div>
-                    <div style={{ fontSize: '0.82rem', color: '#546e7a', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                    <div
+                      style={{
+                        fontSize: '0.75rem',
+                        fontWeight: 500,
+                        letterSpacing: '0.08em',
+                        textTransform: 'uppercase',
+                        color: '#697269',
+                        marginBottom: '0.4rem',
+                      }}
+                    >
                       {section.statHighlight.label}
                     </div>
-                    <div style={{ fontSize: '0.75rem', color: '#78909c', marginTop: '0.5rem' }}>
+                    <div
+                      className="font-serif"
+                      style={{
+                        fontSize: '3rem',
+                        fontWeight: 500,
+                        color: '#003d1e',
+                        lineHeight: 1.05,
+                        fontVariantNumeric: 'tabular-nums',
+                      }}
+                    >
+                      {section.statHighlight.value}
+                    </div>
+                    <div style={{ fontSize: '0.8125rem', color: '#697269', marginTop: '0.75rem', lineHeight: 1.5 }}>
                       {section.caption}
                     </div>
                   </div>
@@ -194,33 +235,45 @@ export default function Story() {
       ))}
 
       {/* CTA at end */}
-      <div style={{ textAlign: 'center', padding: '4rem 2rem', background: 'var(--bg-secondary)' }}>
-        <h2 style={{ fontSize: '1.8rem', fontWeight: 800, color: '#003d1e', marginBottom: '1rem' }}>
-          Explore the evidence
-        </h2>
-        <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-          <button className="btn-primary" style={btnStyle} onClick={() => navigate('/policy')}>
-            Policy Dashboard
-          </button>
-          <button className="btn-secondary" style={{ ...btnStyle, background: '#fff', color: '#006633', border: '2px solid #006633' }} onClick={() => navigate('/explorer/descriptive')}>
-            Technical Explorer
-          </button>
+      <div
+        style={{
+          padding: '4rem 2rem',
+          background: '#f4f7f4',
+          borderTop: '1px solid #c7cfc7',
+        }}
+      >
+        <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+          <h2
+            className="font-serif"
+            style={{ fontSize: '2rem', fontWeight: 500, color: '#003d1e', marginBottom: '1.5rem', lineHeight: 1.2 }}
+          >
+            Explore the evidence
+          </h2>
+          <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap' }}>
+            <button onClick={() => navigate('/policy')} style={ctaLinkStyle}>
+              Policy Dashboard {'\u2192'}
+            </button>
+            <button onClick={() => navigate('/explorer/descriptive')} style={ctaLinkStyle}>
+              Technical Explorer {'\u2192'}
+            </button>
+          </div>
         </div>
       </div>
     </div>
   );
 }
 
-const btnStyle = {
-  padding: '0.75rem 2rem',
-  background: '#006633',
-  color: '#fff',
+const ctaLinkStyle = {
+  background: 'transparent',
   border: 'none',
-  borderRadius: '50px',
-  fontSize: '0.95rem',
-  fontWeight: 600,
+  color: '#003d1e',
+  fontFamily: 'inherit',
+  fontSize: '1.125rem',
+  fontWeight: 500,
   cursor: 'pointer',
-  transition: 'transform 0.2s',
+  padding: 0,
+  textDecoration: 'underline',
+  textUnderlineOffset: '4px',
 };
 
 function DecisionTreeSVG() {

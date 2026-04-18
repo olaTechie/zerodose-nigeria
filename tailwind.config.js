@@ -6,22 +6,33 @@ export default {
   theme: {
     extend: {
       colors: {
+        // Nigeria green — brand load-bearing. /quieter dropped `primary.glow`.
         primary: {
           dark: '#003d1e',
           DEFAULT: '#006633',
           light: '#008744',
-          glow: 'rgba(0, 102, 51, 0.25)',
         },
+        // Calm neutral surfaces — replace rgba glassmorphism backgrounds.
         background: {
-          DEFAULT: '#f0f4f0',
-          secondary: '#e8f0e8',
-          card: 'rgba(255, 255, 255, 0.80)',
-          'card-hover': 'rgba(255, 255, 255, 0.92)',
+          DEFAULT: '#fbfcfb',
+          secondary: '#f4f7f4',
+        },
+        // OKLCH-inspired neutrals tinted toward primary green hue 155, chroma <= 0.010.
+        // Design brief §5: hex approximations for each token. Use these for surfaces,
+        // hairline rules, and text levels.
+        neutral: {
+          0: '#fbfcfb',
+          50: '#f4f7f4',
+          100: '#e9eee9',
+          200: '#dde2dd',
+          300: '#c7cfc7',
+          600: '#697269',
+          900: '#1c211d',
         },
         text: {
-          DEFAULT: '#0d1b2a',
-          secondary: '#546e7a',
-          muted: '#78909c',
+          DEFAULT: '#1c211d',
+          secondary: '#697269',
+          muted: '#9aa19a',
           inverse: '#ffffff',
         },
         gold: {
@@ -32,10 +43,12 @@ export default {
           DEFAULT: '#d32f2f',
           dark: '#b33000',
           deep: '#6b1a1a',
+          50: '#fbe9e7',
         },
         blue: {
           DEFAULT: '#1565c0',
         },
+        // Semantic coverage tiers — preserved per design brief §5.
         coverage: {
           ontrack: '#006633',
           'ontrack-bg': '#e8f5e9',
@@ -46,6 +59,7 @@ export default {
           crisis: '#6b1a1a',
           'crisis-bg': '#fce4ec',
         },
+        // Nigeria zone palette — preserved per design brief §5.
         zone: {
           nw: '#8b0000',
           ne: '#cc4400',
@@ -54,11 +68,10 @@ export default {
           ss: '#1565c0',
           sw: '#4a148c',
         },
+        // Typology data colours — kept; matching `-bg` tints retired per design brief §5.
         typology: {
           access: '#1565c0',
-          'access-bg': '#e3f2fd',
           reference: '#2e7d32',
-          'reference-bg': '#e8f5e9',
         },
       },
       fontFamily: {
@@ -104,14 +117,6 @@ export default {
           '"Liberation Mono"',
           'monospace',
         ],
-        // Transitional alias — kept so any straggling `font-inter` utility resolves cleanly to
-        // the new body sans during the polish/editorial-rebuild migration. /quieter removes this.
-        inter: [
-          '"Source Sans 3"',
-          'ui-sans-serif',
-          'system-ui',
-          'sans-serif',
-        ],
       },
       fontSize: {
         // Modular scale at 1.25 (major third) anchored at 16 px body — design brief §4.
@@ -135,49 +140,21 @@ export default {
         bold: '700',
         extrabold: '800',
       },
+      // Editorial radii — keep sm/md/lg only. Pills (>= 9999px) and 2xl (28px) deleted
+      // per design brief §10. CoverageTierTag and toggles use rounded-sm (6px).
       borderRadius: {
         sm: '6px',
         md: '10px',
         lg: '14px',
-        xl: '16px',
-        '2xl': '28px',
-        pill: '50px',
       },
-      backdropBlur: {
-        card: '16px',
-        hero: '12px',
-      },
+      // shadow-sm only — used as a 1 px hairline alternative for table headers.
+      // shadow-md/lg/hover removed; nothing in the editorial system lifts.
       boxShadow: {
         sm: '0 1px 3px rgba(0, 0, 0, 0.06)',
-        md: '0 4px 12px rgba(0, 0, 0, 0.08)',
-        lg: '0 8px 24px rgba(0, 0, 0, 0.12)',
-        hover: '0 8px 28px rgba(0, 102, 51, 0.15)',
       },
-      keyframes: {
-        fadeIn: {
-          from: { opacity: '0', transform: 'translateY(8px)' },
-          to: { opacity: '1', transform: 'translateY(0)' },
-        },
-        heroGradient: {
-          '0%': { backgroundPosition: '0% 50%' },
-          '50%': { backgroundPosition: '100% 50%' },
-          '100%': { backgroundPosition: '0% 50%' },
-        },
-        pulse: {
-          '0%, 100%': { opacity: '1', transform: 'scale(1)' },
-          '50%': { opacity: '0.6', transform: 'scale(1.02)' },
-        },
-        slideUp: {
-          from: { opacity: '0', transform: 'translateY(16px)' },
-          to: { opacity: '1', transform: 'translateY(0)' },
-        },
-      },
-      animation: {
-        fadeIn: 'fadeIn 0.45s ease-out',
-        heroGradient: 'heroGradient 8s ease infinite',
-        pulse: 'pulse 2.5s ease-in-out infinite',
-        slideUp: 'slideUp 0.5s ease-out',
-      },
+      // No keyframes / animation extensions — ambient motion (heroGradient, pulse,
+      // slideUp, fadeIn) deleted per design brief §10. Per-route motion is handled
+      // by /animate via framer-motion.
       screens: {
         sm: '640px',
         md: '768px',

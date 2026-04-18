@@ -1,38 +1,48 @@
-export default function NavCard({ icon, title, description, accentColor = '#006633', onClick }) {
+// AudienceEntryBlock — transitional shim for the legacy NavCard import.
+// Per design brief §6: editorial row with eyebrow + serif h2 + body sans + arrow link.
+// No icon, no card chrome, no shadow. /distill will rename to AudienceEntryBlock.
+export default function NavCard({ icon, title, description, accentColor = '#003d1e', onClick }) {
+  // The `icon` prop is intentionally ignored — emoji/icons are removed per the cut list.
+  void icon;
   return (
     <button
-      className="nav-card glass-card"
       onClick={onClick}
+      className="block w-full text-left border-t border-neutral-200 py-8 hover:bg-neutral-50 transition-colors"
       style={{
-        cursor: 'pointer',
-        borderLeft: `4px solid ${accentColor}`,
-        padding: '1.5rem',
-        transition: 'transform 0.2s ease, box-shadow 0.2s ease',
         background: 'none',
         border: 'none',
-        borderLeftWidth: '4px',
-        borderLeftStyle: 'solid',
-        borderLeftColor: accentColor,
-        textAlign: 'left',
-        width: '100%',
+        borderTop: '1px solid #c7cfc7',
+        cursor: 'pointer',
         fontFamily: 'inherit',
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.transform = 'translateY(-2px)';
-        e.currentTarget.style.boxShadow = '0 8px 28px rgba(0,102,51,0.15)';
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.transform = 'translateY(0)';
-        e.currentTarget.style.boxShadow = '';
+        width: '100%',
       }}
     >
-      <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>{icon}</div>
-      <h3 style={{ fontSize: '1.15rem', fontWeight: 700, marginBottom: '0.4rem', color: accentColor }}>
+      <h3
+        className="font-serif"
+        style={{
+          fontSize: '1.375rem',
+          fontWeight: 600,
+          marginBottom: '0.5rem',
+          color: accentColor,
+          lineHeight: 1.3,
+        }}
+      >
         {title}
       </h3>
-      <p style={{ fontSize: '0.88rem', color: '#546e7a', lineHeight: 1.55, margin: 0 }}>
+      <p style={{ fontSize: '0.9375rem', color: '#697269', lineHeight: 1.6, margin: 0, maxWidth: '52ch' }}>
         {description}
       </p>
+      <span
+        style={{
+          marginTop: '0.75rem',
+          display: 'inline-block',
+          fontSize: '0.875rem',
+          color: accentColor,
+          fontWeight: 500,
+        }}
+      >
+        Continue {'\u2192'}
+      </span>
     </button>
   );
 }

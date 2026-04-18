@@ -16,7 +16,7 @@ export default function ABMTab() {
   const [typology, setTypology] = useState('Reference');
   const [selectedScenarios, setSelectedScenarios] = useState(['S0', 'S1', 'S5']);
 
-  if (e1 || e2) return <div className="glass-card" style={{ padding: '2rem', color: '#b33000', textAlign: 'center' }}>Failed to load data. Please refresh the page.</div>;
+  if (e1 || e2) return <div style={{ padding: '2rem', color: '#b33000', textAlign: 'center' }}>Failed to load data. Please refresh the page.</div>;
   if (l1 || l2) return <LoadingSpinner />;
 
   const toggleScenario = (s) => {
@@ -56,25 +56,31 @@ export default function ABMTab() {
         </div>
 
         {/* Scenario toggles */}
-        <div style={{ display: 'flex', gap: '0.3rem', flexWrap: 'wrap', marginBottom: '0.75rem' }}>
-          {Object.entries(SCENARIO_LABELS).map(([id, label]) => (
-            <button
-              key={id}
-              onClick={() => toggleScenario(id)}
-              style={{
-                padding: '0.2rem 0.6rem',
-                borderRadius: '50px',
-                border: selectedScenarios.includes(id) ? '2px solid #006633' : '1px solid #e0e0e0',
-                background: selectedScenarios.includes(id) ? '#e8f5e9' : '#fff',
-                color: selectedScenarios.includes(id) ? '#006633' : '#999',
-                fontSize: '0.72rem',
-                fontWeight: 500,
-                cursor: 'pointer',
-              }}
-            >
-              {id}: {label}
-            </button>
-          ))}
+        <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap', marginBottom: '0.75rem' }}>
+          {Object.entries(SCENARIO_LABELS).map(([id, label]) => {
+            const active = selectedScenarios.includes(id);
+            return (
+              <button
+                key={id}
+                onClick={() => toggleScenario(id)}
+                aria-pressed={active}
+                style={{
+                  padding: '0.25rem 0.65rem',
+                  borderRadius: '6px',
+                  border: `1px solid ${active ? '#003d1e' : '#c7cfc7'}`,
+                  background: active ? '#003d1e' : 'transparent',
+                  color: active ? '#ffffff' : '#697269',
+                  fontSize: '0.75rem',
+                  fontWeight: 500,
+                  cursor: 'pointer',
+                  fontFamily: 'inherit',
+                  letterSpacing: '0.02em',
+                }}
+              >
+                {id}: {label}
+              </button>
+            );
+          })}
         </div>
 
         {abmData && (

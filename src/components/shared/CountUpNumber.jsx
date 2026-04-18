@@ -1,30 +1,17 @@
-import { useRef, useEffect, useState } from 'react';
-import { useInView } from 'framer-motion';
-
-export default function CountUpNumber({ target, duration = 1500, prefix = '', suffix = '', decimals = 0 }) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-50px' });
-  const [display, setDisplay] = useState(0);
-
-  useEffect(() => {
-    if (!isInView) return;
-    const start = performance.now();
-    const numTarget = typeof target === 'string' ? parseFloat(target.replace(/[^0-9.-]/g, '')) : target;
-
-    function animate(now) {
-      const elapsed = now - start;
-      const progress = Math.min(elapsed / duration, 1);
-      // Ease-out cubic
-      const eased = 1 - Math.pow(1 - progress, 3);
-      setDisplay(numTarget * eased);
-      if (progress < 1) requestAnimationFrame(animate);
-    }
-    requestAnimationFrame(animate);
-  }, [isInView, target, duration]);
-
+// StaticFigure — transitional shim for the legacy CountUpNumber import.
+// Per design brief §6: render the final number on first paint (no count-up animation),
+// in tabular numerals so digits don't jiggle. /distill will rename to StaticFigure.
+export default function CountUpNumber({ target, prefix = '', suffix = '', decimals = 0 }) {
+  const numTarget =
+    typeof target === 'string'
+      ? parseFloat(target.replace(/[^0-9.-]/g, ''))
+      : target;
+  const value = Number.isFinite(numTarget) ? numTarget.toFixed(decimals) : String(target);
   return (
-    <span ref={ref} className="count-up">
-      {prefix}{display.toFixed(decimals)}{suffix}
+    <span style={{ fontVariantNumeric: 'tabular-nums', fontWeight: 600 }}>
+      {prefix}
+      {value}
+      {suffix}
     </span>
   );
 }

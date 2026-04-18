@@ -25,28 +25,37 @@ const TABS = [
 
 export default function Explorer() {
   return (
-    <div style={{ background: 'var(--bg)', minHeight: '100vh' }}>
+    <div style={{ background: '#fbfcfb', minHeight: '100vh' }}>
       {/* Nav */}
       <SiteNav activePage="explorer" />
 
       <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '1.5rem' }}>
         <PageHeader title="Technical Explorer" subtitle="Detailed outputs from each pipeline stage" />
 
-        {/* Tab bar */}
-        <div style={{ display: 'flex', gap: '0.4rem', marginBottom: '1.5rem', flexWrap: 'wrap', borderBottom: '2px solid #e0e0e0', paddingBottom: '0.5rem' }}>
+        {/* Underline tab bar (design brief §9) */}
+        <div
+          role="tablist"
+          style={{
+            display: 'flex',
+            gap: '1.75rem',
+            marginBottom: '1.5rem',
+            flexWrap: 'wrap',
+            borderBottom: '1px solid #c7cfc7',
+          }}
+        >
           {TABS.map((tab) => (
             <NavLink
               key={tab.id}
               to={tab.id}
               style={({ isActive }) => ({
-                padding: '0.4rem 1rem',
-                borderRadius: '50px 50px 0 0',
-                background: isActive ? '#006633' : 'transparent',
-                color: isActive ? '#fff' : '#546e7a',
-                fontWeight: isActive ? 700 : 500,
-                fontSize: '0.82rem',
+                padding: '0.5rem 0',
+                background: 'transparent',
+                color: isActive ? '#1c211d' : '#697269',
+                fontWeight: isActive ? 600 : 500,
+                fontSize: '0.9375rem',
                 textDecoration: 'none',
-                transition: 'all 0.2s',
+                borderBottom: isActive ? '2px solid #cc8400' : '2px solid transparent',
+                marginBottom: '-1px',
               })}
             >
               {tab.label}

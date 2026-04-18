@@ -13,7 +13,7 @@ import { thStyle, tdStyle } from '../../styles/tableStyles';
 export default function CNATab() {
   const { data: cnaData, loading, error } = useData('cna_solutions.json');
 
-  if (error) return <div className="glass-card" style={{ padding: '2rem', color: '#b33000', textAlign: 'center' }}>Failed to load data. Please refresh the page.</div>;
+  if (error) return <div style={{ padding: '2rem', color: '#b33000', textAlign: 'center' }}>Failed to load data. Please refresh the page.</div>;
   if (loading) return <LoadingSpinner />;
 
   const solutions = cnaData?.solutions || [];

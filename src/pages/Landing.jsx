@@ -1,115 +1,152 @@
 import { useNavigate } from 'react-router-dom';
 import NavCard from '../components/shared/NavCard';
-import MetricCard from '../components/shared/MetricCard';
 import CountUpNumber from '../components/shared/CountUpNumber';
 import { PIPELINE_METRICS } from '../data/constants';
 
+// Landing — editorial first impression. Flat neutral hero (no animated gradient,
+// no glassy stat boxes); audience entry blocks (no nav cards); pipeline stages as
+// editorial blocks (no card chrome). Per design brief §2 (Landing) and §6.
 export default function Landing() {
   const navigate = useNavigate();
 
   return (
-    <div style={{ background: 'var(--bg)', minHeight: '100vh' }}>
-      {/* Hero */}
-      <div className="hero-section" style={{ minHeight: '70vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', borderRadius: 0 }}>
-        <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 2rem', width: '100%' }}>
-          <div className="hero-overline">Nigeria DHS 2024 | Integrated ML-ABM-CNA Framework</div>
-          <h1 className="hero-title" style={{ maxWidth: '750px' }}>
-            Trust, Access, and Causal Recipes for Vaccination Coverage Recovery in Nigeria
-          </h1>
-          <p className="hero-subtitle">
-            An integrated machine learning, agent-based modelling, and coincidence analysis pipeline
-            identifying the minimal intervention bundles needed to reach 80% Pentavalent-1 coverage
-            in zero-dose communities across Nigeria.
-          </p>
-          <div className="hero-stats">
-            <div className="hero-stat">
-              <div className="hero-stat-value">
-                <CountUpNumber target={4875} decimals={0} />
-              </div>
-              <div className="hero-stat-label">Children analysed</div>
-            </div>
-            <div className="hero-stat">
-              <div className="hero-stat-value">
-                <CountUpNumber target={36.8} suffix="%" decimals={1} />
-              </div>
-              <div className="hero-stat-label">Zero-dose prevalence</div>
-            </div>
-            <div className="hero-stat">
-              <div className="hero-stat-value">
-                <CountUpNumber target={1283} decimals={0} />
-              </div>
-              <div className="hero-stat-label">Communities simulated</div>
-            </div>
-            <div className="hero-stat">
-              <div className="hero-stat-value">0.972</div>
-              <div className="hero-stat-label">ML model AUC</div>
-            </div>
+    <div style={{ background: '#fbfcfb', minHeight: '100vh' }}>
+      {/* Editorial hero */}
+      <section
+        style={{
+          background: '#f4f7f4',
+          borderBottom: '1px solid #c7cfc7',
+          padding: '5rem 2.5rem 4rem',
+        }}
+      >
+        <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+          <div
+            style={{
+              fontSize: '0.75rem',
+              fontWeight: 500,
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase',
+              color: '#697269',
+              marginBottom: '0.75rem',
+            }}
+          >
+            Nigeria DHS 2024 &middot; Integrated ML-ABM-CNA Framework
           </div>
-        </div>
-      </div>
+          <h1
+            className="font-serif"
+            style={{
+              fontSize: '3rem',
+              fontWeight: 500,
+              lineHeight: 1.1,
+              color: '#1c211d',
+              margin: '0 0 1rem 0',
+              maxWidth: '24ch',
+            }}
+          >
+            More than one in three Nigerian children never receives a single vaccine.
+          </h1>
+          <p style={{ fontSize: '1.0625rem', color: '#1c211d', lineHeight: 1.55, maxWidth: '60ch', margin: '0 0 2rem 0' }}>
+            Two community types. Two recipes. One unified targeting rule. An integrated
+            machine learning, agent-based modelling, and coincidence analysis pipeline
+            that identifies the minimal intervention bundles to reach 80% Pentavalent-1
+            coverage in zero-dose communities across Nigeria.
+          </p>
 
-      {/* Audience cards */}
-      <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '2rem' }}>
-        <h2 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#003d1e', textAlign: 'center', marginBottom: '0.5rem' }}>
+          <dl
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(170px, 1fr))',
+              gap: '1.5rem',
+              margin: 0,
+              padding: '1.5rem 0 0',
+              borderTop: '1px solid #c7cfc7',
+            }}
+          >
+            <KeyFigure label="Children analysed" value={<CountUpNumber target={4875} decimals={0} />} />
+            <KeyFigure label="Zero-dose prevalence" value={<CountUpNumber target={36.8} suffix="%" decimals={1} />} />
+            <KeyFigure label="Communities simulated" value={<CountUpNumber target={1283} decimals={0} />} />
+            <KeyFigure label="ML model AUC" value="0.972" />
+          </dl>
+        </div>
+      </section>
+
+      {/* Audience entry blocks */}
+      <section style={{ maxWidth: '1100px', margin: '0 auto', padding: '4rem 2rem 2rem' }}>
+        <h2
+          className="font-serif"
+          style={{
+            fontSize: '1.5rem',
+            fontWeight: 500,
+            color: '#003d1e',
+            margin: '0 0 0.5rem 0',
+          }}
+        >
           Choose your experience
         </h2>
-        <p style={{ textAlign: 'center', color: '#546e7a', fontSize: '0.9rem', marginBottom: '2rem' }}>
+        <p style={{ color: '#697269', fontSize: '0.9375rem', margin: '0 0 1.5rem 0' }}>
           Three ways to explore the evidence, tailored to different audiences.
         </p>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem', marginBottom: '3rem' }}>
+        <div>
           <NavCard
-            icon="📖"
             title="The Story"
-            description="A scrolling data narrative that walks you through the crisis, its geography, the machine learning insights, and the intervention recipes. Designed for policymakers, media, and general audiences."
-            accentColor="#006633"
+            description="A scrolling data narrative that walks you through the crisis, its geography, the machine learning insights, and the intervention recipes. Designed for policy makers, media, and general audiences."
+            accentColor="#003d1e"
             onClick={() => navigate('/story')}
           />
           <NavCard
-            icon="🎛️"
             title="Policy Dashboard"
             description="Interactive maps, intervention scenario comparisons, and a what-if explorer that lets you adjust outreach intensity and see projected coverage in real time. Designed for NPHCDA planners and state health officers."
-            accentColor="#1565c0"
+            accentColor="#003d1e"
             onClick={() => navigate('/policy')}
           />
           <NavCard
-            icon="🔬"
             title="Technical Explorer"
             description="Full pipeline outputs: weighted Table 1, SHAP importance, Moran's I scatterplots, LCA profiles, ABM trajectories, CNA solutions, and data downloads. Designed for researchers and reviewers."
-            accentColor="#7b1fa2"
+            accentColor="#003d1e"
             onClick={() => navigate('/explorer/descriptive')}
           />
         </div>
+      </section>
 
-        {/* Pipeline stages */}
-        <h2 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#003d1e', textAlign: 'center', marginBottom: '1.5rem' }}>
-          Three-Stage Pipeline
+      {/* Pipeline stages as editorial blocks */}
+      <section style={{ maxWidth: '1100px', margin: '0 auto', padding: '2rem 2rem 4rem' }}>
+        <h2
+          className="font-serif"
+          style={{
+            fontSize: '1.5rem',
+            fontWeight: 500,
+            color: '#003d1e',
+            margin: '0 0 1.5rem 0',
+          }}
+        >
+          Three-stage pipeline
         </h2>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1rem', marginBottom: '3rem' }}>
-          <StageCard
+        <div>
+          <StageBlock
             number="1"
-            title="Machine Learning"
+            title="Machine learning"
             metrics={[
               { label: 'XGBoost AUC', value: PIPELINE_METRICS.model_auc_roc.toFixed(4) },
-              { label: 'LCA Classes', value: PIPELINE_METRICS.lca_n_classes },
+              { label: 'LCA classes', value: PIPELINE_METRICS.lca_n_classes },
               { label: 'Typologies', value: '2' },
             ]}
             description="XGBoost identifies risk factors, LCA maps trust states, k-means defines community typologies."
           />
-          <StageCard
+          <StageBlock
             number="2"
-            title="Agent-Based Digital Twin"
+            title="Agent-based digital twin"
             metrics={[
               { label: 'Calibration RMSE', value: PIPELINE_METRICS.calibration_rmse.toFixed(3) },
               { label: 'Spearman r', value: PIPELINE_METRICS.validation_spearman_r.toFixed(3) },
-              { label: 'Scenarios', value: '6 x 2' },
+              { label: 'Scenarios', value: '6 \u00d7 2' },
             ]}
             description="1,283 communities simulated with trust dynamics, peer influence, and intervention scenarios."
           />
-          <StageCard
+          <StageBlock
             number="3"
-            title="Coincidence Analysis"
+            title="Coincidence analysis"
             metrics={[
               { label: 'Solutions', value: '4' },
               { label: 'Outreach necessity', value: '1.0' },
@@ -120,56 +157,117 @@ export default function Landing() {
         </div>
 
         {/* Footer */}
-        <footer style={{
-          borderTop: '1px solid rgba(0,102,51,0.15)',
-          paddingTop: '2rem',
-          textAlign: 'center',
-          color: '#78909c',
-          fontSize: '0.8rem',
-          lineHeight: 1.8,
-        }}>
-          <p>
+        <footer
+          style={{
+            borderTop: '1px solid #c7cfc7',
+            paddingTop: '2rem',
+            marginTop: '3rem',
+            color: '#697269',
+            fontSize: '0.8125rem',
+            lineHeight: 1.7,
+          }}
+        >
+          <p style={{ margin: '0 0 0.5rem 0' }}>
             <strong>Data source:</strong> Nigeria Demographic and Health Survey (NDHS) 2024, 2018, 2013.
-            <br />
             National Population Commission (NPC) [Nigeria] and ICF. Funded by USAID, DFID, UNFPA.
           </p>
-          <p>
+          <p style={{ margin: '0 0 0.5rem 0' }}>
             <strong>Affiliation:</strong> Warwick Medical School, University of Warwick, UK.
           </p>
-          <p style={{ marginTop: '0.5rem', color: '#bdbdbd' }}>
+          <p style={{ margin: 0, color: '#9aa19a' }}>
             Built with React, D3.js, and Vite. Pipeline executed 2026-03-24.
           </p>
         </footer>
-      </div>
+      </section>
     </div>
   );
 }
 
-function StageCard({ number, title, metrics, description }) {
+function KeyFigure({ label, value }) {
   return (
-    <div className="glass-card" style={{ borderTop: '3px solid #006633' }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.75rem' }}>
-        <div style={{
-          width: '36px', height: '36px', borderRadius: '50%',
-          background: '#006633', color: '#fff',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontWeight: 800, fontSize: '1.1rem',
-        }}>
-          {number}
-        </div>
-        <h3 style={{ fontSize: '1.05rem', fontWeight: 700, margin: 0 }}>{title}</h3>
+    <div>
+      <dt
+        style={{
+          fontSize: '0.75rem',
+          fontWeight: 500,
+          letterSpacing: '0.08em',
+          textTransform: 'uppercase',
+          color: '#697269',
+          marginBottom: '0.25rem',
+        }}
+      >
+        {label}
+      </dt>
+      <dd
+        className="font-serif"
+        style={{
+          fontSize: '2rem',
+          lineHeight: 1.1,
+          fontWeight: 500,
+          color: '#003d1e',
+          margin: 0,
+          fontVariantNumeric: 'tabular-nums',
+        }}
+      >
+        {value}
+      </dd>
+    </div>
+  );
+}
+
+function StageBlock({ number, title, metrics, description }) {
+  return (
+    <article
+      style={{
+        borderTop: '1px solid #c7cfc7',
+        paddingTop: '1.5rem',
+        paddingBottom: '1.5rem',
+      }}
+    >
+      <div
+        style={{
+          fontSize: '0.75rem',
+          fontWeight: 500,
+          letterSpacing: '0.08em',
+          textTransform: 'uppercase',
+          color: '#697269',
+          marginBottom: '0.4rem',
+        }}
+      >
+        Stage {number}
       </div>
-      <p style={{ fontSize: '0.85rem', color: '#546e7a', lineHeight: 1.55, marginBottom: '0.75rem' }}>
+      <h3
+        className="font-serif"
+        style={{ fontSize: '1.375rem', fontWeight: 600, margin: '0 0 0.5rem 0', color: '#1c211d', lineHeight: 1.3 }}
+      >
+        {title}
+      </h3>
+      <p style={{ fontSize: '0.9375rem', color: '#697269', lineHeight: 1.6, margin: '0 0 1rem 0', maxWidth: '70ch' }}>
         {description}
       </p>
-      <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+      <dl style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap', margin: 0 }}>
         {metrics.map((m) => (
-          <div key={m.label} style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: '1.1rem', fontWeight: 800, color: '#006633' }}>{m.value}</div>
-            <div style={{ fontSize: '0.68rem', color: '#78909c', textTransform: 'uppercase', letterSpacing: '0.3px' }}>{m.label}</div>
+          <div key={m.label}>
+            <dt
+              style={{
+                fontSize: '0.6875rem',
+                color: '#697269',
+                textTransform: 'uppercase',
+                letterSpacing: '0.08em',
+                marginBottom: '0.15rem',
+              }}
+            >
+              {m.label}
+            </dt>
+            <dd
+              className="font-serif"
+              style={{ fontSize: '1.25rem', fontWeight: 600, color: '#003d1e', margin: 0, fontVariantNumeric: 'tabular-nums' }}
+            >
+              {m.value}
+            </dd>
           </div>
         ))}
-      </div>
-    </div>
+      </dl>
+    </article>
   );
 }
