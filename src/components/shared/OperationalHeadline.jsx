@@ -138,7 +138,7 @@ function HeroVariant() {
 
           <div style={{ marginTop: '1.5rem' }}>
             <Link
-              to="/explorer/cna"
+              to="/explorer/causal/cna"
               style={{
                 fontSize: '0.9375rem',
                 color: PRIMARY_INK,

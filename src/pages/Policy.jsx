@@ -20,18 +20,18 @@ import CoverageHeatmap from '../components/charts/CoverageHeatmap';
 import TrajectoryChart from '../components/charts/TrajectoryChart';
 import NecessityBar from '../components/charts/NecessityBar';
 import SiteNav from '../components/shared/SiteNav';
+import UnderlineTabNav from '../components/shared/UnderlineTabNav';
+import SectionToc from '../components/shared/SectionToc';
 import { useData } from '../hooks/useData';
 import { useCounterfactual } from '../hooks/useCounterfactual';
 import { policyPanelTitles, typologyGuidance, recipePlainLanguage, policyBriefContent } from '../data/storyContent';
-import { SCENARIO_LABELS, PIPELINE_METRICS } from '../data/constants';
 import { getPrevalenceColorScale } from '../components/maps/ChoroplethLayer';
-import { formatPercent } from '../utils/formatters';
 import { thStyle, tdStyle } from '../styles/tableStyles';
 
 export default function Policy() {
-  const [activeTab, setActiveTab] = useState(0);
-
-  const tabs = policyPanelTitles;
+  const tabs = policyPanelTitles.map((t) => ({ id: t.id, label: t.title }));
+  const [activeId, setActiveId] = useState(tabs[0].id);
+  const activeIdx = tabs.findIndex((t) => t.id === activeId);
 
   return (
     <div style={{ background: '#fbfcfb', minHeight: '100vh' }}>
@@ -49,57 +49,28 @@ export default function Policy() {
           <OperationalHeadline mode="hero" />
         </div>
 
-        {/* Underline tab bar (design brief §9) */}
-        <div
-          role="tablist"
-          style={{
-            display: 'flex',
-            gap: '1.75rem',
-            marginBottom: '1.5rem',
-            flexWrap: 'wrap',
-            borderBottom: '1px solid #c7cfc7',
-            paddingBottom: '0',
-          }}
-        >
-          {tabs.map((tab, i) => {
-            const isActive = activeTab === i;
-            return (
-              <button
-                key={tab.id}
-                role="tab"
-                aria-selected={isActive}
-                onClick={() => setActiveTab(i)}
-                style={{
-                  padding: '0.5rem 0',
-                  border: 'none',
-                  background: 'transparent',
-                  color: isActive ? '#1c211d' : '#697269',
-                  fontWeight: isActive ? 600 : 500,
-                  fontSize: '0.9375rem',
-                  cursor: 'pointer',
-                  fontFamily: 'inherit',
-                  borderBottom: isActive ? '2px solid #cc8400' : '2px solid transparent',
-                  marginBottom: '-1px',
-                }}
-              >
-                {tab.title}
-              </button>
-            );
-          })}
+        {/* Single underline-tab pattern (design brief §9) */}
+        <div style={{ marginTop: '1.5rem' }}>
+          <UnderlineTabNav
+            ariaLabel="Policy panels"
+            tabs={tabs}
+            activeId={activeId}
+            onChange={setActiveId}
+          />
         </div>
 
         <AnimatePresence mode="wait">
           <motion.div
-            key={activeTab}
+            key={activeId}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.25 }}
           >
-            {activeTab === 0 && <GeographicPanel />}
-            {activeTab === 1 && <InterventionPanel />}
-            {activeTab === 2 && <CounterfactualPanel />}
-            {activeTab === 3 && <ActionPanel />}
+            {activeIdx === 0 && <GeographicPanel />}
+            {activeIdx === 1 && <InterventionPanel />}
+            {activeIdx === 2 && <CounterfactualPanel />}
+            {activeIdx === 3 && <ActionPanel />}
           </motion.div>
         </AnimatePresence>
       </div>
@@ -235,6 +206,7 @@ function InterventionPanel() {
   return (
     <div>
       <div style={{ display: 'flex', gap: '2rem', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
+        {/* Typology callout — the only sanctioned use of the side stripe (brief §6) */}
         <aside
           style={{
             flex: '1 1 280px',
@@ -341,33 +313,16 @@ function CounterfactualPanel() {
 
             <div style={{ marginBottom: '1rem' }}>
               <label style={labelStyle}>Community Type</label>
-              <div role="tablist" style={{ display: 'flex', gap: '1.5rem', borderBottom: '1px solid #c7cfc7' }}>
-                {['Reference', 'Access-Constrained'].map((t) => {
-                  const isActive = typology === t;
-                  return (
-                    <button
-                      key={t}
-                      role="tab"
-                      aria-selected={isActive}
-                      onClick={() => setTypology(t)}
-                      style={{
-                        padding: '0.4rem 0',
-                        background: 'transparent',
-                        border: 'none',
-                        color: isActive ? '#1c211d' : '#697269',
-                        fontWeight: isActive ? 600 : 500,
-                        fontSize: '0.875rem',
-                        cursor: 'pointer',
-                        fontFamily: 'inherit',
-                        borderBottom: isActive ? '2px solid #cc8400' : '2px solid transparent',
-                        marginBottom: '-1px',
-                      }}
-                    >
-                      {t}
-                    </button>
-                  );
-                })}
-              </div>
+              <UnderlineTabNav
+                ariaLabel="Community type"
+                tabs={[
+                  { id: 'Reference', label: 'Reference' },
+                  { id: 'Access-Constrained', label: 'Access-Constrained' },
+                ]}
+                activeId={typology}
+                onChange={setTypology}
+                size="compact"
+              />
             </div>
 
             <SliderControl
@@ -444,9 +399,26 @@ function SliderControl({ label, value, min, max, step, onChange, display }) {
 }
 
 // ---- Panel 4: Action Plans ----
+// Restructured per design brief §2: 17 atomic regions consolidated into 4
+// named sections with stable ids that drive a left-rail TOC + scroll-spy.
+//
+// Order follows the operational logic:
+//   1. Priority states (necessity bar + table)
+//   2. Recipes per typology (RecipeCard pair)
+//   3. Policy briefs (PolicyBriefCard pair)
+//   4. State-specific brief generator (Tunde affordance from /harden)
+const ACTION_SECTIONS = [
+  { id: 'priority-states', label: 'Priority states' },
+  { id: 'causal-recipes', label: 'Causal recipes' },
+  { id: 'policy-briefs', label: 'Policy briefs' },
+  { id: 'state-brief', label: 'State-specific brief' },
+];
+
 function ActionPanel() {
   const { data: stateData, loading: l1, error: e1, retry: r1 } = useData('state_prevalence.json');
   const { data: cnaData, loading: l2, error: e2, retry: r2 } = useData('cna_solutions.json');
+  const [briefStateName, setBriefStateName] = useState('');
+  const [briefStateProps, setBriefStateProps] = useState(null);
 
   const anyError = e1 || e2;
   if (l1 || l2) return <LoadingSpinner />;
@@ -460,73 +432,239 @@ function ActionPanel() {
       />
     );
 
-  const priorityStates = stateData?.features
-    ?.map((f) => f.properties)
+  const allStates = (stateData?.features ?? []).map((f) => f.properties);
+
+  const priorityStates = allStates
     .filter((p) => p.weighted_prevalence > 30)
     .sort((a, b) => b.weighted_prevalence - a.weighted_prevalence)
-    .slice(0, 10) || [];
+    .slice(0, 10);
+
+  function handleGenerate() {
+    if (!briefStateName) return;
+    const match = allStates.find(
+      (s) => s.state_name?.toLowerCase() === briefStateName.toLowerCase().trim()
+    );
+    if (match) setBriefStateProps(match);
+  }
 
   return (
-    <div>
-      {/* Priority states table */}
-      <EditorialBlock>
-        <h3 className="font-serif" style={{ fontSize: '1.125rem', fontWeight: 600, marginBottom: '0.75rem', color: '#1c211d' }}>Priority States</h3>
-        <div style={{ overflowX: 'auto' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.82rem' }}>
-            <thead>
-              <tr>
-                <th style={thStyle}>Rank</th>
-                <th style={{ ...thStyle, textAlign: 'left' }}>State</th>
-                <th style={thStyle}>Zone</th>
-                <th style={thStyle}>ZD Prevalence</th>
-                <th style={thStyle}>Sample</th>
-              </tr>
-            </thead>
-            <tbody>
-              {priorityStates.map((s, i) => (
-                <tr key={s.state_name}>
-                  <td style={{ ...tdStyle, textAlign: 'center', fontWeight: 700 }}>{i + 1}</td>
-                  <td style={tdStyle}>{s.state_name}</td>
-                  <td style={{ ...tdStyle, textAlign: 'center' }}>{s.zone}</td>
-                  <td style={{ ...tdStyle, textAlign: 'center' }}>
-                    <CoverageTierBadge value={1 - s.weighted_prevalence / 100} />
-                  </td>
-                  <td style={{ ...tdStyle, textAlign: 'center' }}>{s.n_children}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </EditorialBlock>
+    <div
+      style={{
+        display: 'grid',
+        gridTemplateColumns: 'minmax(0, 28%) minmax(0, 1fr)',
+        gap: '2rem',
+        alignItems: 'flex-start',
+      }}
+      className="action-panel-grid"
+    >
+      <SectionToc sections={ACTION_SECTIONS} ariaLabel="Action plan sections" topOffset={96} />
 
-      {/* CNA necessity */}
-      {cnaData && (
-        <EditorialBlock style={{ marginTop: '1rem' }}>
-          <h3 className="font-serif" style={{ fontSize: '1.125rem', fontWeight: 600, marginBottom: '0.75rem', color: '#1c211d' }}>Necessity Analysis</h3>
-          <NecessityBar data={cnaData.necessity} threshold={0.75} />
-        </EditorialBlock>
+      <div>
+        {/* 1 — Priority states (necessity bar + table) */}
+        <section
+          id="priority-states"
+          aria-labelledby="priority-states-heading"
+          style={{ scrollMarginTop: '96px', marginBottom: '3rem' }}
+        >
+          <h2
+            id="priority-states-heading"
+            className="font-serif"
+            style={sectionHeadingStyle}
+          >
+            Priority states
+          </h2>
+          <p style={sectionLeadStyle}>
+            States with weighted zero-dose prevalence above 30%, ranked by burden.
+            The necessity bar shows which conditions appear in every CNA solution
+            for the recovery outcome — interventions that no successful recipe omits.
+          </p>
+
+          {cnaData && (
+            <EditorialBlock>
+              <h3 className="font-serif" style={subHeadingStyle}>Necessity Analysis</h3>
+              <NecessityBar data={cnaData.necessity} threshold={0.75} />
+            </EditorialBlock>
+          )}
+
+          <EditorialBlock style={{ marginTop: '1rem' }}>
+            <h3 className="font-serif" style={subHeadingStyle}>Top 10 priority states</h3>
+            <div style={{ overflowX: 'auto' }}>
+              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.82rem' }}>
+                <thead>
+                  <tr>
+                    <th style={thStyle}>Rank</th>
+                    <th style={{ ...thStyle, textAlign: 'left' }}>State</th>
+                    <th style={thStyle}>Zone</th>
+                    <th style={thStyle}>ZD Prevalence</th>
+                    <th style={thStyle}>Sample</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {priorityStates.map((s, i) => (
+                    <tr key={s.state_name}>
+                      <td style={{ ...tdStyle, textAlign: 'center', fontWeight: 700 }}>{i + 1}</td>
+                      <td style={tdStyle}>{s.state_name}</td>
+                      <td style={{ ...tdStyle, textAlign: 'center' }}>{s.zone}</td>
+                      <td style={{ ...tdStyle, textAlign: 'center' }}>
+                        <CoverageTierBadge value={1 - s.weighted_prevalence / 100} />
+                      </td>
+                      <td style={{ ...tdStyle, textAlign: 'center' }}>{s.n_children}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </EditorialBlock>
+        </section>
+
+        {/* 2 — Recipes per typology */}
+        <section
+          id="causal-recipes"
+          aria-labelledby="causal-recipes-heading"
+          style={{ scrollMarginTop: '96px', marginBottom: '3rem' }}
+        >
+          <h2
+            id="causal-recipes-heading"
+            className="font-serif"
+            style={sectionHeadingStyle}
+          >
+            Causal recipes
+          </h2>
+          <p style={sectionLeadStyle}>
+            Two minimal sufficient combinations of conditions, one per community type.
+            Read the formula, then deploy the matching intervention bundle.{' '}
+            <MethodsLink sectionId="cna">Methods</MethodsLink>.
+          </p>
+          {Object.entries(recipePlainLanguage).map(([key, recipe]) => (
+            <RecipeCard
+              key={key}
+              formula={recipe.formula}
+              translation={recipe.translation}
+              consistency={recipe.consistency}
+              coverage={recipe.coverage}
+            />
+          ))}
+        </section>
+
+        {/* 3 — Policy briefs */}
+        <section
+          id="policy-briefs"
+          aria-labelledby="policy-briefs-heading"
+          style={{ scrollMarginTop: '96px', marginBottom: '3rem' }}
+        >
+          <h2
+            id="policy-briefs-heading"
+            className="font-serif"
+            style={sectionHeadingStyle}
+          >
+            Policy briefs
+          </h2>
+          <p style={sectionLeadStyle}>
+            Printable one-page briefs per community type. Suitable for handover to
+            state coordinators or commissioners.
+          </p>
+          <PolicyBriefCard typology="Reference" content={policyBriefContent.Reference} />
+          <PolicyBriefCard typology="Access-Constrained" content={policyBriefContent['Access-Constrained']} />
+        </section>
+
+        {/* 4 — State-specific brief generator (Tunde affordance) */}
+        <section
+          id="state-brief"
+          aria-labelledby="state-brief-heading"
+          style={{ scrollMarginTop: '96px', marginBottom: '3rem' }}
+        >
+          <h2
+            id="state-brief-heading"
+            className="font-serif"
+            style={sectionHeadingStyle}
+          >
+            State-specific brief
+          </h2>
+          <p style={sectionLeadStyle}>
+            Generate a one-page brief for a single state — typology assignment,
+            coverage projection, and recommended package — ready to print.
+          </p>
+          <EditorialBlock>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleGenerate();
+              }}
+              style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-end', flexWrap: 'wrap' }}
+            >
+              <div style={{ flex: '1 1 240px' }}>
+                <label htmlFor="state-brief-input" style={labelStyle}>State name</label>
+                <input
+                  id="state-brief-input"
+                  list="state-brief-list"
+                  type="text"
+                  value={briefStateName}
+                  onChange={(e) => setBriefStateName(e.target.value)}
+                  placeholder="e.g. Sokoto, Lagos, Anambra"
+                  style={{
+                    width: '100%',
+                    padding: '0.55rem 0.75rem',
+                    border: '1px solid #c7cfc7',
+                    background: '#fbfcfb',
+                    fontSize: '0.9375rem',
+                    fontFamily: 'inherit',
+                    color: '#1c211d',
+                    borderRadius: '2px',
+                  }}
+                />
+                <datalist id="state-brief-list">
+                  {allStates.map((s) => (
+                    <option key={s.state_name} value={s.state_name} />
+                  ))}
+                </datalist>
+              </div>
+              <button
+                type="submit"
+                disabled={!briefStateName}
+                style={{
+                  padding: '0.6rem 1.1rem',
+                  background: '#003d1e',
+                  color: '#fbfcfb',
+                  border: 'none',
+                  fontSize: '0.875rem',
+                  fontWeight: 600,
+                  letterSpacing: '0.04em',
+                  textTransform: 'uppercase',
+                  cursor: briefStateName ? 'pointer' : 'not-allowed',
+                  opacity: briefStateName ? 1 : 0.5,
+                  fontFamily: 'inherit',
+                  borderRadius: '2px',
+                }}
+              >
+                Generate brief
+              </button>
+            </form>
+            <p style={{ fontSize: '0.8125rem', color: '#697269', marginTop: '0.75rem' }}>
+              Or click any state on the{' '}
+              <a
+                href="#recipe"
+                style={{ color: '#003d1e', textDecoration: 'underline', textUnderlineOffset: '3px' }}
+              >
+                Geographic Targeting map
+              </a>{' '}
+              to generate a brief from there.
+            </p>
+          </EditorialBlock>
+        </section>
+      </div>
+
+      {briefStateProps && (
+        <StateBrief
+          stateProps={briefStateProps}
+          onClose={() => setBriefStateProps(null)}
+        />
       )}
 
-      {/* Recipe cards */}
-      <div style={{ marginTop: '1rem' }}>
-        <h3 className="font-serif" style={{ fontSize: '1.125rem', fontWeight: 600, marginBottom: '0.75rem', color: '#1c211d' }}>Causal Recipes</h3>
-        {Object.entries(recipePlainLanguage).map(([key, recipe]) => (
-          <RecipeCard
-            key={key}
-            formula={recipe.formula}
-            translation={recipe.translation}
-            consistency={recipe.consistency}
-            coverage={recipe.coverage}
-          />
-        ))}
-      </div>
-
-      {/* Policy briefs */}
-      <div style={{ marginTop: '1rem' }}>
-        <h3 className="font-serif" style={{ fontSize: '1.125rem', fontWeight: 600, marginBottom: '0.75rem', color: '#1c211d' }}>Policy Briefs</h3>
-        <PolicyBriefCard typology="Reference" content={policyBriefContent.Reference} />
-        <PolicyBriefCard typology="Access-Constrained" content={policyBriefContent['Access-Constrained']} />
-      </div>
+      <style>{`
+        @media (max-width: 767px) {
+          .action-panel-grid { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
     </div>
   );
 }
@@ -541,10 +679,34 @@ const labelStyle = {
   marginBottom: '0.4rem',
 };
 
+const sectionHeadingStyle = {
+  fontSize: '1.5rem',
+  fontWeight: 600,
+  color: '#003d1e',
+  margin: '0 0 0.5rem 0',
+  lineHeight: 1.2,
+};
+
+const sectionLeadStyle = {
+  fontSize: '0.9375rem',
+  color: '#697269',
+  margin: '0 0 1.25rem 0',
+  maxWidth: '60ch',
+  lineHeight: 1.55,
+};
+
+const subHeadingStyle = {
+  fontSize: '1.125rem',
+  fontWeight: 600,
+  marginBottom: '0.75rem',
+  color: '#1c211d',
+  margin: '0 0 0.75rem 0',
+};
+
 function toggleBtnStyle(active) {
   return {
     padding: '0.35rem 0.75rem',
-    borderRadius: '6px',
+    borderRadius: '2px',
     border: '1px solid #003d1e',
     background: active ? '#003d1e' : 'transparent',
     color: active ? '#ffffff' : '#003d1e',
