@@ -94,9 +94,9 @@ function GeographicPanel() {
   return (
     <div>
       <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
-        <MetricCard label="Moran's I" value="0.608" sublabel="Strong spatial clustering" color="green" />
-        <MetricCard label="HH Hotspots" value="5" sublabel="NW states" color="red" />
-        <MetricCard label="LL Coldspots" value="5" sublabel="SE/SS states" color="blue" />
+        <MetricCard label="Moran's I" value={PIPELINE_METRICS.morans_i.toFixed(3)} sublabel="Strong spatial clustering" color="green" />
+        <MetricCard label="HH Hotspots" value={String(PIPELINE_METRICS.n_lisa_hotspots)} sublabel="NW states" color="red" />
+        <MetricCard label="LL Coldspots" value={String(PIPELINE_METRICS.n_lisa_coldspots)} sublabel="SE/SS states" color="blue" />
       </div>
 
       <GlassCard>

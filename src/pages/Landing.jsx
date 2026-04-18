@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import SiteNav from '../components/shared/SiteNav';
 import NavCard from '../components/shared/NavCard';
-import MetricCard from '../components/shared/MetricCard';
 import CountUpNumber from '../components/shared/CountUpNumber';
 import OperationalHeadlinePanel from '../components/shared/OperationalHeadlinePanel';
 import { PIPELINE_METRICS } from '../data/constants';
@@ -44,7 +43,7 @@ export default function Landing() {
               <div className="hero-stat-label">Communities simulated</div>
             </div>
             <div className="hero-stat">
-              <div className="hero-stat-value">0.972</div>
+              <div className="hero-stat-value">{PIPELINE_METRICS.model_auc_roc.toFixed(3)}</div>
               <div className="hero-stat-label">ML model AUC</div>
             </div>
           </div>
@@ -143,7 +142,7 @@ export default function Landing() {
             <strong>Affiliation:</strong> Warwick Medical School, University of Warwick, UK.
           </p>
           <p style={{ marginTop: '0.5rem', color: '#bdbdbd' }}>
-            Built with React, D3.js, and Vite. Pipeline executed 2026-03-24.
+            Built with React, D3.js, and Vite. Pipeline last executed {PIPELINE_METRICS.pipeline_run_date}.
           </p>
         </footer>
       </div>

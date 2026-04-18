@@ -161,7 +161,16 @@ export const SCENARIO_COMPONENTS = {
 };
 
 // ---------------------------------------------------------------------------
-// Key pipeline metrics (from ml_to_abm_params.json and pipeline outputs)
+// Key pipeline metrics (from ml_to_abm_params.json and pipeline outputs).
+// Refreshed 2026-04-17 with the polish-pass values:
+//   - XGBoost refit excluded cluster-aggregated features → AUC 0.9719 → 0.9467
+//   - Joint 2018+2024 ABC calibration with per-zone disruption multipliers
+//     → 2024 zone RMSE 0.107 → 0.075; 2024 national RMSE 0.070
+//   - Six per-zone disruption multipliers (NW highest at 1.73)
+// Source files:
+//   - outputs/stage1/ml_to_abm_params.json
+//   - outputs/stage2/calibrated_params.json
+//   - outputs/stage2/abm_validation_report.md
 // ---------------------------------------------------------------------------
 
 export const PIPELINE_METRICS = {
@@ -169,13 +178,15 @@ export const PIPELINE_METRICS = {
   n_clusters: 1283,
   n_households_simulated: 38490,
   weighted_zd_prevalence: 0.368,
-  model_auc_roc: 0.9719,
+  model_auc_roc: 0.9467,
   lca_n_classes: 4,
   lca_bic: 52150.1,
   typology_silhouette: 0.3209,
-  calibration_rmse: 0.033,
+  calibration_rmse_2018: 0.039,    // in-sample national
+  calibration_rmse: 0.039,          // back-compat alias for any consumer of the old key
   validation_spearman_r: 0.943,
-  validation_rmse: 0.107,
+  validation_rmse: 0.070,           // 2024 national RMSE (joint posterior)
+  validation_zone_rmse: 0.075,      // 2024 zone RMSE
   morans_i: 0.6075,
   morans_z: 5.99,
   morans_p: 0.000001,
@@ -183,6 +194,18 @@ export const PIPELINE_METRICS = {
   n_lisa_coldspots: 5,
   n_positive_outcomes: 4,
   n_total_scenarios: 12,
+  pipeline_run_date: '2026-04-17',  // last polish-pass execution
+  // Per-zone disruption multipliers (joint 2018+2024 ABC posterior medians).
+  // > 1.0 indicates inferred zone-specific shock stress; NW is the highest,
+  // consistent with documented post-2018 security and service deterioration.
+  // These are model-internal inferred parameters, not measured against any
+  // external shock-event time series.
+  disruption_NC: 1.50,
+  disruption_NE: 1.40,
+  disruption_NW: 1.73,
+  disruption_SE: 1.45,
+  disruption_SS: 1.49,
+  disruption_SW: 1.49,
 };
 
 // ---------------------------------------------------------------------------

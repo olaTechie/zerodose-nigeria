@@ -115,6 +115,8 @@ export default function NigeriaMap({
                   y: e.clientY,
                   name: props.state_name || props.gadm_name || '',
                   value: props[colorByField],
+                  // state_prevalence.json + lisa_clusters.json store percent (0-100)
+                  scale: 'percent',
                   cluster_type: props.cluster_type,
                 });
               }}
@@ -154,6 +156,8 @@ export default function NigeriaMap({
                     y: e.clientY,
                     name: `Cluster ${props.cluster_id}`,
                     value: props.zero_dose_rate,
+                    // cluster_map.geojson stores proportion (0-1)
+                    scale: 'proportion',
                     typology: props.typology,
                     zone: props.zone,
                   });
@@ -190,7 +194,7 @@ export default function NigeriaMap({
           {tooltip.value != null && (
             <div>
               {typeof tooltip.value === 'number'
-                ? `${(tooltip.value * (tooltip.value > 1 ? 1 : 100)).toFixed(1)}%`
+                ? `${(tooltip.scale === 'proportion' ? tooltip.value * 100 : tooltip.value).toFixed(1)}%`
                 : tooltip.value}
             </div>
           )}
