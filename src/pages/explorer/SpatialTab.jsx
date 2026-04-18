@@ -2,6 +2,7 @@ import { useState } from 'react';
 import GlassCard from '../../components/shared/GlassCard';
 import MetricCard from '../../components/shared/MetricCard';
 import LoadingSpinner from '../../components/shared/LoadingSpinner';
+import ErrorState from '../../components/shared/ErrorState';
 import NigeriaMap from '../../components/maps/NigeriaMap';
 import MoranScatter from '../../components/charts/MoranScatter';
 import FunnelPlot from '../../components/charts/FunnelPlot';
@@ -11,11 +12,11 @@ import { PIPELINE_METRICS } from '../../data/constants';
 import { getPrevalenceColorScale } from '../../components/maps/ChoroplethLayer';
 
 export default function SpatialTab() {
-  const { data: stateData, loading: l1, error: e1 } = useData('state_prevalence.json');
-  const { data: lisaData, loading: l2, error: e2 } = useData('lisa_clusters.json');
+  const { data: stateData, loading: l1, error: e1, retry: r1 } = useData('state_prevalence.json');
+  const { data: lisaData, loading: l2, error: e2, retry: r2 } = useData('lisa_clusters.json');
   const [showLisa, setShowLisa] = useState(false);
 
-  if (e1 || e2) return <div className="glass-card" style={{ padding: '2rem', color: '#b33000', textAlign: 'center' }}>Failed to load data. Please refresh the page.</div>;
+  if (e1 || e2) return <ErrorState onRetry={() => { r1(); r2(); }} />;
   if (l1 || l2) return <LoadingSpinner />;
 
   const colorScale = getPrevalenceColorScale(90);

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import GlassCard from '../../components/shared/GlassCard';
 import MetricCard from '../../components/shared/MetricCard';
 import LoadingSpinner from '../../components/shared/LoadingSpinner';
+import ErrorState from '../../components/shared/ErrorState';
 import ShapBarChart from '../../components/charts/ShapBarChart';
 import ShapBeeswarm from '../../components/charts/ShapBeeswarm';
 import NigeriaMap from '../../components/maps/NigeriaMap';
@@ -12,12 +13,12 @@ import { getClusterColorByZdRate } from '../../components/maps/ClusterLayer';
 import { activeToggleBtn, inactiveToggleBtn } from '../../styles/buttonStyles';
 
 export default function RiskTab() {
-  const { data: shapData, loading: l1, error: e1 } = useData('shap_importance.json');
-  const { data: clusterData, loading: l2, error: e2 } = useData('cluster_map.geojson');
-  const { data: stateData, loading: l3, error: e3 } = useData('state_prevalence.json');
+  const { data: shapData, loading: l1, error: e1, retry: r1 } = useData('shap_importance.json');
+  const { data: clusterData, loading: l2, error: e2, retry: r2 } = useData('cluster_map.geojson');
+  const { data: stateData, loading: l3, error: e3, retry: r3 } = useData('state_prevalence.json');
   const [view, setView] = useState('bar');
 
-  if (e1 || e2 || e3) return <div className="glass-card" style={{ padding: '2rem', color: '#b33000', textAlign: 'center' }}>Failed to load data. Please refresh the page.</div>;
+  if (e1 || e2 || e3) return <ErrorState onRetry={() => { r1(); r2(); r3(); }} />;
   if (l1 || l2 || l3) return <LoadingSpinner />;
 
   const globalShap = shapData?.global || [];

@@ -1,6 +1,7 @@
 import GlassCard from '../../components/shared/GlassCard';
 import MetricCard from '../../components/shared/MetricCard';
 import LoadingSpinner from '../../components/shared/LoadingSpinner';
+import ErrorState from '../../components/shared/ErrorState';
 import RecipeCard from '../../components/shared/RecipeCard';
 import NecessityBar from '../../components/charts/NecessityBar';
 import RobustnessHeatmap from '../../components/charts/RobustnessHeatmap';
@@ -11,9 +12,9 @@ import { PIPELINE_METRICS } from '../../data/constants';
 import { thStyle, tdStyle } from '../../styles/tableStyles';
 
 export default function CNATab() {
-  const { data: cnaData, loading, error } = useData('cna_solutions.json');
+  const { data: cnaData, loading, error, retry } = useData('cna_solutions.json');
 
-  if (error) return <div className="glass-card" style={{ padding: '2rem', color: '#b33000', textAlign: 'center' }}>Failed to load data. Please refresh the page.</div>;
+  if (error) return <ErrorState onRetry={retry} />;
   if (loading) return <LoadingSpinner />;
 
   const solutions = cnaData?.solutions || [];

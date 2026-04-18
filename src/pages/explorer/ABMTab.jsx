@@ -2,6 +2,7 @@ import { useState } from 'react';
 import GlassCard from '../../components/shared/GlassCard';
 import MetricCard from '../../components/shared/MetricCard';
 import LoadingSpinner from '../../components/shared/LoadingSpinner';
+import ErrorState from '../../components/shared/ErrorState';
 import TrajectoryChart from '../../components/charts/TrajectoryChart';
 import PosteriorDensity from '../../components/charts/PosteriorDensity';
 import CoverageHeatmap from '../../components/charts/CoverageHeatmap';
@@ -11,12 +12,12 @@ import { PIPELINE_METRICS, SCENARIO_LABELS } from '../../data/constants';
 import { activeToggleBtn, inactiveToggleBtn } from '../../styles/buttonStyles';
 
 export default function ABMTab() {
-  const { data: abmData, loading: l1, error: e1 } = useData('abm_scenarios.json');
-  const { data: posteriorData, loading: l2, error: e2 } = useData('calibration_posteriors.json');
+  const { data: abmData, loading: l1, error: e1, retry: r1 } = useData('abm_scenarios.json');
+  const { data: posteriorData, loading: l2, error: e2, retry: r2 } = useData('calibration_posteriors.json');
   const [typology, setTypology] = useState('Reference');
   const [selectedScenarios, setSelectedScenarios] = useState(['S0', 'S1', 'S5']);
 
-  if (e1 || e2) return <div className="glass-card" style={{ padding: '2rem', color: '#b33000', textAlign: 'center' }}>Failed to load data. Please refresh the page.</div>;
+  if (e1 || e2) return <ErrorState onRetry={() => { r1(); r2(); }} />;
   if (l1 || l2) return <LoadingSpinner />;
 
   const toggleScenario = (s) => {

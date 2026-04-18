@@ -1,15 +1,16 @@
 import GlassCard from '../../components/shared/GlassCard';
 import MetricCard from '../../components/shared/MetricCard';
 import LoadingSpinner from '../../components/shared/LoadingSpinner';
+import ErrorState from '../../components/shared/ErrorState';
 import { useData } from '../../hooks/useData';
 import { explorerTabDescriptions } from '../../data/storyContent';
 import { PIPELINE_METRICS } from '../../data/constants';
 import { thStyle, tdStyle } from '../../styles/tableStyles';
 
 export default function DescriptiveTab() {
-  const { data: tableData, loading, error } = useData('table_one.json');
+  const { data: tableData, loading, error, retry } = useData('table_one.json');
 
-  if (error) return <div className="glass-card" style={{ padding: '2rem', color: '#b33000', textAlign: 'center' }}>Failed to load data. Please refresh the page.</div>;
+  if (error) return <ErrorState onRetry={retry} />;
   if (loading) return <LoadingSpinner />;
 
   const rows = tableData?.rows || [];

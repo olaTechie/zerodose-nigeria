@@ -10,6 +10,7 @@ import ScenarioCard from '../components/shared/ScenarioCard';
 import RecipeCard from '../components/shared/RecipeCard';
 import PolicyBriefCard from '../components/shared/PolicyBriefCard';
 import LoadingSpinner from '../components/shared/LoadingSpinner';
+import ErrorState from '../components/shared/ErrorState';
 import NigeriaMap from '../components/maps/NigeriaMap';
 import CoverageHeatmap from '../components/charts/CoverageHeatmap';
 import TrajectoryChart from '../components/charts/TrajectoryChart';
@@ -80,16 +81,16 @@ export default function Policy() {
 
 // ---- Panel 1: Geographic Targeting ----
 function GeographicPanel() {
-  const { data: stateData, loading: l1, error: e1 } = useData('state_prevalence.json');
-  const { data: lisaData, loading: l2, error: e2 } = useData('lisa_clusters.json');
-  const { data: clusterData, loading: l3, error: e3 } = useData('cluster_map.geojson');
+  const { data: stateData, loading: l1, error: e1, retry: r1 } = useData('state_prevalence.json');
+  const { data: lisaData, loading: l2, error: e2, retry: r2 } = useData('lisa_clusters.json');
+  const { data: clusterData, loading: l3, error: e3, retry: r3 } = useData('cluster_map.geojson');
   const [showLisa, setShowLisa] = useState(false);
   const [selectedState, setSelectedState] = useState(null);
   const colorScale = getPrevalenceColorScale(90);
 
   const anyError = e1 || e2 || e3;
   if (l1 || l2 || l3) return <LoadingSpinner />;
-  if (anyError) return <div className="glass-card" style={{ padding: '2rem', color: '#b33000', textAlign: 'center' }}>Failed to load data. Please refresh the page.</div>;
+  if (anyError) return <ErrorState onRetry={() => { r1(); r2(); r3(); }} />;
 
   return (
     <div>
@@ -148,10 +149,10 @@ function GeographicPanel() {
 
 // ---- Panel 2: Intervention Scenarios ----
 function InterventionPanel() {
-  const { data: abmData, loading, error } = useData('abm_scenarios.json');
+  const { data: abmData, loading, error, retry } = useData('abm_scenarios.json');
   const [selectedCell, setSelectedCell] = useState(null);
 
-  if (error) return <div className="glass-card" style={{ padding: '2rem', color: '#b33000', textAlign: 'center' }}>Failed to load data. Please refresh the page.</div>;
+  if (error) return <ErrorState onRetry={retry} />;
   if (loading) return <LoadingSpinner />;
 
   return (
@@ -207,27 +208,32 @@ function InterventionPanel() {
 
 // ---- Panel 3: What-If Explorer ----
 function CounterfactualPanel() {
-  const { data: abmData, loading, error: dataError } = useData('abm_scenarios.json');
+  const { data: abmData, loading, error: dataError, retry: dataRetry } = useData('abm_scenarios.json');
   const { result, compute, ready, error: workerError } = useCounterfactual();
   const [typology, setTypology] = useState('Reference');
   const [outreach, setOutreach] = useState(1);
   const [engagement, setEngagement] = useState(0);
   const [supply, setSupply] = useState(0);
 
+  // Debounce compute() — slider drags fire onChange continuously, so without
+  // a debounce a single drag can produce 100+ worker calls. 200 ms feels
+  // responsive but avoids the storm.
   useEffect(() => {
-    if (ready) {
+    if (!ready) return;
+    const handle = setTimeout(() => {
       compute({
         outreach_mult: outreach,
         engagement_rate: engagement,
         supply_reduction: supply,
         typology,
       });
-    }
+    }, 200);
+    return () => clearTimeout(handle);
   }, [ready, outreach, engagement, supply, typology, compute]);
 
   const coverageValue = result?.median_m36 ?? 0;
 
-  if (dataError) return <div className="glass-card" style={{ padding: '2rem', color: '#b33000', textAlign: 'center' }}>Failed to load data. Please refresh the page.</div>;
+  if (dataError) return <ErrorState onRetry={dataRetry} />;
   if (loading) return <LoadingSpinner />;
 
   return (
@@ -337,12 +343,12 @@ function SliderControl({ label, value, min, max, step, onChange, display }) {
 
 // ---- Panel 4: Action Plans ----
 function ActionPanel() {
-  const { data: stateData, loading: l1, error: e1 } = useData('state_prevalence.json');
-  const { data: cnaData, loading: l2, error: e2 } = useData('cna_solutions.json');
+  const { data: stateData, loading: l1, error: e1, retry: r1 } = useData('state_prevalence.json');
+  const { data: cnaData, loading: l2, error: e2, retry: r2 } = useData('cna_solutions.json');
 
   const anyError = e1 || e2;
   if (l1 || l2) return <LoadingSpinner />;
-  if (anyError) return <div className="glass-card" style={{ padding: '2rem', color: '#b33000', textAlign: 'center' }}>Failed to load data. Please refresh the page.</div>;
+  if (anyError) return <ErrorState onRetry={() => { r1(); r2(); }} />;
 
   const priorityStates = stateData?.features
     ?.map((f) => f.properties)
