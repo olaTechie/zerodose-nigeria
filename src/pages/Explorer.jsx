@@ -4,6 +4,7 @@ import LoadingSpinner from '../components/shared/LoadingSpinner';
 import PageHeader from '../components/shared/PageHeader';
 import SiteNav from '../components/shared/SiteNav';
 import OperationalHeadline from '../components/shared/OperationalHeadline';
+import { MethodsLink } from '../components/shared/MethodsDrawer';
 
 const DescriptiveTab = lazy(() => import('./explorer/DescriptiveTab'));
 const SpatialTab = lazy(() => import('./explorer/SpatialTab'));
@@ -34,6 +35,18 @@ export default function Explorer() {
 
       <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '1.5rem' }}>
         <PageHeader title="Technical Explorer" subtitle="Detailed outputs from each pipeline stage" />
+
+        <div style={{ marginBottom: '1rem', fontSize: '0.8125rem', color: '#697269' }}>
+          <MethodsLink sectionId="overview">Pipeline overview</MethodsLink>
+          {' \u00b7 '}
+          <MethodsLink sectionId="risk-model">Risk model</MethodsLink>
+          {' \u00b7 '}
+          <MethodsLink sectionId="digital-twin">Digital twin</MethodsLink>
+          {' \u00b7 '}
+          <MethodsLink sectionId="causal-recipes">Causal recipes</MethodsLink>
+          {' \u00b7 '}
+          <MethodsLink sectionId="glossary">Glossary</MethodsLink>
+        </div>
 
         {/* Underline tab bar (design brief §9) */}
         <div

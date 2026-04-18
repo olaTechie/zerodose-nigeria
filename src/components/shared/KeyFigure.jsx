@@ -1,6 +1,12 @@
+import SourceMark from './SourceMark';
+
 // KeyFigure — typographic <dl> entry: eyebrow label above a serif display number.
-// Per design brief §6: no box, no border accent, no shadow.
-// Accepts a `source` prop (placeholder for /clarify wiring).
+// Per design brief Section 6: no box, no border accent, no shadow.
+//
+// `source` accepts either:
+//   - a string (legacy: rendered into data-source attribute only — no marker)
+//   - an object { id: 'sourceMarkId' } — renders a <SourceMark id="..." /> after the value
+//   - a plain id is supported via `sourceId` for clarity in new call-sites
 const COLOUR_MAP = {
   green: '#003d1e',
   gold: '#cc8400',
@@ -14,7 +20,8 @@ export default function KeyFigure({
   value,
   sublabel,
   color = 'green',
-  source, // eslint-disable-line no-unused-vars
+  source,
+  sourceId,
   size = 'md',
 }) {
   const valueColour = COLOUR_MAP[color] || COLOUR_MAP.neutral;
@@ -25,6 +32,13 @@ export default function KeyFigure({
     xl: '3rem',
   };
   const valueSize = sizes[size] || sizes.md;
+
+  // Resolve source id from either explicit prop or `source.id`
+  const resolvedSourceId = sourceId || (source && typeof source === 'object' && source.id);
+  const dataSourceAttr =
+    typeof source === 'string'
+      ? source
+      : (source && source.file) || undefined;
 
   return (
     <div style={{ paddingBlock: '0.5rem' }}>
@@ -50,9 +64,10 @@ export default function KeyFigure({
           margin: 0,
           fontVariantNumeric: 'tabular-nums',
         }}
-        data-source={source || undefined}
+        data-source={dataSourceAttr}
       >
         {value}
+        {resolvedSourceId && <SourceMark id={resolvedSourceId} />}
       </dd>
       {sublabel && (
         <div

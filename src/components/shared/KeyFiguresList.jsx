@@ -36,6 +36,7 @@ export default function KeyFiguresList({ items, columns = 'auto-fit', gap = '0' 
             sublabel={item.sublabel}
             color={item.color || 'green'}
             source={item.source}
+            sourceId={item.sourceId}
             size={item.size || 'md'}
           />
         </div>

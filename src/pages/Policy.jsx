@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import EditorialBlock from '../components/shared/EditorialBlock';
 import PageHeader from '../components/shared/PageHeader';
 import KeyFigure from '../components/shared/KeyFigure';
+import GlossaryTerm from '../components/shared/GlossaryTerm';
+import { MethodsLink } from '../components/shared/MethodsDrawer';
 import OperationalHeadline from '../components/shared/OperationalHeadline';
 import CoverageGauge from '../components/shared/CoverageGauge';
 import CoverageTierBadge from '../components/shared/CoverageTierBadge';
@@ -119,7 +121,13 @@ function GeographicPanel() {
   return (
     <div>
       <dl style={{ display: 'flex', gap: '2.5rem', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
-        <KeyFigure label="Moran's I" value="0.608" sublabel="Strong spatial clustering" color="green" />
+        <KeyFigure
+          label={<GlossaryTerm id="morans-i">Moran&rsquo;s I</GlossaryTerm>}
+          value="0.608"
+          sublabel="Strong spatial clustering"
+          color="green"
+          sourceId="morans-i"
+        />
         <KeyFigure label="HH Hotspots" value="5" sublabel="NW states" color="red" />
         <KeyFigure label="LL Coldspots" value="5" sublabel="SE/SS states" color="blue" />
       </dl>

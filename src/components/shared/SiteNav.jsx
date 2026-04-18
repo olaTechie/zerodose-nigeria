@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { useMethods } from './MethodsDrawer';
 
 // SiteNav — solid white nav with 1 px neutral hairline rule.
 // No backdrop blur, no rgba background, no shadow. Active link uses gold underline
@@ -36,6 +37,7 @@ function navLinkStyle(isActive) {
 }
 
 export default function SiteNav({ activePage }) {
+  const methods = useMethods();
   return (
     <nav style={navStyle} aria-label="Main navigation">
       <Link
@@ -67,7 +69,28 @@ export default function SiteNav({ activePage }) {
         >
           Explorer
         </Link>
+        <button
+          type="button"
+          onClick={() => methods?.open(methodsSectionForPage(activePage))}
+          style={{ ...navLinkStyle(false), cursor: 'pointer' }}
+          aria-label="Open methods drawer"
+        >
+          Methods
+        </button>
       </div>
     </nav>
   );
+}
+
+function methodsSectionForPage(activePage) {
+  switch (activePage) {
+    case 'story':
+      return 'overview';
+    case 'policy':
+      return 'causal-recipes';
+    case 'explorer':
+      return 'risk-model';
+    default:
+      return 'overview';
+  }
 }

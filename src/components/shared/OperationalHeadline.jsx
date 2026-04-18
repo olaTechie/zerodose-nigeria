@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import DecisionTreeFigure from './DecisionTreeFigure';
+import SourceMark from './SourceMark';
+import GlossaryTerm from './GlossaryTerm';
 
 // OperationalHeadline — the brand-load-bearing sentence of the site
 // ("Two community types. Two recipes.") rendered in three editorial
@@ -28,19 +30,27 @@ const TYPOLOGY_DATA = [
   {
     key: 'Reference',
     label: 'Reference community',
+    glossaryId: 'reference',
     proportion: '60.9% of communities',
     coverageS0: '71.5%',
+    coverageS0SourceId: 's0-reference',
     recipe: 'Outreach only (S1)',
+    recipeGlossaryId: 's1',
     coverageProjected: '86.1%',
+    coverageProjectedSourceId: 's1-reference',
     accent: REFERENCE_INK,
   },
   {
     key: 'Access-Constrained',
     label: 'Access-Constrained community',
+    glossaryId: 'access-constrained',
     proportion: '39.1% of communities',
     coverageS0: '50.8%',
+    coverageS0SourceId: 's0-access',
     recipe: 'Full package (S5)',
+    recipeGlossaryId: 's5',
     coverageProjected: '82.0%',
+    coverageProjectedSourceId: 's5-access-36',
     accent: ACCESS_INK,
   },
 ];
@@ -174,25 +184,44 @@ function RecipeDL({ t }) {
             letterSpacing: '0.005em',
           }}
         >
-          {t.label}
+          {t.glossaryId ? <GlossaryTerm id={t.glossaryId}>{t.label}</GlossaryTerm> : t.label}
         </span>
         <span style={{ fontSize: '0.8125rem', color: NEUTRAL_DIM, marginLeft: '0.65rem' }}>
           {t.proportion}
         </span>
       </div>
 
-      <RecipeItem label="Coverage at S0" value={t.coverageS0} colour={NEUTRAL_TEXT} small />
-      <RecipeItem label="Recipe" value={t.recipe} colour={t.accent} small isText />
+      <RecipeItem
+        label="Coverage at S0"
+        value={t.coverageS0}
+        colour={NEUTRAL_TEXT}
+        small
+        sourceId={t.coverageS0SourceId}
+      />
+      <RecipeItem
+        label="Recipe"
+        value={
+          t.recipeGlossaryId ? (
+            <GlossaryTerm id={t.recipeGlossaryId}>{t.recipe}</GlossaryTerm>
+          ) : (
+            t.recipe
+          )
+        }
+        colour={t.accent}
+        small
+        isText
+      />
       <RecipeItem
         label="Coverage projected"
         value={t.coverageProjected}
         colour={t.accent}
+        sourceId={t.coverageProjectedSourceId}
       />
     </dl>
   );
 }
 
-function RecipeItem({ label, value, colour, small = false, isText = false }) {
+function RecipeItem({ label, value, colour, small = false, isText = false, sourceId }) {
   return (
     <div>
       <dt
@@ -219,6 +248,7 @@ function RecipeItem({ label, value, colour, small = false, isText = false }) {
         }}
       >
         {value}
+        {sourceId && <SourceMark id={sourceId} />}
       </dd>
     </div>
   );

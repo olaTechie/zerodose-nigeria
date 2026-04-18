@@ -3,6 +3,8 @@ import AudienceEntryBlock from '../components/shared/AudienceEntryBlock';
 import OperationalHeadline from '../components/shared/OperationalHeadline';
 import KeyFiguresList from '../components/shared/KeyFiguresList';
 import StaticFigure from '../components/shared/StaticFigure';
+import GlossaryTerm from '../components/shared/GlossaryTerm';
+import { MethodsLink } from '../components/shared/MethodsDrawer';
 import { PIPELINE_METRICS } from '../data/constants';
 
 // Landing — editorial first impression. Flat neutral hero (no animated gradient,
@@ -57,10 +59,8 @@ export default function Landing() {
               margin: '0 0 1.5rem 0',
             }}
           >
-            Two community types. Two recipes. One unified targeting rule. An integrated
-            machine learning, agent-based modelling, and coincidence analysis pipeline
-            that identifies the minimal intervention bundles to reach 80% Pentavalent-1
-            coverage in zero-dose communities across Nigeria.
+            Two community types. Two recipes. 80 percent <GlossaryTerm id="dpt1">DTP1</GlossaryTerm>
+            {' '}coverage in 36 to 60 months.
           </p>
         </div>
       </section>
@@ -96,12 +96,12 @@ export default function Landing() {
             {
               label: 'Children analysed',
               value: <StaticFigure value={PIPELINE_METRICS.n_children} decimals={0} />,
-              source: 'outputs/stage1/eda/eda_summary_stats.csv',
+              sourceId: 'n-children',
             },
             {
               label: 'ML model AUC',
               value: <StaticFigure value={PIPELINE_METRICS.model_auc_roc} decimals={3} />,
-              source: 'outputs/stage1/ml_to_abm_params.json',
+              sourceId: 'auc',
             },
             {
               label: 'Zero-dose prevalence',
@@ -112,12 +112,12 @@ export default function Landing() {
                   decimals={1}
                 />
               ),
-              source: 'outputs/stage1/eda/eda_summary_stats.csv',
+              sourceId: 'prevalence',
             },
             {
               label: 'S5 coverage (Access-Constrained)',
               value: <StaticFigure value={82.0} suffix="%" decimals={1} />,
-              source: 'outputs/stage2/abm_to_cna_matrix.csv',
+              sourceId: 's5-access-36',
             },
           ]}
         />
@@ -250,6 +250,11 @@ export default function Landing() {
           </p>
           <p style={{ margin: '0 0 0.5rem 0' }}>
             <strong>Affiliation:</strong> Warwick Medical School, University of Warwick, UK.
+          </p>
+          <p style={{ margin: '0 0 0.5rem 0' }}>
+            <MethodsLink sectionId="overview">Read the methods</MethodsLink>
+            {' \u00b7 '}
+            <MethodsLink sectionId="glossary">Glossary</MethodsLink>
           </p>
           <p style={{ margin: 0, color: '#9aa19a' }}>
             Built with React, D3.js, and Vite. Pipeline executed 2026-03-24.
