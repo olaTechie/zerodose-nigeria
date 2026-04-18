@@ -1,7 +1,9 @@
 import { useNavigate } from 'react-router-dom';
+import SiteNav from '../components/shared/SiteNav';
 import NavCard from '../components/shared/NavCard';
 import MetricCard from '../components/shared/MetricCard';
 import CountUpNumber from '../components/shared/CountUpNumber';
+import OperationalHeadlinePanel from '../components/shared/OperationalHeadlinePanel';
 import { PIPELINE_METRICS } from '../data/constants';
 
 export default function Landing() {
@@ -9,6 +11,7 @@ export default function Landing() {
 
   return (
     <div style={{ background: 'var(--bg)', minHeight: '100vh' }}>
+      <SiteNav activePage="home" />
       {/* Hero */}
       <div className="hero-section" style={{ minHeight: '70vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', borderRadius: 0 }}>
         <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 2rem', width: '100%' }}>
@@ -47,6 +50,9 @@ export default function Landing() {
           </div>
         </div>
       </div>
+
+      {/* Operational headline panel — page lede beneath the hero */}
+      <OperationalHeadlinePanel />
 
       {/* Audience cards */}
       <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '2rem' }}>

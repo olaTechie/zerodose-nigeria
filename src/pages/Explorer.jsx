@@ -37,7 +37,8 @@ export default function Explorer() {
           {TABS.map((tab) => (
             <NavLink
               key={tab.id}
-              to={tab.id}
+              to={`/explorer/${tab.id}`}
+              end
               style={({ isActive }) => ({
                 padding: '0.4rem 1rem',
                 borderRadius: '50px 50px 0 0',
