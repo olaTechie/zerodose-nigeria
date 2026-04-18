@@ -9,6 +9,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@radix-ui/react-dialog": "^1.1.15",
+    "@radix-ui/react-tooltip": "^1.2.8",
     "d3-array": "^3.2.4",
     "d3-axis": "^3.0.0",
     "d3-format": "^3.1.2",
@@ -24,6 +26,7 @@
     "jszip": "^3.10.1",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
+    "react-markdown": "^10.1.0",
     "react-router-dom": "^7.13.2",
     "react-scrollama": "^2.4.2"
   },

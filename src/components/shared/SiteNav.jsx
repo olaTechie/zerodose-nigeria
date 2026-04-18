@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { useMethods } from './MethodsDrawer';
 
 const navStyle = {
   position: 'sticky',
@@ -23,7 +24,18 @@ const linkBase = {
   fontFamily: 'inherit',
 };
 
+// Map each top-level page to the most relevant Methods drawer section.
+const PAGE_TO_METHODS = {
+  home: 'overview',
+  story: 'overview',
+  policy: 'causal-recipes',
+  explorer: 'risk-model',
+};
+
 export default function SiteNav({ activePage }) {
+  const methods = useMethods();
+  const methodsSection = PAGE_TO_METHODS[activePage] || 'overview';
+
   return (
     <nav style={navStyle} aria-label="Main navigation">
       <Link to="/" style={{ fontWeight: 700, color: '#006633', textDecoration: 'none' }}>
@@ -63,6 +75,13 @@ export default function SiteNav({ activePage }) {
         >
           Explorer
         </Link>
+        <button
+          type="button"
+          onClick={() => methods?.open(methodsSection)}
+          style={{ ...linkBase, color: '#546e7a', fontWeight: 400 }}
+        >
+          Methods
+        </button>
       </div>
     </nav>
   );
