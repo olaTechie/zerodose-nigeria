@@ -65,6 +65,18 @@ export const storySections = [
       'ABM calibrated on NDHS 2013/2018, validated on NDHS 2024. 6,000 simulation replicates (6 scenarios \u00d7 2 typologies \u00d7 500 runs).',
   },
   {
+    id: 'disruption',
+    title: 'The Compound Shock',
+    narrativeBlocks: [
+      'But why does coverage stall in some regions and not others? The digital twin\u2019s joint 2018+2024 calibration uncovered a hidden structural feature: every Nigerian zone carries a measurable extra stress on routine immunisation, and the magnitude varies sharply across the country.',
+      'Six per-zone disruption multipliers \u2014 one for each geopolitical zone \u2014 were estimated as posterior medians from approximate Bayesian computation. The North West zone (1.73) carries the highest inferred stress, consistent with the documented post-2018 security deterioration and the partial COVID-19 service interruption that affected the region most severely. The North East follows at 1.40, with the southern zones clustering near 1.45\u20131.50.',
+      'These multipliers are inferred, not measured. The model identifies the latent zone-specific stress required to bring simulation into joint agreement with both the 2018 and 2024 NDHS coverage observations, but does not directly consume any external shock-event time series. They should be interpreted as a structural device for capturing compound shock \u2014 not a direct estimate of any single event such as banditry or COVID-19 service interruption.',
+    ],
+    statHighlight: { value: '1.73', label: 'NW disruption multiplier' },
+    caption:
+      'Per-zone disruption multipliers from joint 2018+2024 ABC posterior medians. > 1.0 indicates inferred zone-specific stress on supply, worker absence, and rumour arrival. Inferred, not measured.',
+  },
+  {
     id: 'recipes',
     title: 'The Recipes',
     narrativeBlocks: [
