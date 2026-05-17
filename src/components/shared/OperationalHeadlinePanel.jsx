@@ -38,6 +38,7 @@ export default function OperationalHeadlinePanel() {
   return (
     <section
       aria-label="Operational headline"
+      className="operational-panel"
       style={{
         maxWidth: '1200px',
         margin: '2.5rem auto',
@@ -120,6 +121,7 @@ export default function OperationalHeadlinePanel() {
               </span>
             </div>
             <div
+              className="operational-metrics"
               style={{
                 display: 'grid',
                 gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr)',

@@ -72,9 +72,88 @@
   --radius-pill: 50px;
 }
 
+/* ---------------------------------------------------------------------------
+   2. Site Shell
+   --------------------------------------------------------------------------- */
+.site-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.65rem clamp(1rem, 3vw, 2rem);
+  background: rgba(248, 251, 248, 0.86);
+  border-bottom: 1px solid rgba(0, 61, 30, 0.12);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.site-nav-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-width: max-content;
+  color: var(--primary-dark);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.site-nav-brand:hover {
+  color: var(--primary-dark);
+  text-decoration: none;
+}
+
+.site-nav-mark {
+  display: inline-grid;
+  width: 2rem;
+  height: 2rem;
+  place-items: center;
+  border-radius: var(--radius-sm);
+  background: var(--primary-dark);
+  color: #fff;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+}
+
+.site-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.site-nav-links::-webkit-scrollbar {
+  display: none;
+}
+
+.site-nav-link {
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  font-weight: 600;
+  white-space: nowrap;
+  padding: 0.45rem 0.7rem !important;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.site-nav-link:hover,
+.site-nav-link:focus-visible {
+  background: rgba(0, 102, 51, 0.08) !important;
+  color: var(--primary-dark) !important;
+  text-decoration: none;
+  outline: none;
+}
+
+.site-nav-link.is-active {
+  background: rgba(0, 102, 51, 0.11) !important;
+  color: var(--primary) !important;
+}
+
 
 /* ---------------------------------------------------------------------------
-   2. Base & Typography
+   3. Base & Typography
    --------------------------------------------------------------------------- */
 html,
 body,
@@ -199,9 +278,12 @@ a:hover {
    5. Hero Section
    --------------------------------------------------------------------------- */
 .hero-section {
-  background: linear-gradient(135deg, #003d1e 0%, #006633 35%, #008744 60%, #1a472a 100%);
-  background-size: 200% 200%;
-  animation: heroGradient 8s ease infinite;
+  background:
+    linear-gradient(135deg, rgba(0, 37, 18, 0.94) 0%, rgba(0, 82, 41, 0.9) 48%, rgba(130, 90, 10, 0.78) 100%),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+    #003d1e;
+  background-size: auto, 56px 56px, 56px 56px, auto;
   color: var(--text-inverse);
   padding: 3rem 2.5rem 2.5rem;
   border-radius: var(--radius-lg);
@@ -213,23 +295,37 @@ a:hover {
 .hero-section::before {
   content: '';
   position: absolute;
-  top: -50%;
-  right: -20%;
-  width: 60%;
-  height: 200%;
-  background: radial-gradient(ellipse, rgba(255, 255, 255, 0.06) 0%, transparent 70%);
+  top: 8%;
+  right: 6%;
+  width: min(38vw, 440px);
+  aspect-ratio: 0.78;
+  height: auto;
+  border: 1px solid rgba(255, 255, 255, 0.26);
+  border-radius: 48% 52% 58% 42% / 38% 48% 52% 62%;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.04)),
+    repeating-linear-gradient(115deg, rgba(255, 255, 255, 0.22) 0 1px, transparent 1px 18px);
+  box-shadow: inset 0 0 90px rgba(255, 255, 255, 0.1);
   pointer-events: none;
 }
 
 .hero-section::after {
   content: '';
   position: absolute;
-  bottom: -30%;
-  left: -10%;
-  width: 40%;
-  height: 150%;
-  background: radial-gradient(ellipse, rgba(0, 135, 68, 0.2) 0%, transparent 70%);
+  right: 12%;
+  bottom: 12%;
+  width: min(22vw, 260px);
+  height: 5px;
+  background: linear-gradient(90deg, #fff, rgba(255, 255, 255, 0.06));
+  transform: rotate(-18deg);
   pointer-events: none;
+}
+
+.landing-hero-inner {
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 2rem;
 }
 
 .hero-overline {
@@ -244,13 +340,14 @@ a:hover {
 }
 
 .hero-title {
-  font-size: 2.6rem;
+  font-size: clamp(2.3rem, 5vw, 4.7rem);
   font-weight: 800;
-  line-height: 1.15;
+  line-height: 1.02;
   margin: 0 0 0.5rem 0;
   color: #ffffff;
   position: relative;
   z-index: 1;
+  max-width: 12ch;
 }
 
 .hero-subtitle {
@@ -266,11 +363,13 @@ a:hover {
 }
 
 .hero-stats {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 1rem;
   flex-wrap: wrap;
   position: relative;
   z-index: 1;
+  max-width: 880px;
 }
 
 .hero-stat {
@@ -280,7 +379,6 @@ a:hover {
   border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: var(--radius-sm);
   padding: 0.85rem 1.3rem;
-  min-width: 140px;
   text-align: center;
   transition: background 0.2s ease;
 }
@@ -383,24 +481,35 @@ a:hover {
    8. Navigation Card
    --------------------------------------------------------------------------- */
 .nav-card {
-  background: var(--bg-card);
+  --nav-card-accent: var(--primary);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(255, 255, 255, 0.78)),
+    var(--bg-card);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: var(--border-card);
-  border-top: 3px solid var(--primary);
-  border-radius: var(--radius-lg);
-  padding: 1.4rem 1.5rem;
+  border: 1px solid rgba(0, 61, 30, 0.12);
+  border-left: 4px solid var(--nav-card-accent) !important;
+  border-radius: var(--radius-sm);
+  padding: 1.4rem 1.5rem !important;
   box-shadow: var(--shadow-sm);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
   cursor: pointer;
   height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
+  text-align: left;
+  font-family: inherit;
 }
 
 .nav-card:hover {
   transform: translateY(-3px);
   box-shadow: var(--shadow-hover);
+}
+
+.nav-card:focus-visible {
+  outline: 3px solid rgba(0, 102, 51, 0.25);
+  outline-offset: 3px;
 }
 
 .nav-card-green  { border-top-color: var(--ontrack); }
@@ -410,23 +519,84 @@ a:hover {
 .nav-card-purple { border-top-color: #4a148c; }
 
 .nav-card-icon {
-  font-size: 1.4rem;
-  margin-bottom: 0.5rem;
+  display: inline-grid;
+  width: 2.35rem;
+  height: 2.35rem;
+  place-items: center;
+  border-radius: var(--radius-sm);
+  margin-bottom: 1rem;
+  background: color-mix(in srgb, var(--nav-card-accent) 12%, white);
+  color: var(--nav-card-accent);
+  font-size: 0.82rem;
+  font-weight: 800;
   line-height: 1;
 }
 
 .nav-card-title {
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: var(--text);
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--nav-card-accent);
   margin-bottom: 0.35rem;
 }
 
 .nav-card-desc {
   font-size: 0.85rem;
   color: var(--text-secondary);
-  line-height: 1.45;
+  line-height: 1.55;
   flex: 1;
+  margin: 0;
+}
+
+.nav-card-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 1.25rem;
+  color: var(--nav-card-accent);
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.nav-card-action::after {
+  content: '\2192';
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.landing-main {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.section-kicker {
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: var(--primary-dark);
+  text-align: center;
+  margin: 0 0 0.5rem;
+}
+
+.section-intro {
+  max-width: 620px;
+  margin: 0 auto 2rem;
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 0.92rem;
+}
+
+.audience-grid,
+.pipeline-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.1rem;
+  margin-bottom: 3rem;
+}
+
+.operational-panel {
+  container-type: inline-size;
 }
 
 
@@ -1653,13 +1823,52 @@ a:hover {
    35. Responsive Overrides (768px)
    --------------------------------------------------------------------------- */
 @media (max-width: 768px) {
+  .site-nav {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  .site-nav-links {
+    width: 100%;
+  }
+
+  .landing-main {
+    padding: 1.5rem;
+  }
+
+  .audience-grid,
+  .pipeline-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .operational-panel {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+    padding: 0 1.5rem !important;
+  }
+
+  .operational-metrics {
+    grid-template-columns: 1fr !important;
+  }
+
   /* Hero adjustments */
   .hero-section {
     padding: 2rem 1.5rem 1.5rem;
   }
 
+  .hero-section::before,
+  .hero-section::after {
+    opacity: 0.28;
+  }
+
+  .landing-hero-inner {
+    padding: 0;
+  }
+
   .hero-title {
-    font-size: 1.7rem;
+    font-size: 2.15rem;
+    line-height: 1.08;
   }
 
   .hero-subtitle {
@@ -1667,7 +1876,7 @@ a:hover {
   }
 
   .hero-stats {
-    flex-direction: column;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.5rem;
   }
 
@@ -1803,13 +2012,22 @@ a:hover {
    36. Responsive Overrides (640px — small mobile)
    --------------------------------------------------------------------------- */
 @media (max-width: 640px) {
+  .site-nav-brand {
+    font-size: 0.92rem;
+  }
+
+  .site-nav-link {
+    font-size: 0.8rem !important;
+    padding: 0.4rem 0.55rem !important;
+  }
+
   .hero-section {
     padding: 1.5rem 1.2rem 1.2rem;
     border-radius: var(--radius-md);
   }
 
   .hero-title {
-    font-size: 1.5rem;
+    font-size: 1.85rem;
   }
 
   .hero-overline {
@@ -1842,6 +2060,10 @@ a:hover {
 
   .scroll-visual {
     height: 40vh;
+  }
+
+  .hero-stats {
+    grid-template-columns: 1fr;
   }
 }
 

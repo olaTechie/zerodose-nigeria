@@ -1,19 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useMethods } from './MethodsDrawer';
 
-const navStyle = {
-  position: 'sticky',
-  top: 0,
-  zIndex: 100,
-  background: 'rgba(255,255,255,0.85)',
-  backdropFilter: 'blur(12px)',
-  padding: '0.6rem 1.5rem',
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  borderBottom: '1px solid rgba(0,102,51,0.1)',
-};
-
 const linkBase = {
   textDecoration: 'none',
   fontSize: '0.85rem',
@@ -37,40 +24,32 @@ export default function SiteNav({ activePage }) {
   const methodsSection = PAGE_TO_METHODS[activePage] || 'overview';
 
   return (
-    <nav style={navStyle} aria-label="Main navigation">
-      <Link to="/" style={{ fontWeight: 700, color: '#006633', textDecoration: 'none' }}>
-        Zero-Dose Nigeria
+    <nav className="site-nav" aria-label="Main navigation">
+      <Link to="/" className="site-nav-brand">
+        <span className="site-nav-mark" aria-hidden="true">ZD</span>
+        <span>Zero-Dose Nigeria</span>
       </Link>
-      <div style={{ display: 'flex', gap: '1.5rem' }}>
+      <div className="site-nav-links">
         <Link
           to="/story"
-          style={{
-            ...linkBase,
-            color: activePage === 'story' ? '#006633' : '#546e7a',
-            fontWeight: activePage === 'story' ? 600 : 400,
-          }}
+          className={`site-nav-link ${activePage === 'story' ? 'is-active' : ''}`}
+          style={linkBase}
           aria-current={activePage === 'story' ? 'page' : undefined}
         >
           Story
         </Link>
         <Link
           to="/policy"
-          style={{
-            ...linkBase,
-            color: activePage === 'policy' ? '#006633' : '#546e7a',
-            fontWeight: activePage === 'policy' ? 600 : 400,
-          }}
+          className={`site-nav-link ${activePage === 'policy' ? 'is-active' : ''}`}
+          style={linkBase}
           aria-current={activePage === 'policy' ? 'page' : undefined}
         >
           Policy
         </Link>
         <Link
           to="/explorer/descriptive"
-          style={{
-            ...linkBase,
-            color: activePage === 'explorer' ? '#006633' : '#546e7a',
-            fontWeight: activePage === 'explorer' ? 600 : 400,
-          }}
+          className={`site-nav-link ${activePage === 'explorer' ? 'is-active' : ''}`}
+          style={linkBase}
           aria-current={activePage === 'explorer' ? 'page' : undefined}
         >
           Explorer
@@ -78,7 +57,8 @@ export default function SiteNav({ activePage }) {
         <button
           type="button"
           onClick={() => methods?.open(methodsSection)}
-          style={{ ...linkBase, color: '#546e7a', fontWeight: 400 }}
+          className="site-nav-link"
+          style={linkBase}
         >
           Methods
         </button>

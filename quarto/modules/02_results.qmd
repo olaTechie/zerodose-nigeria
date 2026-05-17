@@ -1,0 +1,7 @@
+# Results
+
+See `../outputs/tables/` for DOCX tables and `../outputs/figures/` for PNG figures.
+
+::: {.callout-note}
+Static results render only when the ML and digital-twin stages have completed.
+:::

@@ -1,0 +1,9 @@
+# Methods
+
+The 01_zero-dose_v2 analysis follows the dhs-ml-twin canonical pipeline.
+
+Survey weights: `v005`; cluster: `v001`.
+
+Outcome: `zero_dose` (KR8 (h3)).
+
+Theoretical framework: **three_delays**.

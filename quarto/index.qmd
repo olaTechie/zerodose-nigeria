@@ -1,0 +1,11 @@
+# 01_zero-dose_v2
+
+This is the **static** companion to the interactive Streamlit dashboard.
+
+## Outcome
+
+Children 12-23 months who received zero doses of DTP/Pentavalent vaccine (h3 == 0); alive (b5 == 1); last-born per woman
+
+## Pipeline
+
+`descriptive → esda → ml → causal → digital-twin → dashboard → manuscript`

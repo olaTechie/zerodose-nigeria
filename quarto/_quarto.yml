@@ -1,0 +1,16 @@
+project:
+  type: book
+
+book:
+  title: "01_zero-dose_v2 — Methods Walkthrough"
+  chapters:
+    - index.qmd
+    - modules/01_methods.qmd
+    - modules/02_results.qmd
+    - modules/03_dashboard.qmd
+
+format:
+  html:
+    theme: cosmo
+  pdf:
+    documentclass: scrreprt

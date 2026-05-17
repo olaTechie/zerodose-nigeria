@@ -1,0 +1,4 @@
+# Interactive Dashboard
+
+The interactive Streamlit dashboard mirrors this static book with 12 live modules.
+See `../app.py` and `../pages/`.

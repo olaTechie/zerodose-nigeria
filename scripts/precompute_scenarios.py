@@ -24,8 +24,8 @@ ROOT = Path(__file__).resolve().parent.parent.parent
 OUT = ROOT / "website" / "public" / "data"
 OUT.mkdir(parents=True, exist_ok=True)
 
-PARAMS_PATH = ROOT / "outputs" / "stage1" / "ml_to_abm_params.json"
-CNA_MATRIX_PATH = ROOT / "outputs" / "stage2" / "abm_to_cna_matrix.csv"
+PARAMS_PATH = ROOT / "outputs" / "models" / "ml_to_abm_params.json"
+CNA_MATRIX_PATH = ROOT / "outputs" / "twin" / "abm_to_cna_matrix.csv"
 
 SEED = 42
 np.random.seed(SEED)

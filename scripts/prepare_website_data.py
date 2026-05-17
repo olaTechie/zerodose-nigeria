@@ -25,10 +25,11 @@ ROOT = Path(__file__).resolve().parent.parent.parent
 OUT = ROOT / "website" / "public" / "data"
 OUT.mkdir(parents=True, exist_ok=True)
 
-STAGE1 = ROOT / "outputs" / "stage1"
-EDA = STAGE1 / "eda"
-STAGE2 = ROOT / "outputs" / "stage2"
-STAGE3 = ROOT / "outputs" / "stage3"
+# v2 canonical layout: outputs/{tables,figures,models,twin}/
+TABLES = ROOT / "outputs" / "tables"
+FIGURES = ROOT / "outputs" / "figures"
+MODELS = ROOT / "outputs" / "models"
+TWIN = ROOT / "outputs" / "twin"
 
 GPS_SHP = ROOT / "data" / "dhs" / "raw" / "nga_2024" / "NGGE8BFL" / "NGGE8AFL.shp"
 GADM_SHP = ROOT / "data" / "shapefiles" / "gadm" / "gadm41_NGA_1.shp"
@@ -52,7 +53,7 @@ def _round(v, n=4):
 # ════════════════════════════════════════════════════════════════════════════
 def build_meta():
     print("1/10  meta.json ...")
-    with open(STAGE1 / "ml_to_abm_params.json") as f:
+    with open(MODELS / "ml_to_abm_params.json") as f:
         params = json.load(f)
 
     meta = {
@@ -83,7 +84,7 @@ def build_meta():
 # ════════════════════════════════════════════════════════════════════════════
 def build_table_one():
     print("2/10  table_one.json ...")
-    df = pd.read_csv(EDA / "table_one.csv", header=[0, 1])
+    df = pd.read_csv(TABLES / "table_one_by_outcome.csv", header=[0, 1])
 
     # Flatten the multi-level header
     rows = []
@@ -125,8 +126,8 @@ def build_table_one():
 # ════════════════════════════════════════════════════════════════════════════
 def build_shap():
     print("3/10  shap_importance.json ...")
-    glob_df = pd.read_csv(STAGE1 / "shap_global_importance.csv")
-    zone_df = pd.read_csv(STAGE1 / "shap_zone_stratified.csv")
+    glob_df = pd.read_csv(TABLES / "shap_global_importance.csv")
+    zone_df = pd.read_csv(TABLES / "shap_zone_stratified.csv")
 
     global_list = []
     for _, r in glob_df.iterrows():
@@ -160,7 +161,7 @@ def build_shap():
 # ════════════════════════════════════════════════════════════════════════════
 def build_cluster_map():
     print("4/10  cluster_map.geojson ...")
-    typology = pd.read_csv(STAGE1 / "cluster_typology_labels.csv")
+    typology = pd.read_csv(TABLES / "cluster_typology_labels.csv")
     gps = gpd.read_file(str(GPS_SHP))
 
     # Join: v001 in typology = DHSCLUST in GPS
@@ -208,7 +209,7 @@ def build_cluster_map():
 # ════════════════════════════════════════════════════════════════════════════
 def build_state_prevalence():
     print("5/10  state_prevalence.json ...")
-    stats = pd.read_csv(EDA / "eda_summary_stats.csv")
+    stats = pd.read_csv(TABLES / "eda_summary_stats.csv")
     gadm = gpd.read_file(str(GADM_SHP))
     # Simplify polygons to reduce file size (~0.005 degrees ~ 500m tolerance)
     gadm["geometry"] = gadm["geometry"].simplify(tolerance=0.005, preserve_topology=True)
@@ -283,7 +284,7 @@ def _simplify_geojson_coords(geom_dict, precision=3):
 # ════════════════════════════════════════════════════════════════════════════
 def build_lisa():
     print("6/10  lisa_clusters.json ...")
-    stats = pd.read_csv(EDA / "eda_summary_stats.csv")
+    stats = pd.read_csv(TABLES / "eda_summary_stats.csv")
     gadm = gpd.read_file(str(GADM_SHP))
 
     # Same name matching as above
@@ -368,8 +369,8 @@ def build_lisa():
 # ════════════════════════════════════════════════════════════════════════════
 def build_lca():
     print("7/10  lca_profiles.json ...")
-    profiles = pd.read_csv(STAGE1 / "lca_trust_profiles.csv")
-    posteriors = pd.read_csv(STAGE1 / "lca_posterior_probs.csv")
+    profiles = pd.read_csv(TABLES / "lca_trust_profiles.csv")
+    posteriors = pd.read_csv(MODELS / "lca_posterior_probs.csv")
 
     # 4-class → 3 trust state mapping:
     # Class_1 → Refusing, Class_2+Class_3 → Hesitant, Class_4 → Willing
@@ -456,7 +457,7 @@ def build_lca():
 # ════════════════════════════════════════════════════════════════════════════
 def build_abm_scenarios():
     print("8/10  abm_scenarios.json ...")
-    cna_matrix = pd.read_csv(STAGE2 / "abm_to_cna_matrix.csv")
+    cna_matrix = pd.read_csv(TWIN / "abm_to_cna_matrix.csv")
 
     # Read the matrix rows
     matrix_rows = []
@@ -537,7 +538,7 @@ def build_cna():
     print("9/10  cna_solutions.json ...")
 
     # Primary solutions
-    sol_df = pd.read_csv(STAGE3 / "cna_primary_solution.csv")
+    sol_df = pd.read_csv(TABLES / "cna_primary_solution.csv")
     solutions = []
     for _, r in sol_df.iterrows():
         solutions.append({
@@ -549,7 +550,7 @@ def build_cna():
         })
 
     # Necessity analysis
-    nec_df = pd.read_csv(STAGE3 / "cna_necessity_analysis.csv")
+    nec_df = pd.read_csv(TABLES / "cna_necessity_analysis.csv")
     necessity = []
     for _, r in nec_df.iterrows():
         necessity.append({
@@ -558,7 +559,7 @@ def build_cna():
         })
 
     # Robustness table
-    rob_df = pd.read_csv(STAGE3 / "cna_robustness_table.csv")
+    rob_df = pd.read_csv(TABLES / "cna_robustness_table.csv")
     robustness = []
     for _, r in rob_df.iterrows():
         robustness.append({
@@ -571,7 +572,7 @@ def build_cna():
         })
 
     # Policy translations (parse markdown)
-    with open(STAGE3 / "cna_policy_translations.md") as f:
+    with open(TABLES / "cna_policy_translations.md") as f:
         md_text = f.read()
 
     translations = {
@@ -643,7 +644,7 @@ def build_cna():
 # ════════════════════════════════════════════════════════════════════════════
 def build_calibration_posteriors():
     print("10/10 calibration_posteriors.json ...")
-    df = pd.read_csv(STAGE2 / "abm_calibration_posteriors.csv")
+    df = pd.read_csv(TWIN / "abm_calibration_posteriors.csv")
 
     # Extract only the 6 core ABM parameters (ignore columns with numpy repr strings)
     param_cols = ["delta_p", "delta_r", "beta_rumour", "delta_l", "alpha", "logit_shift"]

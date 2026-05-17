@@ -9,10 +9,12 @@ const Story = lazy(() => import('./pages/Story'));
 const Policy = lazy(() => import('./pages/Policy'));
 const Explorer = lazy(() => import('./pages/Explorer'));
 
+const basename = import.meta.env.BASE_URL.replace(/\/$/, '') || '/';
+
 export default function App() {
   return (
     <ErrorBoundary>
-      <BrowserRouter basename="/zerodose-nigeria">
+      <BrowserRouter basename={basename}>
         <MethodsProvider>
           <Suspense fallback={<LoadingSpinner />}>
             <Routes>

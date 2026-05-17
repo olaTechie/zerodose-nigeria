@@ -12,8 +12,8 @@ export default function Landing() {
     <div style={{ background: 'var(--bg)', minHeight: '100vh' }}>
       <SiteNav activePage="home" />
       {/* Hero */}
-      <div className="hero-section" style={{ minHeight: '70vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', borderRadius: 0 }}>
-        <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 2rem', width: '100%' }}>
+      <div className="hero-section landing-hero" style={{ minHeight: '70vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', borderRadius: 0 }}>
+        <div className="landing-hero-inner">
           <div className="hero-overline">Nigeria DHS 2024 | Integrated ML-ABM-CNA Framework</div>
           <h1 className="hero-title" style={{ maxWidth: '750px' }}>
             Trust, Access, and Causal Recipes for Vaccination Coverage Recovery in Nigeria
@@ -54,31 +54,31 @@ export default function Landing() {
       <OperationalHeadlinePanel />
 
       {/* Audience cards */}
-      <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '2rem' }}>
-        <h2 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#003d1e', textAlign: 'center', marginBottom: '0.5rem' }}>
+      <div className="landing-main">
+        <h2 className="section-kicker">
           Choose your experience
         </h2>
-        <p style={{ textAlign: 'center', color: '#546e7a', fontSize: '0.9rem', marginBottom: '2rem' }}>
+        <p className="section-intro">
           Three ways to explore the evidence, tailored to different audiences.
         </p>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem', marginBottom: '3rem' }}>
+        <div className="audience-grid">
           <NavCard
-            icon="📖"
+            icon="01"
             title="The Story"
             description="A scrolling data narrative that walks you through the crisis, its geography, the machine learning insights, and the intervention recipes. Designed for policymakers, media, and general audiences."
             accentColor="#006633"
             onClick={() => navigate('/story')}
           />
           <NavCard
-            icon="🎛️"
+            icon="02"
             title="Policy Dashboard"
             description="Interactive maps, intervention scenario comparisons, and a what-if explorer that lets you adjust outreach intensity and see projected coverage in real time. Designed for NPHCDA planners and state health officers."
             accentColor="#1565c0"
             onClick={() => navigate('/policy')}
           />
           <NavCard
-            icon="🔬"
+            icon="03"
             title="Technical Explorer"
             description="Full pipeline outputs: weighted Table 1, SHAP importance, Moran's I scatterplots, LCA profiles, ABM trajectories, CNA solutions, and data downloads. Designed for researchers and reviewers."
             accentColor="#7b1fa2"
@@ -87,11 +87,11 @@ export default function Landing() {
         </div>
 
         {/* Pipeline stages */}
-        <h2 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#003d1e', textAlign: 'center', marginBottom: '1.5rem' }}>
+        <h2 className="section-kicker">
           Three-Stage Pipeline
         </h2>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1rem', marginBottom: '3rem' }}>
+        <div className="pipeline-grid">
           <StageCard
             number="1"
             title="Machine Learning"
