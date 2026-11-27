@@ -1,0 +1,168 @@
+{
+  "studyTitle": "Who are the zero-dose children, and how do we reach them? Machine learning, linked simulation and cost-effectiveness analysis of the 2024 Nigeria Demographic and Health Survey",
+  "dataSource": "Nigeria DHS 2024",
+  "n_children": 4875,
+  "n_clusters": 1283,
+  "weighted_zd_prevalence": 0.368,
+  "auc_roc": 0.9467,
+  "auc_ci": [
+    0.93,
+    0.961
+  ],
+  "auc_card_free": 0.842,
+  "auc_card_free_ci": [
+    0.814,
+    0.869
+  ],
+  "morans_i": 0.607,
+  "lca_k": 4,
+  "lca_bic": 52150.1,
+  "typology_silhouette": 0.3209,
+  "typologyDistribution": {
+    "Reference": 0.6087,
+    "Access-Constrained": 0.3913
+  },
+  "calibrationFit": {
+    "note": "NDHS 2018 and 2024 were both calibration targets; this is calibration fit, not validation.",
+    "2018": {
+      "observed_national": 0.65,
+      "simulated_national": 0.611,
+      "zone_rmse": 0.0432
+    },
+    "2024": {
+      "observed_national": 0.632,
+      "simulated_national": 0.702,
+      "zone_rmse": 0.0747
+    },
+    "zone_rank_correlation": 0.943
+  },
+  "decisionCoefficients": {
+    "note": "Logistic regression on the survey data; the access score is derived from the risk model's SHAP values.",
+    "intercept": 0.552,
+    "engagement_score": 0.434,
+    "access_score": 0.193,
+    "outreach": 0.241
+  },
+  "featureImportanceTop20": [
+    {
+      "feature": "h1a",
+      "display": "Has vaccination card",
+      "shap": 1.4623,
+      "rank": 1
+    },
+    {
+      "feature": "mat_hcseek",
+      "display": "Health-seeking composite",
+      "shap": 0.5332,
+      "rank": 2
+    },
+    {
+      "feature": "m14",
+      "display": "ANC visits",
+      "shap": 0.274,
+      "rank": 3
+    },
+    {
+      "feature": "v106",
+      "display": "Maternal education",
+      "shap": 0.187,
+      "rank": 4
+    },
+    {
+      "feature": "v394",
+      "display": "Facility visit 12m",
+      "shap": 0.1789,
+      "rank": 5
+    },
+    {
+      "feature": "ITN_Coverage_2020",
+      "display": "ITN coverage",
+      "shap": 0.1647,
+      "rank": 6
+    },
+    {
+      "feature": "v130",
+      "display": "Religion",
+      "shap": 0.1443,
+      "rank": 7
+    },
+    {
+      "feature": "UN_Population_Density_2020",
+      "display": "Population density",
+      "shap": 0.1402,
+      "rank": 8
+    },
+    {
+      "feature": "Malaria_Prevalence_2020",
+      "display": "Malaria prevalence",
+      "shap": 0.1234,
+      "rank": 9
+    },
+    {
+      "feature": "state_enc",
+      "display": "State",
+      "shap": 0.1137,
+      "rank": 10
+    },
+    {
+      "feature": "s1112p",
+      "display": "COVID vax received",
+      "shap": 0.103,
+      "rank": 11
+    },
+    {
+      "feature": "v201",
+      "display": "Parity",
+      "shap": 0.0866,
+      "rank": 12
+    },
+    {
+      "feature": "v190",
+      "display": "Wealth quintile",
+      "shap": 0.0853,
+      "rank": 13
+    },
+    {
+      "feature": "Travel_Times",
+      "display": "GC travel times",
+      "shap": 0.0759,
+      "rank": 14
+    },
+    {
+      "feature": "v467c",
+      "display": "Cost barrier",
+      "shap": 0.0753,
+      "rank": 15
+    },
+    {
+      "feature": "v155",
+      "display": "Literacy",
+      "shap": 0.0681,
+      "rank": 16
+    },
+    {
+      "feature": "v158",
+      "display": "Radio exposure",
+      "shap": 0.065,
+      "rank": 17
+    },
+    {
+      "feature": "Elevation",
+      "display": "Elevation",
+      "shap": 0.0628,
+      "rank": 18
+    },
+    {
+      "feature": "v743a",
+      "display": "Healthcare decision",
+      "shap": 0.0595,
+      "rank": 19
+    },
+    {
+      "feature": "s1112s",
+      "display": "COVID vax willing",
+      "shap": 0.0579,
+      "rank": 20
+    }
+  ]
+}

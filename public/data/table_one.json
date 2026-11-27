@@ -1,0 +1,504 @@
+{
+  "rows": [
+    {
+      "variable": "n",
+      "category": "",
+      "missing": "",
+      "overall": "59351",
+      "vaccinated": "37523",
+      "zerodose": "21828",
+      "pvalue": "",
+      "test": ""
+    },
+    {
+      "variable": "Maternal Age (years)",
+      "category": "",
+      "missing": "0.0",
+      "overall": "29.2 (6.9)",
+      "vaccinated": "29.8 (6.6)",
+      "zerodose": "28.1 (7.1)",
+      "pvalue": "<0.001",
+      "test": "Welch\u2019s T-test"
+    },
+    {
+      "variable": "Parity (children ever born)",
+      "category": "",
+      "missing": "0.0",
+      "overall": "3.0 [2.0,5.0]",
+      "vaccinated": "3.0 [2.0,5.0]",
+      "zerodose": "3.0 [2.0,5.0]",
+      "pvalue": "<0.001",
+      "test": "Kruskal-Wallis"
+    },
+    {
+      "variable": "Travel Time (minutes)",
+      "category": "",
+      "missing": "0.0",
+      "overall": "20.0 [10.0,30.0]",
+      "vaccinated": "20.0 [10.0,30.0]",
+      "zerodose": "20.0 [12.0,30.0]",
+      "pvalue": "<0.001",
+      "test": "Kruskal-Wallis"
+    },
+    {
+      "variable": "Maternal Health-Seeking (0-4)",
+      "category": "",
+      "missing": "0.0",
+      "overall": "3.0 [1.0,4.0]",
+      "vaccinated": "3.0 [3.0,4.0]",
+      "zerodose": "1.0 [0.0,2.0]",
+      "pvalue": "<0.001",
+      "test": "Kruskal-Wallis"
+    },
+    {
+      "variable": "Geopolitical Zone",
+      "category": "NW",
+      "missing": "",
+      "overall": "22831 (38.5)",
+      "vaccinated": "10772 (28.7)",
+      "zerodose": "12059 (55.2)",
+      "pvalue": "<0.001",
+      "test": "Chi-squared"
+    },
+    {
+      "variable": "Geopolitical Zone",
+      "category": "NE",
+      "missing": "",
+      "overall": "11682 (19.7)",
+      "vaccinated": "7544 (20.1)",
+      "zerodose": "4138 (19.0)",
+      "pvalue": "",
+      "test": ""
+    },
+    {
+      "variable": "Geopolitical Zone",
+      "category": "NC",
+      "missing": "",
+      "overall": "9586 (16.2)",
+      "vaccinated": "5763 (15.4)",
+      "zerodose": "3823 (17.5)",
+      "pvalue": "",
+      "test": ""
+    },
+    {
+      "variable": "Geopolitical Zone",
+      "category": "SE",
+      "missing": "",
+      "overall": "4298 (7.2)",
+      "vaccinated": "3951 (10.5)",
+      "zerodose": "347 (1.6)",
+      "pvalue": "",
+      "test": ""
+    },
+    {
+      "variable": "Geopolitical Zone",
+      "category": "SS",
+      "missing": "",
+      "overall": "4779 (8.1)",
+      "vaccinated": "4214 (11.2)",
+      "zerodose": "565 (2.6)",
+      "pvalue": "",
+      "test": ""
+    },
+    {
+      "variable": "Geopolitical Zone",
+      "category": "SW",
+      "missing": "",
+      "overall": "6175 (10.4)",
+      "vaccinated": "5279 (14.1)",
+      "zerodose": "896 (4.1)",
+      "pvalue": "",
+      "test": ""
+    },
+    {
+      "variable": "Residence",
+      "category": "Urban",
+      "missing": "",
+      "overall": "23426 (39.5)",
+      "vaccinated": "18224 (48.6)",
+      "zerodose": "5202 (23.8)",
+      "pvalue": "<0.001",
+      "test": "Chi-squared"
+    },
+    {
+      "variable": "Residence",
+      "category": "Rural",
+      "missing": "",
+      "overall": "35925 (60.5)",
+      "vaccinated": "19299 (51.4)",
+      "zerodose": "16626 (76.2)",
+      "pvalue": "",
+      "test": ""
+    },
+    {
+      "variable": "Maternal Education",
+      "category": "",
+      "missing": "",
+      "overall": "26301 (44.3)",
+      "vaccinated": "11021 (29.4)",
+      "zerodose": "15280 (70.0)",
+      "pvalue": "<0.001",
+      "test": "Chi-squared"
+    },
+    {
+      "variable": "Maternal Education",
+      "category": "Primary",
+      "missing": "",
+      "overall": "7088 (11.9)",
+      "vaccinated": "4534 (12.1)",
+      "zerodose": "2554 (11.7)",
+      "pvalue": "",
+      "test": ""
+    },
+    {
+      "variable": "Maternal Education",
+      "category": "Secondary",
+      "missing": "",
+      "overall": "19769 (33.3)",
+      "vaccinated": "16070 (42.8)",
+      "zerodose": "3699 (16.9)",
+      "pvalue": "",
+      "test": ""
+    },
+    {
+      "variable": "Maternal Education",
+      "category": "Higher",
+      "missing": "",
+      "overall": "6193 (10.4)",
+      "vaccinated": "5898 (15.7)",
+      "zerodose": "295 (1.4)",
+      "pvalue": "",
+      "test": ""
+    },
+    {
+      "variable": "Wealth Quintile",
+      "category": "Poorest",
+      "missing": "",
+      "overall": "14120 (23.8)",
+      "vaccinated": "6145 (16.4)",
+      "zerodose": "7975 (36.5)",
+      "pvalue": "<0.001",
+      "test": "Chi-squared"
+    },
+    {
+      "variable": "Wealth Quintile",
+      "category": "Poorer",
+      "missing": "",
+      "overall": "13420 (22.6)",
+      "vaccinated": "6641 (17.7)",
+      "zerodose": "6779 (31.1)",
+      "pvalue": "",
+      "test": ""
+    },
+    {
+      "variable": "Wealth Quintile",
+      "category": "Middle",
+      "missing": "",
+      "overall": "11088 (18.7)",
+      "vaccinated": "7145 (19.0)",
+      "zerodose": "3943 (18.1)",
+      "pvalue": "",
+      "test": ""
+    },
+    {
+      "variable": "Wealth Quintile",
+      "category": "Richer",
+      "missing": "",
+      "overall": "11263 (19.0)",
+      "vaccinated": "8736 (23.3)",
+      "zerodose": "2527 (11.6)",
+      "pvalue": "",
+      "test": ""
+    },
+    {
+      "variable": "Wealth Quintile",
+      "category": "Richest",
+      "missing": "",
+      "overall": "9460 (15.9)",
+      "vaccinated": "8856 (23.6)",
+      "zerodose": "604 (2.8)",
+      "pvalue": "",
+      "test": ""
+    },
+    {
+      "variable": "Religion",
+      "category": "Catholic",
+      "missing": "",
+      "overall": "3944 (6.6)",
+      "vaccinated": "3388 (9.0)",
+      "zerodose": "556 (2.5)",
+      "pvalue": "<0.001",
+      "test": "Chi-squared"
+    },
+    {
+      "variable": "Religion",
+      "category": "Islam",
+      "missing": "",
+      "overall": "40573 (68.4)",
+      "vaccinated": "21633 (57.7)",
+      "zerodose": "18940 (86.8)",
+      "pvalue": "",
+      "test": ""
+    },
+    {
+      "variable": "Religion",
+      "category": "Other Christian",
+      "missing": "",
+      "overall": "14592 (24.6)",
+      "vaccinated": "12367 (33.0)",
+      "zerodose": "2225 (10.2)",
+      "pvalue": "",
+      "test": ""
+    },
+    {
+      "variable": "Religion",
+      "category": "Other/Traditional",
+      "missing": "",
+      "overall": "242 (0.4)",
+      "vaccinated": "135 (0.4)",
+      "zerodose": "107 (0.5)",
+      "pvalue": "",
+      "test": ""
+    },
+    {
+      "variable": "ANC Visits",
+      "category": "0",
+      "missing": "",
+      "overall": "14991 (25.3)",
+      "vaccinated": "3520 (9.4)",
+      "zerodose": "11471 (52.6)",
+      "pvalue": "<0.001",
+      "test": "Chi-squared"
+    },
+    {
+      "variable": "ANC Visits",
+      "category": "1-3",
+      "missing": "",
+      "overall": "10225 (17.2)",
+      "vaccinated": "6444 (17.2)",
+      "zerodose": "3781 (17.3)",
+      "pvalue": "",
+      "test": ""
+    },
+    {
+      "variable": "ANC Visits",
+      "category": "4+",
+      "missing": "",
+      "overall": "31156 (52.5)",
+      "vaccinated": "25194 (67.1)",
+      "zerodose": "5962 (27.3)",
+      "pvalue": "",
+      "test": ""
+    },
+    {
+      "variable": "ANC Visits",
+      "category": "",
+      "missing": "",
+      "overall": "2979 (5.0)",
+      "vaccinated": "2365 (6.3)",
+      "zerodose": "614 (2.8)",
+      "pvalue": "",
+      "test": ""
+    },
+    {
+      "variable": "Facility Delivery",
+      "category": "Yes",
+      "missing": "",
+      "overall": "26077 (43.9)",
+      "vaccinated": "21836 (58.2)",
+      "zerodose": "4241 (19.4)",
+      "pvalue": "<0.001",
+      "test": "Chi-squared"
+    },
+    {
+      "variable": "Facility Delivery",
+      "category": "No",
+      "missing": "",
+      "overall": "33274 (56.1)",
+      "vaccinated": "15687 (41.8)",
+      "zerodose": "17587 (80.6)",
+      "pvalue": "",
+      "test": ""
+    },
+    {
+      "variable": "Has Vaccination Card",
+      "category": "Yes",
+      "missing": "",
+      "overall": "32195 (54.2)",
+      "vaccinated": "30246 (80.6)",
+      "zerodose": "1949 (8.9)",
+      "pvalue": "<0.001",
+      "test": "Chi-squared"
+    },
+    {
+      "variable": "Has Vaccination Card",
+      "category": "No",
+      "missing": "",
+      "overall": "27156 (45.8)",
+      "vaccinated": "7277 (19.4)",
+      "zerodose": "19879 (91.1)",
+      "pvalue": "",
+      "test": ""
+    },
+    {
+      "variable": "COVID Vaccine Willing",
+      "category": "Yes",
+      "missing": "",
+      "overall": "12327 (20.8)",
+      "vaccinated": "7959 (21.2)",
+      "zerodose": "4368 (20.0)",
+      "pvalue": "<0.001",
+      "test": "Chi-squared"
+    },
+    {
+      "variable": "COVID Vaccine Willing",
+      "category": "No",
+      "missing": "",
+      "overall": "28150 (47.4)",
+      "vaccinated": "16110 (42.9)",
+      "zerodose": "12040 (55.2)",
+      "pvalue": "",
+      "test": ""
+    },
+    {
+      "variable": "COVID Vaccine Willing",
+      "category": "",
+      "missing": "",
+      "overall": "18874 (31.8)",
+      "vaccinated": "13454 (35.9)",
+      "zerodose": "5420 (24.8)",
+      "pvalue": "",
+      "test": ""
+    },
+    {
+      "variable": "COVID Vaccine Received",
+      "category": "Yes",
+      "missing": "",
+      "overall": "14799 (24.9)",
+      "vaccinated": "11690 (31.2)",
+      "zerodose": "3109 (14.2)",
+      "pvalue": "<0.001",
+      "test": "Chi-squared"
+    },
+    {
+      "variable": "COVID Vaccine Received",
+      "category": "No",
+      "missing": "",
+      "overall": "40477 (68.2)",
+      "vaccinated": "24069 (64.1)",
+      "zerodose": "16408 (75.2)",
+      "pvalue": "",
+      "test": ""
+    },
+    {
+      "variable": "COVID Vaccine Received",
+      "category": "",
+      "missing": "",
+      "overall": "4075 (6.9)",
+      "vaccinated": "1764 (4.7)",
+      "zerodose": "2311 (10.6)",
+      "pvalue": "",
+      "test": ""
+    },
+    {
+      "variable": "Distance Barrier",
+      "category": "Yes",
+      "missing": "",
+      "overall": "15774 (26.6)",
+      "vaccinated": "8288 (22.1)",
+      "zerodose": "7486 (34.3)",
+      "pvalue": "<0.001",
+      "test": "Chi-squared"
+    },
+    {
+      "variable": "Distance Barrier",
+      "category": "No",
+      "missing": "",
+      "overall": "43577 (73.4)",
+      "vaccinated": "29235 (77.9)",
+      "zerodose": "14342 (65.7)",
+      "pvalue": "",
+      "test": ""
+    },
+    {
+      "variable": "Cost Barrier",
+      "category": "Yes",
+      "missing": "",
+      "overall": "29575 (49.8)",
+      "vaccinated": "17943 (47.8)",
+      "zerodose": "11632 (53.3)",
+      "pvalue": "<0.001",
+      "test": "Chi-squared"
+    },
+    {
+      "variable": "Cost Barrier",
+      "category": "No",
+      "missing": "",
+      "overall": "29776 (50.2)",
+      "vaccinated": "19580 (52.2)",
+      "zerodose": "10196 (46.7)",
+      "pvalue": "",
+      "test": ""
+    },
+    {
+      "variable": "Permission Barrier",
+      "category": "Yes",
+      "missing": "",
+      "overall": "7550 (12.7)",
+      "vaccinated": "3449 (9.2)",
+      "zerodose": "4101 (18.8)",
+      "pvalue": "<0.001",
+      "test": "Chi-squared"
+    },
+    {
+      "variable": "Permission Barrier",
+      "category": "No",
+      "missing": "",
+      "overall": "51801 (87.3)",
+      "vaccinated": "34074 (90.8)",
+      "zerodose": "17727 (81.2)",
+      "pvalue": "",
+      "test": ""
+    },
+    {
+      "variable": "Health Insurance",
+      "category": "Yes",
+      "missing": "",
+      "overall": "1598 (2.7)",
+      "vaccinated": "1445 (3.9)",
+      "zerodose": "153 (0.7)",
+      "pvalue": "<0.001",
+      "test": "Chi-squared"
+    },
+    {
+      "variable": "Health Insurance",
+      "category": "No",
+      "missing": "",
+      "overall": "57753 (97.3)",
+      "vaccinated": "36078 (96.1)",
+      "zerodose": "21675 (99.3)",
+      "pvalue": "",
+      "test": ""
+    },
+    {
+      "variable": "Fieldworker Visit (12m)",
+      "category": "Yes",
+      "missing": "",
+      "overall": "7197 (12.1)",
+      "vaccinated": "5551 (14.8)",
+      "zerodose": "1646 (7.5)",
+      "pvalue": "<0.001",
+      "test": "Chi-squared"
+    },
+    {
+      "variable": "Fieldworker Visit (12m)",
+      "category": "No",
+      "missing": "",
+      "overall": "52154 (87.9)",
+      "vaccinated": "31972 (85.2)",
+      "zerodose": "20182 (92.5)",
+      "pvalue": "",
+      "test": ""
+    }
+  ]
+}

@@ -1,0 +1,474 @@
+import { useState, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import GlassCard from '../components/shared/GlassCard';
+import PageHeader from '../components/shared/PageHeader';
+import MetricCard from '../components/shared/MetricCard';
+import CoverageGauge from '../components/shared/CoverageGauge';
+import CoverageTierBadge from '../components/shared/CoverageTierBadge';
+import TypologyBadge from '../components/shared/TypologyBadge';
+import ScenarioCard from '../components/shared/ScenarioCard';
+import RecipeCard from '../components/shared/RecipeCard';
+import PolicyBriefCard from '../components/shared/PolicyBriefCard';
+import LoadingSpinner from '../components/shared/LoadingSpinner';
+import ErrorState from '../components/shared/ErrorState';
+import NigeriaMap from '../components/maps/NigeriaMap';
+import CoverageHeatmap from '../components/charts/CoverageHeatmap';
+import ScenarioIntervalChart from '../components/charts/ScenarioIntervalChart';
+import NecessityBar from '../components/charts/NecessityBar';
+import SiteNav from '../components/shared/SiteNav';
+import { useData } from '../hooks/useData';
+import { policyPanelTitles, typologyGuidance, configurationSummaries, policyBriefContent } from '../data/storyContent';
+import { SCENARIO_LABELS, PIPELINE_METRICS } from '../data/constants';
+import { getPrevalenceColorScale } from '../components/maps/ChoroplethLayer';
+import { thStyle, tdStyle } from '../styles/tableStyles';
+
+export default function Policy() {
+  const [activeTab, setActiveTab] = useState(0);
+  const tabRefs = useRef({});
+
+  const tabs = policyPanelTitles;
+
+  function handleKey(e, idx) {
+    if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(e.key)) return;
+    e.preventDefault();
+    let nextIdx = idx;
+    if (e.key === 'ArrowRight') nextIdx = (idx + 1) % tabs.length;
+    if (e.key === 'ArrowLeft') nextIdx = (idx - 1 + tabs.length) % tabs.length;
+    if (e.key === 'Home') nextIdx = 0;
+    if (e.key === 'End') nextIdx = tabs.length - 1;
+    setActiveTab(nextIdx);
+    requestAnimationFrame(() => {
+      tabRefs.current[nextIdx]?.focus();
+    });
+  }
+
+  return (
+    <div style={{ background: 'var(--bg)', minHeight: '100vh' }}>
+      {/* Nav */}
+      <SiteNav activePage="policy" />
+
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '1.5rem' }}>
+        <PageHeader title="Policy Dashboard" subtitle="Intervention targeting and resource allocation for zero-dose communities in Nigeria" />
+        <p className="data-note">
+          Outputs are pre-computed from the NDHS 2024 analysis and are not connected to live health-system data.
+          The simulation is calibrated to NDHS 2018 and 2024 and has no independent validation.
+        </p>
+
+        {/* Tab bar — ARIA tablist with arrow-key navigation */}
+        <div
+          role="tablist"
+          aria-label="Policy dashboard sections"
+          style={{ display: 'flex', gap: '0.5rem', marginBottom: '1.5rem', flexWrap: 'wrap' }}
+        >
+          {tabs.map((tab, i) => {
+            const isActive = activeTab === i;
+            return (
+              <button
+                key={tab.id}
+                ref={(el) => { tabRefs.current[i] = el; }}
+                role="tab"
+                aria-selected={isActive}
+                aria-controls={`policy-panel-${tab.id}`}
+                id={`policy-tab-${tab.id}`}
+                tabIndex={isActive ? 0 : -1}
+                onClick={() => setActiveTab(i)}
+                onKeyDown={(e) => handleKey(e, i)}
+                style={{
+                  padding: '0.5rem 1.2rem',
+                  borderRadius: '50px',
+                  border: isActive ? '2px solid #006633' : '1px solid #e0e0e0',
+                  background: isActive ? '#006633' : '#fff',
+                  color: isActive ? '#fff' : '#546e7a',
+                  fontWeight: 600,
+                  fontSize: '0.82rem',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s',
+                }}
+              >
+                {tab.title}
+              </button>
+            );
+          })}
+        </div>
+
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeTab}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.25 }}
+          >
+            {activeTab === 0 && <GeographicPanel />}
+            {activeTab === 1 && <InterventionPanel />}
+            {activeTab === 2 && <ScenarioExplorerPanel />}
+            {activeTab === 3 && <ActionPanel />}
+          </motion.div>
+        </AnimatePresence>
+      </div>
+    </div>
+  );
+}
+
+// ---- Panel 1: Geographic Targeting ----
+function GeographicPanel() {
+  const { data: stateData, loading: l1, error: e1, retry: r1 } = useData('state_prevalence.json');
+  const { data: lisaData, loading: l2, error: e2, retry: r2 } = useData('lisa_clusters.json');
+  const [showLisa, setShowLisa] = useState(false);
+  const [selectedState, setSelectedState] = useState(null);
+  const colorScale = getPrevalenceColorScale(90);
+
+  const anyError = e1 || e2;
+  if (l1 || l2) return <LoadingSpinner />;
+  if (anyError) return <ErrorState onRetry={() => { r1(); r2(); }} />;
+
+  return (
+    <div>
+      <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
+        <MetricCard label="Moran's I" value={PIPELINE_METRICS.morans_i.toFixed(3)} sublabel="Strong spatial clustering" color="green" />
+        <MetricCard label="HH Hotspots" value={String(PIPELINE_METRICS.n_lisa_hotspots)} sublabel="NW states" color="red" />
+        <MetricCard label="LL Coldspots" value={String(PIPELINE_METRICS.n_lisa_coldspots)} sublabel="SE/SS states" color="blue" />
+      </div>
+
+      <GlassCard>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
+          <h3 style={{ fontSize: '1rem', fontWeight: 700, margin: 0 }}>
+            {showLisa ? 'LISA Cluster Map' : 'Zero-Dose Prevalence by State'}
+          </h3>
+          <button
+            type="button"
+            aria-pressed={showLisa}
+            onClick={() => setShowLisa(!showLisa)}
+            style={{ padding: '0.3rem 0.8rem', borderRadius: '50px', border: '1px solid #006633', background: showLisa ? '#006633' : '#fff', color: showLisa ? '#fff' : '#006633', fontSize: '0.78rem', fontWeight: 600, cursor: 'pointer' }}
+          >
+            {showLisa ? 'Show Prevalence' : 'Show LISA'}
+          </button>
+        </div>
+
+        <div style={{ display: 'flex', gap: '1rem' }}>
+          <div style={{ flex: '1 1 70%' }}>
+            <NigeriaMap
+              stateData={!showLisa ? stateData : null}
+              lisaData={showLisa ? lisaData : null}
+              showLisa={showLisa}
+              colorScale={colorScale}
+              colorByField="weighted_prevalence"
+              onStateClick={setSelectedState}
+              height={420}
+            />
+          </div>
+          {selectedState && (
+            <div style={{ flex: '1 1 28%' }}>
+              <GlassCard>
+                <h4 style={{ fontWeight: 700, fontSize: '1rem', marginBottom: '0.5rem' }}>{selectedState.state_name}</h4>
+                <div style={{ fontSize: '0.85rem', lineHeight: 1.8 }}>
+                  <div><strong>Zone:</strong> {selectedState.zone}</div>
+                  <div><strong>ZD Prevalence:</strong> {selectedState.weighted_prevalence?.toFixed(1)}%</div>
+                  <div><strong>Sample:</strong> {selectedState.n_children} children</div>
+                  <div><strong>Zero-dose:</strong> {selectedState.n_zerodose} children</div>
+                  {selectedState.cluster_type && (
+                    <div><strong>LISA:</strong> {selectedState.cluster_type}</div>
+                  )}
+                </div>
+              </GlassCard>
+            </div>
+          )}
+        </div>
+      </GlassCard>
+    </div>
+  );
+}
+
+// ---- Panel 2: Intervention Scenarios ----
+function InterventionPanel() {
+  const { data: abmData, loading, error, retry } = useData('abm_scenarios.json');
+  const [selectedCell, setSelectedCell] = useState(null);
+
+  if (error) return <ErrorState onRetry={retry} />;
+  if (loading) return <LoadingSpinner />;
+
+  return (
+    <div>
+      <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
+        <div style={{ flex: 1 }}>
+          <GlassCard style={{ borderTop: '3px solid #2e7d32', textAlign: 'center' }}>
+            <TypologyBadge typology="Reference" />
+            <div style={{ marginTop: '0.5rem', fontSize: '0.85rem', color: '#546e7a' }}>
+              60.9% of survey clusters
+            </div>
+            <div style={{ fontSize: '0.78rem', marginTop: '0.3rem' }}>
+              {typologyGuidance.Reference.primary}
+            </div>
+          </GlassCard>
+        </div>
+        <div style={{ flex: 1 }}>
+          <GlassCard style={{ borderTop: '3px solid #1565c0', textAlign: 'center' }}>
+            <TypologyBadge typology="Access-Constrained" />
+            <div style={{ marginTop: '0.5rem', fontSize: '0.85rem', color: '#546e7a' }}>
+              39.1% of survey clusters
+            </div>
+            <div style={{ fontSize: '0.78rem', marginTop: '0.3rem' }}>
+              {typologyGuidance['Access-Constrained'].primary}
+            </div>
+          </GlassCard>
+        </div>
+      </div>
+
+      <GlassCard>
+        <h3 style={{ fontSize: '1rem', fontWeight: 700, marginBottom: '0.25rem' }}>
+          Simulated Coverage by Scenario and Community Type
+        </h3>
+        <p style={{ fontSize: '0.78rem', color: '#78909c', margin: '0 0 0.75rem' }}>Select a cell for its 95% simulation intervals.</p>
+        {abmData && (
+          <CoverageHeatmap matrix={abmData.matrix} onCellClick={setSelectedCell} />
+        )}
+      </GlassCard>
+
+      {selectedCell && (
+        <div style={{ marginTop: '1rem' }}>
+          <ScenarioCard cell={selectedCell} />
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ---- Panel 3: Scenario Explorer ----
+// Shows only the 12 simulated scenario-typology cells. Component combinations
+// that were not simulated (outreach + supply; engagement + supply) are flagged.
+const COMBO_TO_SCENARIO = {
+  '000': 'S0', '100': 'S1', '010': 'S2', '001': 'S3', '110': 'S4', '111': 'S5',
+};
+
+const fmtUsd = (v) => `USD ${v.toLocaleString('en-GB', { maximumFractionDigits: v < 100 ? 2 : 0, minimumFractionDigits: v < 100 ? 2 : 0 })}`;
+const pct1 = (v) => `${(v * 100).toFixed(1)}%`;
+
+function ScenarioExplorerPanel() {
+  const { data: abmData, loading: l1, error: e1, retry: r1 } = useData('abm_scenarios.json');
+  const { data: econ, loading: l2, error: e2, retry: r2 } = useData('economics.json');
+  const [typology, setTypology] = useState('Reference');
+  const [outreach, setOutreach] = useState(true);
+  const [engagement, setEngagement] = useState(false);
+  const [supply, setSupply] = useState(false);
+
+  if (e1 || e2) return <ErrorState onRetry={() => { r1(); r2(); }} />;
+  if (l1 || l2) return <LoadingSpinner />;
+
+  const key = `${outreach ? 1 : 0}${engagement ? 1 : 0}${supply ? 1 : 0}`;
+  const scenario = COMBO_TO_SCENARIO[key] || null;
+  const cell = scenario ? abmData.matrix.find((r) => r.scenario_id === scenario && r.typology === typology) : null;
+  const vsSq = scenario ? econ.vsStatusQuo.find((r) => r.scenario_id === scenario && r.typology === typology) : null;
+  const fr = scenario ? econ.frontier.find((r) => r.scenario_id === scenario && r.typology === typology) : null;
+
+  return (
+    <div>
+      <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
+        <div style={{ flex: '1 1 320px' }}>
+          <GlassCard>
+            <h3 style={{ fontSize: '1rem', fontWeight: 700, marginBottom: '1rem' }}>Choose a Package</h3>
+            <div style={{ marginBottom: '1rem' }}>
+              <div style={labelStyle}>Community type</div>
+              <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.35rem', flexWrap: 'wrap' }}>
+                {['Reference', 'Access-Constrained'].map((t) => (
+                  <button
+                    key={t}
+                    type="button"
+                    aria-pressed={typology === t}
+                    onClick={() => setTypology(t)}
+                    style={{
+                      ...tabBtnStyle,
+                      background: typology === t ? (t === 'Reference' ? '#2e7d32' : '#1565c0') : '#f5f5f5',
+                      color: typology === t ? '#fff' : '#546e7a',
+                    }}
+                  >
+                    {t}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div style={labelStyle}>Intervention components</div>
+            <ComponentToggle label="Mobile outreach" checked={outreach} onChange={setOutreach} />
+            <ComponentToggle label="Community engagement" checked={engagement} onChange={setEngagement} />
+            <ComponentToggle label="Supply-chain reinforcement" checked={supply} onChange={setSupply} />
+            <p style={{ fontSize: '0.75rem', color: '#78909c', marginTop: '0.75rem', lineHeight: 1.5 }}>
+              Six packages were simulated (S0 to S5). Outreach with supply reinforcement, and engagement with
+              supply reinforcement, were not simulated.
+            </p>
+          </GlassCard>
+        </div>
+
+        <div style={{ flex: '1 1 420px' }}>
+          <GlassCard>
+            {cell ? (
+              <div>
+                <div style={{ fontSize: '0.75rem', fontWeight: 600, color: '#546e7a', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                  {scenario}: {SCENARIO_LABELS[scenario]}, {typology}
+                </div>
+                <div style={{ textAlign: 'center', margin: '0.5rem 0' }}>
+                  <CoverageGauge value={cell.coverage_month60_median} size={220} />
+                  <div style={{ fontSize: '0.78rem', color: '#546e7a' }}>Simulated DTP1 coverage at month 60</div>
+                </div>
+                <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.82rem', marginTop: '0.75rem' }}>
+                  <tbody>
+                    <tr>
+                      <td style={tdStyle}>Month 36</td>
+                      <td style={{ ...tdStyle, fontWeight: 700 }}>{pct1(cell.coverage_month36_median)}</td>
+                      <td style={{ ...tdStyle, color: '#78909c' }}>95% simulation interval {pct1(cell.coverage_month36_p025)} to {pct1(cell.coverage_month36_p975)}</td>
+                    </tr>
+                    <tr>
+                      <td style={tdStyle}>Month 60</td>
+                      <td style={{ ...tdStyle, fontWeight: 700 }}>{pct1(cell.coverage_month60_median)}</td>
+                      <td style={{ ...tdStyle, color: '#78909c' }}>95% simulation interval {pct1(cell.coverage_month60_p025)} to {pct1(cell.coverage_month60_p975)}</td>
+                    </tr>
+                    <tr>
+                      <td style={tdStyle}>80% by month 60</td>
+                      <td style={{ ...tdStyle, fontWeight: 700, color: cell.reaches_80_by_month60 ? '#006633' : '#b33000' }} colSpan={2}>
+                        {cell.reaches_80_by_month60 ? 'Yes' : 'No'}
+                      </td>
+                    </tr>
+                    {vsSq && (
+                      <tr>
+                        <td style={tdStyle}>Against status quo</td>
+                        <td style={{ ...tdStyle, fontWeight: 700 }} colSpan={2}>
+                          {vsSq.cost_saving ? 'Cost-saving (lower cost, more DALYs averted)' : `${fmtUsd(vsSq.icer)} per DALY averted`}
+                        </td>
+                      </tr>
+                    )}
+                    {fr && scenario !== 'S0' && (
+                      <tr>
+                        <td style={tdStyle}>Incremental analysis</td>
+                        <td style={{ ...tdStyle, fontWeight: 700 }} colSpan={2}>
+                          {fr.status === 'frontier'
+                            ? (fr.compared_with
+                              ? `On the efficiency frontier: ${fmtUsd(fr.incremental_icer)} per DALY averted beyond ${fr.compared_with}`
+                              : 'On the efficiency frontier (cost-saving against status quo)')
+                            : fr.status.charAt(0).toUpperCase() + fr.status.slice(1)}
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            ) : (
+              <div style={{ padding: '2rem 1rem', textAlign: 'center', color: '#546e7a' }}>
+                <div style={{ fontSize: '1.1rem', fontWeight: 700, color: '#b33000', marginBottom: '0.5rem' }}>Not simulated</div>
+                <p style={{ fontSize: '0.88rem', lineHeight: 1.6, margin: 0 }}>
+                  This combination of components was not part of the simulation, so no projection is shown.
+                  Choose one of the six simulated packages: none, outreach, engagement, supply reinforcement,
+                  outreach with engagement, or all three.
+                </p>
+              </div>
+            )}
+          </GlassCard>
+        </div>
+      </div>
+
+      <GlassCard style={{ marginTop: '1rem' }}>
+        <h3 style={{ fontSize: '1rem', fontWeight: 700, marginBottom: '0.5rem' }}>All Simulated Packages, {typology} Communities</h3>
+        <ScenarioIntervalChart matrix={abmData.matrix} typology={typology} highlight={scenario} />
+      </GlassCard>
+    </div>
+  );
+}
+
+function ComponentToggle({ label, checked, onChange }) {
+  return (
+    <label style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', margin: '0.5rem 0', fontSize: '0.88rem', cursor: 'pointer' }}>
+      <input
+        type="checkbox"
+        checked={checked}
+        onChange={(e) => onChange(e.target.checked)}
+        style={{ width: 18, height: 18, accentColor: '#006633' }}
+      />
+      {label}
+    </label>
+  );
+}
+
+// ---- Panel 4: Action Plans ----
+function ActionPanel() {
+  const { data: stateData, loading: l1, error: e1, retry: r1 } = useData('state_prevalence.json');
+  const { data: cnaData, loading: l2, error: e2, retry: r2 } = useData('cna_solutions.json');
+
+  const anyError = e1 || e2;
+  if (l1 || l2) return <LoadingSpinner />;
+  if (anyError) return <ErrorState onRetry={() => { r1(); r2(); }} />;
+
+  const priorityStates = stateData?.features
+    ?.map((f) => f.properties)
+    .filter((p) => p.weighted_prevalence > 30)
+    .sort((a, b) => b.weighted_prevalence - a.weighted_prevalence)
+    .slice(0, 10) || [];
+
+  return (
+    <div>
+      {/* Priority states table */}
+      <GlassCard>
+        <h3 style={{ fontSize: '1rem', fontWeight: 700, marginBottom: '0.75rem' }}>Priority States</h3>
+        <div style={{ overflowX: 'auto' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.82rem' }}>
+            <thead>
+              <tr>
+                <th style={thStyle}>Rank</th>
+                <th style={{ ...thStyle, textAlign: 'left' }}>State</th>
+                <th style={thStyle}>Zone</th>
+                <th style={thStyle}>Zero-dose prevalence</th>
+                <th style={thStyle}>DTP1 coverage tier</th>
+                <th style={thStyle}>Sample</th>
+              </tr>
+            </thead>
+            <tbody>
+              {priorityStates.map((s, i) => (
+                <tr key={s.state_name}>
+                  <td style={{ ...tdStyle, textAlign: 'center', fontWeight: 700 }}>{i + 1}</td>
+                  <td style={tdStyle}>{s.state_name}</td>
+                  <td style={{ ...tdStyle, textAlign: 'center' }}>{s.zone}</td>
+                  <td style={{ ...tdStyle, textAlign: 'center', fontWeight: 700 }}>{s.weighted_prevalence.toFixed(1)}%</td>
+                  <td style={{ ...tdStyle, textAlign: 'center' }}>
+                    <CoverageTierBadge value={1 - s.weighted_prevalence / 100} />
+                  </td>
+                  <td style={{ ...tdStyle, textAlign: 'center' }}>{s.n_children}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </GlassCard>
+
+      {/* CNA necessity */}
+      {cnaData && (
+        <GlassCard style={{ marginTop: '1rem' }}>
+          <h3 style={{ fontSize: '1rem', fontWeight: 700, marginBottom: '0.75rem' }}>Necessity Analysis</h3>
+          <NecessityBar data={cnaData.necessity} threshold={0.75} />
+        </GlassCard>
+      )}
+
+      {/* Recipe cards */}
+      <div style={{ marginTop: '1rem' }}>
+        <h3 style={{ fontSize: '1rem', fontWeight: 700, marginBottom: '0.25rem' }}>Intervention Configurations</h3>
+        <p style={{ fontSize: '0.78rem', color: '#78909c', margin: '0 0 0.75rem' }}>
+          Coincidence Analysis of the 12 simulated cells (outcome: 80% DTP1 coverage by month 60). The configurations describe simulated packages, not empirical causal effects.
+        </p>
+        {Object.entries(configurationSummaries).map(([key, recipe]) => (
+          <RecipeCard
+            key={key}
+            formula={recipe.formula}
+            translation={recipe.translation}
+            consistency={recipe.consistency}
+            coverage={recipe.coverage}
+          />
+        ))}
+      </div>
+
+      {/* Policy briefs */}
+      <div style={{ marginTop: '1rem' }}>
+        <h3 style={{ fontSize: '1rem', fontWeight: 700, marginBottom: '0.75rem' }}>Policy Briefs</h3>
+        <PolicyBriefCard typology="Reference" content={policyBriefContent.Reference} />
+        <PolicyBriefCard typology="Access-Constrained" content={policyBriefContent['Access-Constrained']} />
+      </div>
+    </div>
+  );
+}
+
+const labelStyle = { fontSize: '0.82rem', fontWeight: 600, color: '#546e7a' };
+const tabBtnStyle = { padding: '0.35rem 1rem', borderRadius: '50px', border: 'none', fontSize: '0.8rem', fontWeight: 600, cursor: 'pointer' };

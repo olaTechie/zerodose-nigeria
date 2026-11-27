@@ -1,0 +1,93 @@
+{
+  "solutions": [
+    {
+      "outcome": "outcome_binary",
+      "condition": "outreach<->outcome_binary",
+      "consistency": 1.0,
+      "coverage": 0.75,
+      "complexity": 1
+    },
+    {
+      "outcome": "outcome_binary",
+      "condition": "supply_reinf<->outcome_binary",
+      "consistency": 0.75,
+      "coverage": 0.75,
+      "complexity": 1
+    },
+    {
+      "outcome": "outcome_binary",
+      "condition": "ACCESS_CONSTRAINED<->outcome_binary",
+      "consistency": 0.8333,
+      "coverage": 0.625,
+      "complexity": 1
+    },
+    {
+      "outcome": "outcome_binary",
+      "condition": "comm_engage<->outcome_binary",
+      "consistency": 0.8333,
+      "coverage": 0.625,
+      "complexity": 1
+    }
+  ],
+  "necessity": [
+    {
+      "condition": "outreach",
+      "necessity_consistency": 1.0
+    },
+    {
+      "condition": "comm_engage",
+      "necessity_consistency": 0.75
+    },
+    {
+      "condition": "supply_reinf",
+      "necessity_consistency": 0.5
+    },
+    {
+      "condition": "access_constrained",
+      "necessity_consistency": 0.25
+    }
+  ],
+  "robustness": [
+    {
+      "threshold": 0.7,
+      "n_solutions": 4,
+      "has_solution": true,
+      "top_formula": "outreach<->outcome_binary",
+      "top_con": 1.0,
+      "top_cov": 0.75
+    },
+    {
+      "threshold": 0.75,
+      "n_solutions": 4,
+      "has_solution": true,
+      "top_formula": "outreach<->outcome_binary",
+      "top_con": 1.0,
+      "top_cov": 0.75
+    },
+    {
+      "threshold": 0.8,
+      "n_solutions": 3,
+      "has_solution": true,
+      "top_formula": "outreach<->outcome_binary",
+      "top_con": 1.0,
+      "top_cov": 0.75
+    },
+    {
+      "threshold": 0.85,
+      "n_solutions": 3,
+      "has_solution": true,
+      "top_formula": "outreach<->outcome_binary",
+      "top_con": 1.0,
+      "top_cov": 0.75
+    },
+    {
+      "threshold": 0.9,
+      "n_solutions": 3,
+      "has_solution": true,
+      "top_formula": "outreach<->outcome_binary",
+      "top_con": 1.0,
+      "top_cov": 0.75
+    }
+  ],
+  "note": "Coincidence Analysis of the 12 simulated scenario-typology cells; outcome: median simulated DTP1 coverage of at least 80% at month 60. Configurations describe simulated packages, not empirical causal effects."
+}

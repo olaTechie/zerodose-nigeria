@@ -1,0 +1,228 @@
+{
+  "source": "outputs/tables/eda_summary_stats.csv; GADM 4.1 level-1 boundaries; row-standardised queen contiguity",
+  "morans_i": 0.6075,
+  "points": [
+    {
+      "state_name": "Abia",
+      "weighted_prevalence": 5.01,
+      "z": -1.0839,
+      "lag": -0.7988
+    },
+    {
+      "state_name": "Adamawa",
+      "weighted_prevalence": 31.21,
+      "z": 0.0874,
+      "lag": 0.2394
+    },
+    {
+      "state_name": "Akwa Ibom",
+      "weighted_prevalence": 15.42,
+      "z": -0.6185,
+      "lag": -0.8979
+    },
+    {
+      "state_name": "Anambra",
+      "weighted_prevalence": 18.25,
+      "z": -0.4919,
+      "lag": -0.5934
+    },
+    {
+      "state_name": "Bauchi",
+      "weighted_prevalence": 35.74,
+      "z": 0.2901,
+      "lag": 0.389
+    },
+    {
+      "state_name": "Bayelsa",
+      "weighted_prevalence": 17.74,
+      "z": -0.5146,
+      "lag": -0.6808
+    },
+    {
+      "state_name": "Benue",
+      "weighted_prevalence": 33.39,
+      "z": 0.185,
+      "lag": -0.3001
+    },
+    {
+      "state_name": "Borno",
+      "weighted_prevalence": 32.2,
+      "z": 0.1317,
+      "lag": 0.2573
+    },
+    {
+      "state_name": "Cross River",
+      "weighted_prevalence": 2.94,
+      "z": -1.1766,
+      "lag": -0.6724
+    },
+    {
+      "state_name": "Delta",
+      "weighted_prevalence": 8.49,
+      "z": -0.9285,
+      "lag": -0.5744
+    },
+    {
+      "state_name": "Ebonyi",
+      "weighted_prevalence": 3.03,
+      "z": -1.1724,
+      "lag": -0.6866
+    },
+    {
+      "state_name": "Edo",
+      "weighted_prevalence": 2.02,
+      "z": -1.2176,
+      "lag": -0.1066
+    },
+    {
+      "state_name": "Ekiti",
+      "weighted_prevalence": 5.92,
+      "z": -1.0434,
+      "lag": 0.2862
+    },
+    {
+      "state_name": "Enugu",
+      "weighted_prevalence": 14.25,
+      "z": -0.671,
+      "lag": -0.2709
+    },
+    {
+      "state_name": "FCT Abuja",
+      "weighted_prevalence": 6.57,
+      "z": -1.0142,
+      "lag": 0.6678
+    },
+    {
+      "state_name": "Gombe",
+      "weighted_prevalence": 33.21,
+      "z": 0.1772,
+      "lag": 0.2852
+    },
+    {
+      "state_name": "Imo",
+      "weighted_prevalence": 6.26,
+      "z": -1.0282,
+      "lag": -0.6696
+    },
+    {
+      "state_name": "Jigawa",
+      "weighted_prevalence": 34.61,
+      "z": 0.2399,
+      "lag": 0.4328
+    },
+    {
+      "state_name": "Kaduna",
+      "weighted_prevalence": 44.26,
+      "z": 0.6711,
+      "lag": 0.4511
+    },
+    {
+      "state_name": "Kano",
+      "weighted_prevalence": 40.9,
+      "z": 0.5209,
+      "lag": 0.4035
+    },
+    {
+      "state_name": "Katsina",
+      "weighted_prevalence": 38.49,
+      "z": 0.4131,
+      "lag": 0.9604
+    },
+    {
+      "state_name": "Kebbi",
+      "weighted_prevalence": 84.12,
+      "z": 2.4536,
+      "lag": 2.032
+    },
+    {
+      "state_name": "Kogi",
+      "weighted_prevalence": 56.28,
+      "z": 1.2088,
+      "lag": -0.2731
+    },
+    {
+      "state_name": "Kwara",
+      "weighted_prevalence": 50.39,
+      "z": 0.9452,
+      "lag": 0.1034
+    },
+    {
+      "state_name": "Lagos",
+      "weighted_prevalence": 1.16,
+      "z": -1.2564,
+      "lag": -0.4318
+    },
+    {
+      "state_name": "Nasarawa",
+      "weighted_prevalence": 20.34,
+      "z": -0.3986,
+      "lag": 0.2762
+    },
+    {
+      "state_name": "Niger",
+      "weighted_prevalence": 55.86,
+      "z": 1.1901,
+      "lag": 1.1124
+    },
+    {
+      "state_name": "Ogun",
+      "weighted_prevalence": 19.59,
+      "z": -0.4318,
+      "lag": -0.5775
+    },
+    {
+      "state_name": "Ondo",
+      "weighted_prevalence": 24.45,
+      "z": -0.2148,
+      "lag": -0.5345
+    },
+    {
+      "state_name": "Osun",
+      "weighted_prevalence": 11.49,
+      "z": -0.7943,
+      "lag": -0.1578
+    },
+    {
+      "state_name": "Oyo",
+      "weighted_prevalence": 28.26,
+      "z": -0.0444,
+      "lag": -0.0936
+    },
+    {
+      "state_name": "Plateau",
+      "weighted_prevalence": 33.67,
+      "z": 0.1974,
+      "lag": 0.243
+    },
+    {
+      "state_name": "Rivers",
+      "weighted_prevalence": 19.57,
+      "z": -0.4331,
+      "lag": -0.7776
+    },
+    {
+      "state_name": "Sokoto",
+      "weighted_prevalence": 85.07,
+      "z": 2.4962,
+      "lag": 2.4317
+    },
+    {
+      "state_name": "Taraba",
+      "weighted_prevalence": 38.41,
+      "z": 0.4093,
+      "lag": 0.0898
+    },
+    {
+      "state_name": "Yobe",
+      "weighted_prevalence": 40.6,
+      "z": 0.5073,
+      "lag": 0.2097
+    },
+    {
+      "state_name": "Zamfara",
+      "weighted_prevalence": 83.14,
+      "z": 2.4097,
+      "lag": 1.4448
+    }
+  ]
+}

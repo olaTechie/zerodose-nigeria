@@ -1,0 +1,106 @@
+{
+  "source": "outputs/tables/lca_trust_profiles.csv (class shares, published fit); revision_analysis 03c_zero_dose_by_published_class.csv; 03c_profiles_side_by_side.csv (item-response probabilities, refit with card)",
+  "bic": 52150.1,
+  "nFitted": 4898,
+  "indicatorLabels": {
+    "anc_4plus": "Four or more antenatal visits",
+    "facility_del": "Facility delivery",
+    "has_card": "Vaccination card",
+    "formal_care": "Formal care for a recent illness",
+    "fw_visit": "Family-planning fieldworker visit",
+    "facility_visit": "Facility visit in past 12 months",
+    "self_decides": "Mother takes part in own health-care decisions",
+    "covid_received": "Received COVID-19 vaccine",
+    "covid_willing": "Willing to receive COVID-19 vaccine"
+  },
+  "classes": [
+    {
+      "id": "Class_1",
+      "name": "Class 1",
+      "label": "Low engagement",
+      "shortLabel": "Low",
+      "share": 0.2844,
+      "n": 1383,
+      "zeroDoseUnweighted": 0.8192,
+      "zeroDoseWeighted": 0.8277,
+      "simulationEngagementScore": 0.063,
+      "itemResponse": {
+        "anc_4plus": 0.087,
+        "facility_del": 0.044,
+        "has_card": 0.122,
+        "formal_care": 0.118,
+        "fw_visit": 0.04,
+        "facility_visit": 0.159,
+        "self_decides": 0.239,
+        "covid_received": 0.051,
+        "covid_willing": 0.153
+      }
+    },
+    {
+      "id": "Class_2",
+      "name": "Class 2",
+      "label": "Intermediate engagement, COVID-19 vaccinated or unwilling",
+      "shortLabel": "Intermediate A",
+      "share": 0.2662,
+      "n": 1297,
+      "zeroDoseUnweighted": 0.1912,
+      "zeroDoseWeighted": 0.2121,
+      "simulationEngagementScore": 0.374,
+      "itemResponse": {
+        "anc_4plus": 0.556,
+        "facility_del": 0.382,
+        "has_card": 0.678,
+        "formal_care": 0.282,
+        "fw_visit": 0.218,
+        "facility_visit": 0.606,
+        "self_decides": 0.352,
+        "covid_received": 0.464,
+        "covid_willing": 0.0
+      }
+    },
+    {
+      "id": "Class_3",
+      "name": "Class 3",
+      "label": "High engagement",
+      "shortLabel": "High",
+      "share": 0.2924,
+      "n": 1426,
+      "zeroDoseUnweighted": 0.1297,
+      "zeroDoseWeighted": 0.1306,
+      "simulationEngagementScore": 0.589,
+      "itemResponse": {
+        "anc_4plus": 0.914,
+        "facility_del": 0.756,
+        "has_card": 0.579,
+        "formal_care": 0.201,
+        "fw_visit": 0.12,
+        "facility_visit": 0.546,
+        "self_decides": 0.733,
+        "covid_received": 0.326,
+        "covid_willing": 0.0
+      }
+    },
+    {
+      "id": "Class_4",
+      "name": "Class 4",
+      "label": "Intermediate engagement, willing but unvaccinated for COVID-19",
+      "shortLabel": "Intermediate B",
+      "share": 0.157,
+      "n": 769,
+      "zeroDoseUnweighted": 0.2237,
+      "zeroDoseWeighted": 0.2487,
+      "simulationEngagementScore": 0.952,
+      "itemResponse": {
+        "anc_4plus": 0.676,
+        "facility_del": 0.492,
+        "has_card": 0.644,
+        "formal_care": 0.335,
+        "fw_visit": 0.123,
+        "facility_visit": 0.608,
+        "self_decides": 0.409,
+        "covid_received": 0.0,
+        "covid_willing": 1.0
+      }
+    }
+  ]
+}

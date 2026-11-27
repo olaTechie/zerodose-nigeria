@@ -1,0 +1,300 @@
+{
+  "source": "revision_analysis/paper1/output/05_fairness_gaps.csv, 05_fairness_by_subgroup.csv",
+  "note": "Committed model, held-out test set, 0.5 threshold. Equal-opportunity gap = highest minus lowest sensitivity; 95% CIs from a cluster bootstrap. Ethnicity reported by raw NDHS v131 code; codes with fewer than 20 test-set zero-dose children merged.",
+  "gaps": [
+    {
+      "axis": "Wealth quintile",
+      "max_group": "Poorest (Q1)",
+      "min_group": "Richest (Q5)",
+      "gap": 0.631,
+      "ci_low": 0.365,
+      "ci_high": 0.964
+    },
+    {
+      "axis": "Urban/rural residence",
+      "max_group": "Rural",
+      "min_group": "Urban",
+      "gap": 0.246,
+      "ci_low": 0.159,
+      "ci_high": 0.335
+    },
+    {
+      "axis": "Geopolitical zone",
+      "max_group": "North West",
+      "min_group": "South East",
+      "gap": 0.507,
+      "ci_low": 0.406,
+      "ci_high": 0.79
+    },
+    {
+      "axis": "Maternal education",
+      "max_group": "No education",
+      "min_group": "Secondary",
+      "gap": 0.398,
+      "ci_low": 0.32,
+      "ci_high": 0.709
+    },
+    {
+      "axis": "Ethnicity (v131)",
+      "max_group": "v131 code 130",
+      "min_group": "v131 code 298",
+      "gap": 0.459,
+      "ci_low": 0.241,
+      "ci_high": 0.713
+    }
+  ],
+  "subgroups": [
+    {
+      "axis": "Wealth quintile",
+      "group": "Poorest (Q1)",
+      "n": 354,
+      "events": 196,
+      "tpr": 0.964,
+      "tpr_low": 0.936,
+      "tpr_high": 0.989,
+      "auc": 0.959,
+      "observed": 0.554,
+      "mean_predicted": 0.619
+    },
+    {
+      "axis": "Wealth quintile",
+      "group": "Poorer (Q2)",
+      "n": 304,
+      "events": 156,
+      "tpr": 0.91,
+      "tpr_low": 0.858,
+      "tpr_high": 0.954,
+      "auc": 0.944,
+      "observed": 0.513,
+      "mean_predicted": 0.554
+    },
+    {
+      "axis": "Wealth quintile",
+      "group": "Middle (Q3)",
+      "n": 266,
+      "events": 94,
+      "tpr": 0.809,
+      "tpr_low": 0.722,
+      "tpr_high": 0.887,
+      "auc": 0.943,
+      "observed": 0.353,
+      "mean_predicted": 0.379
+    },
+    {
+      "axis": "Wealth quintile",
+      "group": "Richer (Q4)",
+      "n": 308,
+      "events": 66,
+      "tpr": 0.591,
+      "tpr_low": 0.48,
+      "tpr_high": 0.701,
+      "auc": 0.86,
+      "observed": 0.214,
+      "mean_predicted": 0.23
+    },
+    {
+      "axis": "Wealth quintile",
+      "group": "Richest (Q5)",
+      "n": 231,
+      "events": 9,
+      "tpr": 0.333,
+      "tpr_low": 0.0,
+      "tpr_high": 0.667,
+      "auc": 0.887,
+      "observed": 0.039,
+      "mean_predicted": 0.076
+    },
+    {
+      "axis": "Urban/rural residence",
+      "group": "Rural",
+      "n": 891,
+      "events": 402,
+      "tpr": 0.918,
+      "tpr_low": 0.888,
+      "tpr_high": 0.946,
+      "auc": 0.957,
+      "observed": 0.451,
+      "mean_predicted": 0.492
+    },
+    {
+      "axis": "Urban/rural residence",
+      "group": "Urban",
+      "n": 572,
+      "events": 119,
+      "tpr": 0.672,
+      "tpr_low": 0.585,
+      "tpr_high": 0.756,
+      "auc": 0.908,
+      "observed": 0.208,
+      "mean_predicted": 0.242
+    },
+    {
+      "axis": "Geopolitical zone",
+      "group": "North Central",
+      "n": 261,
+      "events": 101,
+      "tpr": 0.812,
+      "tpr_low": 0.724,
+      "tpr_high": 0.891,
+      "auc": 0.908,
+      "observed": 0.387,
+      "mean_predicted": 0.414
+    },
+    {
+      "axis": "Geopolitical zone",
+      "group": "North East",
+      "n": 309,
+      "events": 114,
+      "tpr": 0.842,
+      "tpr_low": 0.769,
+      "tpr_high": 0.906,
+      "auc": 0.913,
+      "observed": 0.369,
+      "mean_predicted": 0.441
+    },
+    {
+      "axis": "Geopolitical zone",
+      "group": "North West",
+      "n": 441,
+      "events": 252,
+      "tpr": 0.968,
+      "tpr_low": 0.945,
+      "tpr_high": 0.988,
+      "auc": 0.973,
+      "observed": 0.571,
+      "mean_predicted": 0.618
+    },
+    {
+      "axis": "Geopolitical zone",
+      "group": "South East",
+      "n": 161,
+      "events": 13,
+      "tpr": 0.462,
+      "tpr_low": 0.188,
+      "tpr_high": 0.727,
+      "auc": 0.852,
+      "observed": 0.081,
+      "mean_predicted": 0.126
+    },
+    {
+      "axis": "Geopolitical zone",
+      "group": "South South",
+      "n": 152,
+      "events": 19,
+      "tpr": 0.474,
+      "tpr_low": 0.25,
+      "tpr_high": 0.688,
+      "auc": 0.932,
+      "observed": 0.125,
+      "mean_predicted": 0.132
+    },
+    {
+      "axis": "Geopolitical zone",
+      "group": "South West",
+      "n": 139,
+      "events": 22,
+      "tpr": 0.545,
+      "tpr_low": 0.32,
+      "tpr_high": 0.769,
+      "auc": 0.936,
+      "observed": 0.158,
+      "mean_predicted": 0.14
+    },
+    {
+      "axis": "Maternal education",
+      "group": "No education",
+      "n": 622,
+      "events": 366,
+      "tpr": 0.956,
+      "tpr_low": 0.934,
+      "tpr_high": 0.976,
+      "auc": 0.958,
+      "observed": 0.588,
+      "mean_predicted": 0.645
+    },
+    {
+      "axis": "Maternal education",
+      "group": "Primary",
+      "n": 159,
+      "events": 52,
+      "tpr": 0.788,
+      "tpr_low": 0.66,
+      "tpr_high": 0.903,
+      "auc": 0.911,
+      "observed": 0.327,
+      "mean_predicted": 0.367
+    },
+    {
+      "axis": "Maternal education",
+      "group": "Secondary",
+      "n": 523,
+      "events": 95,
+      "tpr": 0.558,
+      "tpr_low": 0.456,
+      "tpr_high": 0.659,
+      "auc": 0.883,
+      "observed": 0.182,
+      "mean_predicted": 0.197
+    },
+    {
+      "axis": "Maternal education",
+      "group": "Higher",
+      "n": 159,
+      "events": 8,
+      "tpr": 0.625,
+      "tpr_low": 0.25,
+      "tpr_high": 1.0,
+      "auc": 0.901,
+      "observed": 0.05,
+      "mean_predicted": 0.089
+    },
+    {
+      "axis": "Ethnicity (v131)",
+      "group": "v131 code 109",
+      "n": 174,
+      "events": 93,
+      "tpr": 0.925,
+      "tpr_low": 0.865,
+      "tpr_high": 0.975,
+      "auc": 0.946,
+      "observed": 0.534,
+      "mean_predicted": 0.581
+    },
+    {
+      "axis": "Ethnicity (v131)",
+      "group": "v131 code 130",
+      "n": 446,
+      "events": 242,
+      "tpr": 0.959,
+      "tpr_low": 0.932,
+      "tpr_high": 0.982,
+      "auc": 0.959,
+      "observed": 0.543,
+      "mean_predicted": 0.598
+    },
+    {
+      "axis": "Ethnicity (v131)",
+      "group": "v131 code 298",
+      "n": 129,
+      "events": 20,
+      "tpr": 0.5,
+      "tpr_low": 0.25,
+      "tpr_high": 0.75,
+      "auc": 0.937,
+      "observed": 0.155,
+      "mean_predicted": 0.137
+    },
+    {
+      "axis": "Ethnicity (v131)",
+      "group": "Other v131 codes (merged)",
+      "n": 714,
+      "events": 166,
+      "tpr": 0.729,
+      "tpr_low": 0.662,
+      "tpr_high": 0.795,
+      "auc": 0.918,
+      "observed": 0.232,
+      "mean_predicted": 0.268
+    }
+  ]
+}
